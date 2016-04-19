@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/ic_search"
+        android:orderInCategory="100"
+        android:title="Search"
+        android:icon="@drawable/ic_search_white_24dp"
+        app:showAsAction="ifRoom|collapseActionView"
+        app:actionViewClass="android.widget.SearchView"/>
+
+    <item
+        android:id="@+id/ic_orderby"
+        android:orderInCategory="100"
+        android:title="ordernar"
+        android:icon="@drawable/ic_sort_by_alpha_white_24dp"
+        app:showAsAction="ifRoom|collapseActionView"/>
+</menu>

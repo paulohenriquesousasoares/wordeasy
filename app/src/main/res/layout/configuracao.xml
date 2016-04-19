@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/idRl_lembrete_actConfig"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include   android:id="@+id/toolbar" layout="@layout/toolbar" />
+
+    <RelativeLayout
+        android:id="@+id/layout_rl_configracao"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/toolbar">
+
+
+            <TextView
+                android:id="@+id/lbl_config_actConfiguracao"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/label_configuracao_aprendizagem"
+                android:textColor="@color/pink"/>
+
+
+            <TextView
+                android:id="@+id/lbl_itens_por_estudo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_itens_estudo"
+                android:layout_below="@+id/lbl_config_actConfiguracao"
+                android:layout_marginTop="15dp"/>
+
+
+            <!--Spinner 1-->
+            <RelativeLayout
+                android:id="@+id/rl_itenPorSessao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/lbl_itens_por_estudo"
+                android:layout_below="@+id/lbl_config_actConfiguracao"
+                android:layout_marginTop="15dp"
+                android:gravity="right"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="false">
+
+                <Spinner
+                    android:text="TESTE"
+                    android:id="@+id/spinner_itens_por_estudo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/nav_itens_sessao"
+                    android:layout_alignParentRight="false"/>
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/lbl_itens_por_revisao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_itens_revisao"
+                android:layout_below="@+id/rl_itenPorSessao"
+                android:layout_marginTop="15dp"/>
+
+
+            <!--Spinner 2-->
+            <RelativeLayout
+                android:id="@+id/rl_itenPorRevisao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/lbl_itens_por_revisao"
+                android:layout_below="@+id/rl_itenPorSessao"
+                android:layout_marginTop="15dp"
+                android:gravity="right"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="false">
+
+                <Spinner
+                    android:id="@+id/idSpinnerRevisao"
+                    android:text="TESTE"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:entries="@array/nav_itens_sessao"
+                    android:layout_alignParentRight="false"/>
+            </RelativeLayout>
+
+
+        <!--lembrete-->
+            <TextView
+                android:id="@+id/idLembreteDiario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_lembrete"
+                android:layout_below="@+id/rl_itenPorRevisao"
+                android:layout_marginTop="15dp"/>
+
+            <RelativeLayout
+                android:id="@+id/rl_lembrete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:layout_alignParentRight="true"
+                android:layout_below="@+id/rl_itenPorRevisao">
+
+                <CheckBox
+                    android:id="@+id/idCheckLigado"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ligado"
+                    android:layout_marginTop="10dp"/>
+
+                <ImageView
+                    android:id="@+id/imgDataLembre"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_date_range_black_24dp"
+                    android:layout_toRightOf="@+id/idCheckLigado"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="15dp"/>
+            </RelativeLayout>
+
+
+            <TextView
+                android:id="@+id/idLembreteDiarioLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:layout_below="@+id/rl_lembrete"
+                android:padding="5dp"
+                android:textSize="11dp"
+                android:layout_marginTop="5dp"/>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

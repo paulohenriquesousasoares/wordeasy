@@ -1,0 +1,126 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/act_estudar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp"
+    android:paddingTop="0dp"
+    android:paddingBottom="0dp"
+    tools:context=".MainActivity"
+    android:background="@color/colorCinzaClaro">
+
+    <!--Toolbar-->
+    <LinearLayout
+        android:id="@+id/act_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+        <include   android:id="@+id/toolbar" layout="@layout/toolbar" />
+    </LinearLayout>
+
+    <!--Card back-->
+    <RelativeLayout
+        android:id="@+id/rl_card_back"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/layout_radius"
+        android:layout_below="@id/act_toolbar"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:padding="10dp"
+        android:layout_marginBottom="60dp">
+
+
+        <TextView
+            android:id="@+id/txt_palavra_portugues_titulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Palavra em português"
+            android:textSize="13dp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="false"
+            android:layout_centerInParent="false"/>
+
+
+        <TextView
+            android:id="@+id/txt_primeira_traducao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Casa"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"/>
+
+
+        <TextView
+            android:id="@+id/txt_palavra_tap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ja sei esta palavra :)"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            android:layout_marginTop="10dp"
+            android:padding="10dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"
+            android:layout_below="@+id/txt_primeira_traducao"/>
+
+    </RelativeLayout>
+
+    <!--Card front-->
+    <RelativeLayout
+        android:id="@+id/rl_card_front"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@drawable/layout_radius"
+        android:layout_below="@id/act_toolbar"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:padding="10dp"
+        android:layout_marginBottom="60dp">
+
+
+
+        <TextView
+            android:id="@+id/txt_palavra_ingles_titulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Palavra em inglês"
+            android:textSize="13dp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="false"
+            android:layout_centerInParent="false"/>
+
+        <TextView
+            android:id="@+id/txt_palavra_ingles"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Home"
+            android:textSize="30dp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_centerInParent="true"/>
+
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btnFlip"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/btn_flip"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"
+        android:textAllCaps="true"
+        android:visibility="visible"
+        android:layout_marginTop="-50dp"
+        android:layout_below="@+id/rl_card_front"/>
+
+
+
+</RelativeLayout>

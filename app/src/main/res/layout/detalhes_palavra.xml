@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical" android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/colorCinzaClaro">
+
+    <!--Toolbar-->
+    <LinearLayout
+        android:id="@+id/act_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical">
+        <include   android:id="@+id/toolbar" layout="@layout/toolbar" />
+    </LinearLayout>
+
+
+    <RelativeLayout
+           android:id="@+id/rl_primeiro"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:padding="1dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/layout_radius"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp">
+            <RelativeLayout
+                android:id="@+id/container_radius_act_detalhes"
+                android:layout_width="70dp"
+                android:layout_height="wrap_content"
+                android:background="@drawable/radius">
+                <TextView
+                    android:id="@+id/txtletra_act_detalhes"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:layout_margin="1dp"
+                    android:layout_alignParentLeft="true"
+                    android:textSize="14dp"
+                    android:textStyle="bold"
+                    android:text="100"
+                    android:textColor="@color/branco" />
+            </RelativeLayout>
+
+
+                <TextView
+                    android:id="@+id/txtPalavraEmIngles_detalhes_palavra"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Therefore"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:layout_marginLeft="10dp"
+                     android:transitionName="elemento1"
+                    android:layout_alignParentTop="true"
+                    android:layout_toRightOf="@+id/container_radius_act_detalhes"
+                    android:layout_toEndOf="@+id/container_radius_act_detalhes" />
+                <TextView
+                    android:id="@+id/txtPalavraTraducao_detalhes_palavra"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Portanto"
+                    android:textSize="13dp"
+                    android:layout_marginLeft="10dp"
+                    android:transitionName="elemento2"
+                    android:layout_below="@+id/txtPalavraEmIngles_detalhes_palavra"
+                    android:layout_toRightOf="@+id/container_radius_act_detalhes"
+                    android:layout_toEndOf="@+id/container_radius_act_detalhes" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_segundo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:background="@drawable/layout_sem_radius"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="2dp">
+
+        <TextView
+            android:id="@+id/txtPalavraVezesPraticou_detalhes_palavra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:text="Quantidade em que estudou: 0"
+            android:layout_centerHorizontal="false"
+            android:textStyle="bold"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/layout_sem_radius"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp">
+
+        <TextView
+            android:id="@+id/txtPalavraVezesError_detalhes_palavra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:text="Vezes em que errou: 0"
+            android:layout_centerHorizontal="false"
+            android:textStyle="bold"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/layout_sem_radius"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp">
+
+        <TextView
+            android:id="@+id/txtPalavraVezesAcertou_detalhes_palavra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12dp"
+            android:text="Vezes em que acertou: 0"
+            android:layout_centerHorizontal="false"
+            android:textStyle="bold"/>
+    </RelativeLayout>
+
+</LinearLayout>

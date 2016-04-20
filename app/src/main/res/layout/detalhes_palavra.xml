@@ -29,7 +29,7 @@
                 android:id="@+id/container_radius_act_detalhes"
                 android:layout_width="70dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/radius">
+                android:background="@drawable/radius_x">
                 <TextView
                     android:id="@+id/txtletra_act_detalhes"
                     android:layout_width="wrap_content"
@@ -39,23 +39,24 @@
                     android:layout_alignParentLeft="true"
                     android:textSize="14dp"
                     android:textStyle="bold"
-                    android:text="100"
+                    android:text="A"
                     android:textColor="@color/branco" />
             </RelativeLayout>
-
 
                 <TextView
                     android:id="@+id/txtPalavraEmIngles_detalhes_palavra"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Therefore"
+                    android:text="ingles"
                     android:textSize="15dp"
                     android:textStyle="bold"
+                    android:layout_marginTop="15dp"
                     android:layout_marginLeft="10dp"
-                     android:transitionName="elemento1"
+                    android:transitionName="elemento1"
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/container_radius_act_detalhes"
                     android:layout_toEndOf="@+id/container_radius_act_detalhes" />
+
                 <TextView
                     android:id="@+id/txtPalavraTraducao_detalhes_palavra"
                     android:layout_width="wrap_content"
@@ -67,6 +68,7 @@
                     android:layout_below="@+id/txtPalavraEmIngles_detalhes_palavra"
                     android:layout_toRightOf="@+id/container_radius_act_detalhes"
                     android:layout_toEndOf="@+id/container_radius_act_detalhes" />
+
     </RelativeLayout>
 
     <RelativeLayout

@@ -17,6 +17,7 @@ import java.util.Objects;
 import java.util.Random;
 
 import io.realm.Realm;
+import wordeasy.br.com.wordeasy.R;
 import wordeasy.br.com.wordeasy.dao.repositorio.PalavraRepositorio;
 import wordeasy.br.com.wordeasy.dominio.Configuracao;
 import wordeasy.br.com.wordeasy.dominio.Palavra;
@@ -25,10 +26,6 @@ import wordeasy.br.com.wordeasy.dominio.Usuario;
 public class Utilitario {
 
     private static Realm realm;
-
-    public static  int  getColor() {
-        return Color.argb(255, new Random().nextInt(255), new Random().nextInt(255), new Random().nextInt(255));
-    }
 
     public static int getColor(String indiceLetra) {
         int color = 0;
@@ -90,6 +87,59 @@ public class Utilitario {
 
     }
 
+    public static void getColor(String indiceLetra, View view) {
+
+        if(indiceLetra.equals("A"))
+            view.setBackgroundResource(R.drawable.radius_a);
+        else if(indiceLetra.equals("B"))
+            view.setBackgroundResource(R.drawable.radius_b);
+        else if(indiceLetra.equals("C"))
+            view.setBackgroundResource(R.drawable.radius_c);
+        else if(indiceLetra.equals("D"))
+            view.setBackgroundResource(R.drawable.radius_d);
+        else if(indiceLetra.equals("E"))
+            view.setBackgroundResource(R.drawable.radius_e);
+        else if(indiceLetra.equals("F"))
+            view.setBackgroundResource(R.drawable.radius_f);
+        else if(indiceLetra.equals("G"))
+            view.setBackgroundResource(R.drawable.radius_g);
+        else if(indiceLetra.equals("H"))
+            view.setBackgroundResource(R.drawable.radius_h);
+        else if(indiceLetra.equals("I"))
+            view.setBackgroundResource(R.drawable.radius_i);
+        else if(indiceLetra.equals("J"))
+            view.setBackgroundResource(R.drawable.radius_j);
+        else if(indiceLetra.equals("K"))
+            view.setBackgroundResource(R.drawable.radius_k);
+        else if(indiceLetra.equals("L"))
+            view.setBackgroundResource(R.drawable.radius_l);
+        else if(indiceLetra.equals("M"))
+            view.setBackgroundResource(R.drawable.radius_m);
+        else if(indiceLetra.equals("N"))
+            view.setBackgroundResource(R.drawable.radius_n);
+        else if(indiceLetra.equals("O"))
+            view.setBackgroundResource(R.drawable.radius_o);
+        else if(indiceLetra.equals("P"))
+            view.setBackgroundResource(R.drawable.radius_p);
+        else if(indiceLetra.equals("Q"))
+            view.setBackgroundResource(R.drawable.radius_q);
+        else if(indiceLetra.equals("R"))
+            view.setBackgroundResource(R.drawable.radius_r);
+        else if(indiceLetra.equals("S"))
+            view.setBackgroundResource(R.drawable.radius_s);
+        else if(indiceLetra.equals("T"))
+            view.setBackgroundResource(R.drawable.radius_t);
+        else if(indiceLetra.equals("U"))
+            view.setBackgroundResource(R.drawable.radius_u);
+        else if(indiceLetra.equals("V"))
+            view.setBackgroundResource(R.drawable.radius_v);
+        else if(indiceLetra.equals("W"))
+            view.setBackgroundResource(R.drawable.radius_w);
+        else if(indiceLetra.equals("X"))
+            view.setBackgroundResource(R.drawable.radius_x);
+        else if(indiceLetra.equals("Y"))
+            view.setBackgroundResource(R.drawable.radius_y);
+    }
 
     //Pega as palavras como teste
     public static ArrayList<Palavra> getDataSet() {

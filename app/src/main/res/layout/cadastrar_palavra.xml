@@ -1,0 +1,75 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/coordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorCinzaClaro">
+
+    <ScrollView
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+       <RelativeLayout
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+
+              <include   android:id="@+id/toolbar" layout="@layout/toolbar" />
+
+              <LinearLayout
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:orientation="vertical"
+                   android:layout_below="@+id/toolbar"
+                   android:background="@drawable/layout_radius"
+                   android:layout_marginTop="10dp"
+                   android:layout_marginLeft="5dp"
+                   android:layout_marginRight="5dp"
+                   android:paddingLeft="10dp"
+                   android:paddingRight="10dp"
+                   android:paddingTop="15dp">
+
+                   <!--Palavra em ingles-->
+                   <android.support.design.widget.TextInputLayout
+                       android:id="@+id/input_layout_name_palavra_ingles"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content">
+
+                       <EditText
+                           android:id="@+id/input_name_palavra_ingles"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:singleLine="true"
+                           android:hint="@string/hint_name_palavra_ingles" />
+                   </android.support.design.widget.TextInputLayout>
+
+                   <!--Traducao-->
+                   <android.support.design.widget.TextInputLayout
+                       android:id="@+id/input_layout_traducao_um"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content">
+
+                       <EditText
+                           android:id="@+id/input_traducao_um"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:inputType="text"
+                           android:hint="@string/hint_name_palavra_traducao_um" />
+                   </android.support.design.widget.TextInputLayout>
+
+                   <Button
+                       android:id="@+id/btn_gravar"
+                       android:layout_width="fill_parent"
+                       android:layout_height="wrap_content"
+                       android:text="@string/btn_salvar"
+                       android:background="@drawable/button_azul"
+                       android:layout_marginTop="40dp"
+                       android:textColor="@android:color/white"
+                       android:layout_marginBottom="10dp"
+                       android:textAllCaps="false"/>
+
+              </LinearLayout>
+
+       </RelativeLayout>
+   </ScrollView>
+
+</RelativeLayout>

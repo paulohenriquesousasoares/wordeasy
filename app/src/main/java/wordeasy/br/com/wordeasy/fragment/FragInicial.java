@@ -18,8 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import com.github.clans.fab.FloatingActionButton;
 
-import java.util.ArrayList;
-
 import butterknife.Bind;
 import wordeasy.br.com.wordeasy.activity.EstudarActivity;
 
@@ -28,7 +26,6 @@ import wordeasy.br.com.wordeasy.activity.PalavrasDetalhesActivity;
 import wordeasy.br.com.wordeasy.R;
 import wordeasy.br.com.wordeasy.activity.RevisaoActivity;
 import wordeasy.br.com.wordeasy.adapter.MyRecyclerViewAdapter;
-import wordeasy.br.com.wordeasy.dao.repositorio.PalavraRepositorio;
 import wordeasy.br.com.wordeasy.interfaces.RecycleViewOnclickListener;
 import wordeasy.br.com.wordeasy.dominio.Palavra;
 import wordeasy.br.com.wordeasy.util.Mensagem;
@@ -119,7 +116,7 @@ public class FragInicial extends Fragment  implements
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
             View ingles = v.findViewById(R.id.txtPalavraEmIngles);
-            View traducao = v.findViewById(R.id.txtTraducaoUm);
+            View traducao = v.findViewById(R.id.txtTraducao);
 
             ActivityOptionsCompat options =
                     ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), Pair.create(ingles, "elemento1"));

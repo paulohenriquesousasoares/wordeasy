@@ -31,9 +31,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         this.mDataset = palavras;
         this.context = context;
         gLayoutInflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        Log.i("TAG",String.valueOf(mDataset.size()) );
-
     }
 
 
@@ -52,9 +49,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.palavraTraducaoUm.setText(mDataset.get(position).getPalavraEmPortugues());
         holder.serial.setText("" + mDataset.get(position).getIndicePalavra());
 
-       //int color = Color.argb(255,new Random().nextInt(255),new Random().nextInt(255),new Random().nextInt(255));
-        holder.containerRadius.setBackgroundDrawable(new
-                ColorDrawable(Utilitario.getColor(mDataset.get(position).getIndicePalavra())));
+        String indicePalavraAtual = mDataset.get(position).getIndicePalavra();
+        Utilitario.getColor(indicePalavraAtual, holder.containerRadius);
     }
 
 
@@ -64,23 +60,19 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     }
 
     public  class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        TextView palavraEmIngles;
-        TextView palavraTraducaoUm;
-        TextView serial;
-        ImageView imgFavoritos;
-        RelativeLayout containerRadius;
+        private TextView palavraEmIngles;
+        private TextView palavraTraducaoUm;
+        private TextView serial;
+        private RelativeLayout containerRadius;
 
         public DataObjectHolder(final View itemView) {
             super(itemView);
 
             palavraEmIngles = (TextView) itemView.findViewById(R.id.txtPalavraEmIngles);
-            palavraTraducaoUm = (TextView) itemView.findViewById(R.id.txtTraducaoUm);
+            palavraTraducaoUm = (TextView) itemView.findViewById(R.id.txtTraducao);
             serial = (TextView) itemView.findViewById(R.id.serial);
-            imgFavoritos = (ImageView) itemView.findViewById(R.id.img_favorite);
             containerRadius = (RelativeLayout) itemView.findViewById(R.id.container_radius);
-
             itemView.setOnClickListener(this);
-            imgFavoritos.setOnClickListener(this);
         }
 
         @Override
@@ -105,25 +97,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public void deleteItem(int index) {
         mDataset.remove(index);
         notifyItemRemoved(index);
-    }
-
-    public void addFavorito(int position, View view) {
-
-        DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
-        dataObjectHolder.imgFavoritos.setImageResource(R.drawable.ic_favorite_black_24dp);
-
-        //TODO = alterar este objeto na base de dados como favorito true
-        mDataset.get(position).setFavorito(true);
-        notifyItemChanged(position);
-    }
-
-    public void removeDosFavoritos(int position, View view) {
-        DataObjectHolder dataObjectHolder = new DataObjectHolder(view);
-        dataObjectHolder.imgFavoritos.setImageResource(R.drawable.ic_favorite_border_black_24dp);
-
-        //TODO = alterar este objeto na base de dados como favorito true
-        mDataset.get(position).setFavorito(false);
-        notifyItemChanged(position);
     }
 
     public  void exibirDialog(int position, View v, Palavra palavra) {

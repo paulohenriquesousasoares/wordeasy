@@ -1,21 +1,11 @@
 package wordeasy.br.com.wordeasy.activity;
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -27,8 +17,6 @@ import wordeasy.br.com.wordeasy.dao.repositorio.PalavraRepositorio;
 import wordeasy.br.com.wordeasy.dominio.Palavra;
 import wordeasy.br.com.wordeasy.dominio.Usuario;
 import wordeasy.br.com.wordeasy.servico.PalavraServico;
-import wordeasy.br.com.wordeasy.servico.UsuarioServico;
-import wordeasy.br.com.wordeasy.util.Constantes;
 import wordeasy.br.com.wordeasy.util.Mensagem;
 import wordeasy.br.com.wordeasy.util.Utilitario;
 
@@ -50,7 +38,7 @@ public class CadastrarNovaPalavraActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.nova_palavra);
+        setContentView(R.layout.cadastrar_palavra);
         ButterKnife.bind(this);
         initView();
     }

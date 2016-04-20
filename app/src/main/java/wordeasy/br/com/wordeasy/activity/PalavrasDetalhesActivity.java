@@ -51,7 +51,10 @@ public class PalavrasDetalhesActivity extends AppCompatActivity {
                 txtVezesAcertou.setText("Vezes em que acertou: " + getIntent().getExtras().getInt("acertos"));
                 txtVezesErrou.setText("Vezes em que errou: " + getIntent().getExtras().getInt("erros"));
                 txtVezesEstudou.setText("Vezes em que estudou: " + getIntent().getExtras().getInt("vezesEstudou"));
-                containerRelative.setBackgroundDrawable(new ColorDrawable(Utilitario.getColor(getIntent().getExtras().getString("indice"))));
+
+                Utilitario.getColor(getIntent().getExtras().getString("indice"),containerRelative);
+
+                //containerRelative.setBackgroundDrawable(new ColorDrawable(Utilitario.getColor(getIntent().getExtras().getString("indice"))));
             }
         }
     }

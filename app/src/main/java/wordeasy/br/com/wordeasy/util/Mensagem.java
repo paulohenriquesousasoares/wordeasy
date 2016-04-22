@@ -1,11 +1,18 @@
 package wordeasy.br.com.wordeasy.util;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+
+import wordeasy.br.com.wordeasy.R;
 
 public class Mensagem {
 
@@ -27,7 +34,11 @@ public class Mensagem {
         return Toast.makeText(context,message,Toast.LENGTH_LONG);
     }
 
-
-
+    public static AlertDialog.Builder alertDialog(Context context,String title, String msg) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        alert.setTitle(title);
+        alert.setMessage(msg);
+        return alert;
+    }
 
 }

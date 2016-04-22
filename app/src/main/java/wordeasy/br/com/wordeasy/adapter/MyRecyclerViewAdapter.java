@@ -80,7 +80,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             if(recycleViewOnclickListener != null) {
                 recycleViewOnclickListener.myOnClickListener(v,getPosition());
             }
-
         }
     }
 
@@ -126,6 +125,9 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         return new  Palavra(mDataset.get(position).getIndicePalavra(),
                             mDataset.get(position).getPalavraEmIngles(),
                             mDataset.get(position).getPalavraEmPortugues(),
-                            mDataset.get(position).isFavorito());
+                            mDataset.get(position).isFavorito(),
+                            mDataset.get(position).getQtdErros(),
+                            mDataset.get(position).getQtdAcertos(),
+                            mDataset.get(position).getQtdVezesEstudou());
     }
 }

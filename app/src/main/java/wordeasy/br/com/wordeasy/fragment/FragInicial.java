@@ -1,6 +1,7 @@
 package wordeasy.br.com.wordeasy.fragment;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -17,11 +18,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import wordeasy.br.com.wordeasy.activity.EstudarActivity;
 
 import wordeasy.br.com.wordeasy.activity.CadastrarNovaPalavraActivity;
+import wordeasy.br.com.wordeasy.activity.MainActivity;
 import wordeasy.br.com.wordeasy.activity.PalavrasDetalhesActivity;
 import wordeasy.br.com.wordeasy.R;
 import wordeasy.br.com.wordeasy.activity.RevisaoActivity;
@@ -41,6 +46,7 @@ public class FragInicial extends Fragment  implements
     private RecyclerView.LayoutManager mLayoutManager;
     public RecyclerView mRecyclerView;
     private FloatingActionButton floatButtonCadastrar,floatButtonEstudar,floatButtonRevisao;
+    private FloatingActionMenu floatingActionMenu;
     private SwipeRefreshLayout swipeRefreshLayout;
 
 
@@ -68,6 +74,7 @@ public class FragInicial extends Fragment  implements
         floatButtonRevisao =(FloatingActionButton) view.findViewById(R.id.fab4);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycleView);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
+        floatingActionMenu = (FloatingActionMenu) view.findViewById(R.id.float_menu);
 
        carregaPalavra();
 
@@ -93,7 +100,10 @@ public class FragInicial extends Fragment  implements
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyRecyclerViewAdapter(Utilitario.getPalavras(), getActivity());
+
+        ArrayList<Palavra> palavras = ((MainActivity) getActivity()).getPalavrasEstudadas();
+
+        mAdapter = new MyRecyclerViewAdapter(palavras,getActivity());
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -116,10 +126,12 @@ public class FragInicial extends Fragment  implements
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
             View ingles = v.findViewById(R.id.txtPalavraEmIngles);
-            View traducao = v.findViewById(R.id.txtTraducao);
+            View indicePalavraContainer = v.findViewById(R.id.serial);
 
             ActivityOptionsCompat options =
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(), Pair.create(ingles, "elemento1"));
+                    ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
+                            Pair.create(ingles, "elemento1"),
+                            Pair.create(ingles, "elemento2"));
 
            getActivity().startActivity(it, options.toBundle());
         }
@@ -148,6 +160,6 @@ public class FragInicial extends Fragment  implements
         else if(id == floatButtonRevisao.getId()) {
             startActivity(new Intent(getActivity(), RevisaoActivity.class));
         }
-
+        floatingActionMenu.close(true);
     }
 }

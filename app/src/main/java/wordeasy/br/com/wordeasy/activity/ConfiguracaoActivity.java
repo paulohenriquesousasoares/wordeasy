@@ -59,7 +59,7 @@ public class ConfiguracaoActivity extends AppCompatActivity implements
         Usuario usuario = Utilitario.getSharedPreferenceUsuario(ConfiguracaoActivity.this);
 
         //verifica se este usuario tem alguma configuracao ja cadastrada
-        Configuracao config =  configuracaoRepositorio.getConfiguracao(Utilitario.getSharedPreferenceUsuario(ConfiguracaoActivity.this).getId());
+       Configuracao config = getConfiguracao();
 
         //se menor que -1 significa que ainda nao cadastrou nenhuma configuracao
         if(config.getUsuarioId() < 1) {
@@ -137,6 +137,16 @@ public class ConfiguracaoActivity extends AppCompatActivity implements
         }
     }
 
+    private Configuracao getConfiguracao() {
+        Configuracao config = null;
+        try {
+            config = configuracaoRepositorio.getConfiguracao(Utilitario.getSharedPreferenceUsuario(ConfiguracaoActivity.this).getId());
+        } catch (Exception e) {
+            Mensagem.toast(ConfiguracaoActivity.this,"Error ao recuperar as configurações."+e);
+        }
+        return  config;
+    }
+
 
     /*===================================================================================================================
             LISTENER
@@ -207,7 +217,7 @@ public class ConfiguracaoActivity extends AppCompatActivity implements
                 lembrete.setText("");
             }
             else {
-                configuracao =  configuracaoRepositorio.getConfiguracao(Utilitario.getSharedPreferenceUsuario(ConfiguracaoActivity.this).getId());
+                configuracao =  getConfiguracao();
                 Utilitario.criaAlarme(ConfiguracaoActivity.this, configuracao);
                 setLabelLembrete(configuracao);
                 checkBoxLigado.setText(checkBoxLigado.isChecked() ? "Ligado" : "Desligado");

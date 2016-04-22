@@ -44,7 +44,6 @@
             android:layout_centerHorizontal="false"
             android:layout_centerInParent="false"/>
 
-
         <TextView
             android:id="@+id/txt_primeira_traducao"
             android:layout_width="wrap_content"
@@ -54,20 +53,6 @@
             android:textStyle="bold"
             android:layout_centerHorizontal="true"
             android:layout_centerInParent="true"/>
-
-
-        <TextView
-            android:id="@+id/txt_palavra_tap"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Ja sei esta palavra :)"
-            android:textSize="12dp"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"
-            android:padding="10dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerInParent="true"
-            android:layout_below="@+id/txt_primeira_traducao"/>
 
     </RelativeLayout>
 

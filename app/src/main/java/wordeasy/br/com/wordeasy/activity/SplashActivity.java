@@ -26,6 +26,7 @@ import io.realm.RealmResults;
 import wordeasy.br.com.wordeasy.R;
 import wordeasy.br.com.wordeasy.dao.repositorio.UsuarioRepositorio;
 import wordeasy.br.com.wordeasy.dominio.Configuracao;
+import wordeasy.br.com.wordeasy.dominio.Palavra;
 import wordeasy.br.com.wordeasy.dominio.Usuario;
 import wordeasy.br.com.wordeasy.util.Constantes;
 import wordeasy.br.com.wordeasy.util.Utilitario;
@@ -85,12 +86,18 @@ public class SplashActivity extends AppCompatActivity {
         }
 
 
-        Realm realm = Realm.getDefaultInstance();
-        RealmResults<Usuario> results = realm.where(Usuario.class).findAll();
-
-        for(Usuario u : results) {
-            Log.i("TAG","ID = " + u.getId() + " NOME = " + u.getNome() +  " EMAIL = " + u.getEmail() + " SENHA = " + u.getSenha());
-        }
+//        Realm realm = Realm.getDefaultInstance();
+//        RealmResults<Usuario> results = realm.where(Usuario.class).findAll();
+//        RealmResults<Palavra> resultsPalavras = realm.where(Palavra.class).findAll();
+//
+//        for(Usuario u : results) {
+//            Log.i("TAG","ID = " + u.getId() + " NOME = " + u.getNome() +  " EMAIL = " + u.getEmail() + " SENHA = " + u.getSenha());
+//        }
+//
+//        for(Palavra u : resultsPalavras) {
+//            Log.i("TAG","ID = " + u.getId() + " NOME = " + u.getPalavraEmIngles() );
+//        }
+//        realm.close();
 
     }
 

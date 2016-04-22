@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -18,6 +19,7 @@ import java.util.Random;
 
 import io.realm.Realm;
 import wordeasy.br.com.wordeasy.R;
+import wordeasy.br.com.wordeasy.activity.MainActivity;
 import wordeasy.br.com.wordeasy.dao.repositorio.PalavraRepositorio;
 import wordeasy.br.com.wordeasy.dominio.Configuracao;
 import wordeasy.br.com.wordeasy.dominio.Palavra;
@@ -154,26 +156,15 @@ public class Utilitario {
                 ,"Lançar","Envolver-se","Começo","Muito","Fazer","Fiz"};
 
 
-        for (int index = 0; index < ingles.length; index++) {
-
-            String palavraAtualIndice = ingles[index].substring(0,1);
-            Palavra obj = new Palavra(palavraAtualIndice.toUpperCase(), ingles[index], portugues[index], false);
-            results.add(index, obj);
-        }
+//        for (int index = 0; index < ingles.length; index++) {
+//
+//            String palavraAtualIndice = ingles[index].substring(0,1);
+//            Palavra obj = new Palavra(palavraAtualIndice.toUpperCase(), ingles[index], portugues[index], false);
+//            results.add(index, obj);
+//        }
         return results;
     }
 
-    public static ArrayList<Palavra> getPalavras() {
-        PalavraRepositorio palavraRepositorio = new PalavraRepositorio();
-        ArrayList<Palavra> listPalavra = null;
-
-        try {
-            listPalavra = palavraRepositorio.get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return listPalavra;
-    }
 
     //PREFERENCE DE Usuario
     public static void salvaInSharedPreferenceUsuario(Activity activity, Usuario usuario) {

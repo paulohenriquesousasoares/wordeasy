@@ -24,11 +24,14 @@ public class Palavra extends RealmObject {
 
     public Palavra() {}
 
-    public Palavra(String indicePalavra,String palavraEmIngles, String palavraEmPortugues,boolean favorito) {
+    public Palavra(String indicePalavra,String palavraEmIngles, String palavraEmPortugues,boolean favorito,int qtdErros,int qtdAcertos,int qtdVezesEstudou) {
         this.PalavraEmIngles = palavraEmIngles;
         this.palavraEmPortugues = palavraEmPortugues;
         this.indicePalavra = indicePalavra;
         this.favorito = favorito;
+        this.qtdErros = qtdErros;
+        this.qtdAcertos = qtdAcertos;
+        this.qtdVezesEstudou = qtdVezesEstudou;
     }
 
     public long getId() {

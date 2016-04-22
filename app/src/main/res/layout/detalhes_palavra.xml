@@ -27,19 +27,20 @@
             android:layout_marginRight="3dp">
             <RelativeLayout
                 android:id="@+id/container_radius_act_detalhes"
-                android:layout_width="70dp"
+                android:layout_width="50dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/radius_x">
                 <TextView
                     android:id="@+id/txtletra_act_detalhes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="20dp"
+                    android:padding="15dp"
                     android:layout_margin="1dp"
                     android:layout_alignParentLeft="true"
                     android:textSize="14dp"
                     android:textStyle="bold"
                     android:text="A"
+                    android:transitionName="elemento2"
                     android:textColor="@color/branco" />
             </RelativeLayout>
 
@@ -50,7 +51,7 @@
                     android:text="ingles"
                     android:textSize="15dp"
                     android:textStyle="bold"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="10dp"
                     android:transitionName="elemento1"
                     android:layout_alignParentTop="true"
@@ -64,7 +65,6 @@
                     android:text="Portanto"
                     android:textSize="13dp"
                     android:layout_marginLeft="10dp"
-                    android:transitionName="elemento2"
                     android:layout_below="@+id/txtPalavraEmIngles_detalhes_palavra"
                     android:layout_toRightOf="@+id/container_radius_act_detalhes"
                     android:layout_toEndOf="@+id/container_radius_act_detalhes" />

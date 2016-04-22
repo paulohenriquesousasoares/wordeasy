@@ -54,13 +54,11 @@ public class ConfiguracaoRepositorio implements IConfiguracaoRepositorio {
     }
 
     @Override
-    public void update(Configuracao object) {
+    public void update(Configuracao object) {}
 
-    }
+    public Configuracao getConfiguracao(long usuarioId) throws Exception{
 
-    public Configuracao getConfiguracao(long usuarioId){
         realm = Realm.getDefaultInstance();
-
         Configuracao configuracao = new Configuracao();
 
         try{
@@ -77,7 +75,6 @@ public class ConfiguracaoRepositorio implements IConfiguracaoRepositorio {
                 configuracao.setUsuarioId(c.getUsuarioId());
                 configuracao.setAtivo(c.isAtivo());
             }
-
         }
         catch (Exception e){}
 

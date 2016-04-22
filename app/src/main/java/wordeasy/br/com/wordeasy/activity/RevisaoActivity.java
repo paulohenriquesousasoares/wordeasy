@@ -1,12 +1,13 @@
 package wordeasy.br.com.wordeasy.activity;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -16,12 +17,14 @@ import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import wordeasy.br.com.wordeasy.R;
+import wordeasy.br.com.wordeasy.dao.repositorio.ConfiguracaoRepositorio;
+import wordeasy.br.com.wordeasy.dao.repositorio.PalavraRepositorio;
+import wordeasy.br.com.wordeasy.dominio.Configuracao;
 import wordeasy.br.com.wordeasy.dominio.Palavra;
 import wordeasy.br.com.wordeasy.util.Mensagem;
 import wordeasy.br.com.wordeasy.util.Utilitario;
@@ -34,83 +37,132 @@ public class RevisaoActivity extends AppCompatActivity{
     @Bind(R.id.txtPalavraInglesActRevisao)TextView txtPalavraInglesModo1;
     @Bind(R.id.txtPalavraInglesActRevisaoModo2)TextView txtPalavraInglesModo2;
     @Bind(R.id.edtTraduzir_actRevisao)EditText edtValorDigitado;
-    @Bind(R.id.btnOpcao1)Button btnOpcao1;
-    @Bind(R.id.btnOpcao2)Button btnOpcao2;
-    @Bind(R.id.btnOpcao3)Button btnOpcao3;
-    @Bind(R.id.btnOpcao4)Button btnOpcao4;
-    @Bind(R.id.btnOpcao5)Button btnOpcao5;
-    @Bind(R.id.btnOpcao6)Button btnOpcao6;
-    int positionLista = 0;
 
+    private PalavraRepositorio palavraRepositorio;
     private ArrayList<Palavra> palavrasList;
-
+    int positionLista = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.revisao);
         ButterKnife.bind(this);
+        initView();
+        getListaPalavraRevisao();
+    }
 
+    /*=======================================================================================================
+          METODOS
+  * =====================================================================================================*/
+    void initView() {
+        palavraRepositorio = new PalavraRepositorio();
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.revisao_label);
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        palavrasList = Utilitario.getDataSet();
-        geraEscolheTelaRevisao();
-        atualizaPalavras();
     }
+
+    private void getListaPalavraRevisao() {
+        ConfiguracaoRepositorio configuracaoRepositorio = new ConfiguracaoRepositorio();
+        Configuracao config = null;
+        try {
+            config = configuracaoRepositorio.getConfiguracao(Utilitario.getSharedPreferenceUsuario(RevisaoActivity.this).getId());
+            palavrasList = palavraRepositorio.get(config.getItensPorSessaoRevisao());
+            atualizaTextViewPalavraEmIngles();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void atualizaTextViewPalavraEmIngles() {
+        if(positionLista < palavrasList.size()) {
+            txtPalavraInglesModo1.setText(palavrasList.get(positionLista).getPalavraEmIngles());
+        }
+    }
+
+    private Palavra getPalavraById(long id) {
+        Palavra p = new Palavra();
+        try {
+            p =  palavraRepositorio.getById(id);
+        } catch (Exception e) {
+           Mensagem.toast(RevisaoActivity.this,""+e).show();
+        }
+        return p;
+    }
+
+    private void atualizaPalavra(Palavra palavra) {
+        try {
+            palavraRepositorio.create(palavra);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+     /*=======================================================================================================
+           LISTENER
+    * =====================================================================================================*/
 
     @OnClick(R.id.btnVerificarResposat_actRevisao)
     public void verificarResposta() {
 
-       String palavraResposta =   edtValorDigitado.getText().toString();
-       String palavraCorreta = palavrasList.get(positionLista).getPalavraEmPortugues();
+        if(palavrasList.size() > -1) {
 
-        if(palavraResposta.toLowerCase().equals(palavraCorreta.toLowerCase())) {
-            Mensagem.toast(this, "correta").show();
-        }
-        else {
-            edtValorDigitado.setHintTextColor(getResources().getColor( R.color.vermelho) );
-            edtValorDigitado.setTextColor(getResources().getColor( R.color.vermelho) );
-            YoYo.with(Techniques.Shake).duration(800).playOn(edtValorDigitado);
-        }
+            long id = palavrasList.get(positionLista).getId();
+            final Palavra p = getPalavraById(id);
 
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                positionLista = positionLista + 1;
-                YoYo.with(Techniques.SlideInRight).duration(500).playOn(revisaoModo1);
-                edtValorDigitado.setText("");
-                edtValorDigitado.setHintTextColor(getResources().getColor(R.color.cinza));
-                edtValorDigitado.setTextColor(getResources().getColor(R.color.black_de));
-                atualizaPalavras();
+            String palavraResposta = edtValorDigitado.getText().toString();
+            String palavraCorreta = p.getPalavraEmPortugues();
+
+            if (palavraResposta.toLowerCase().equals(palavraCorreta.toLowerCase())) {
+                try {
+                    p.setQtdAcertos(p.getQtdAcertos() + 1);
+                    atualizaPalavra(p);
+                } catch (Exception e) {
+                    Mensagem.toast(RevisaoActivity.this, "Error ao salvar esta palavras , " + e);
+                }
+            } else {
+
+                p.setQtdErros(p.getQtdErros() + 1);
+                atualizaPalavra(p);
+
+                edtValorDigitado.setHintTextColor(getResources().getColor(R.color.vermelho));
+                edtValorDigitado.setTextColor(getResources().getColor(R.color.vermelho));
+                YoYo.with(Techniques.Shake).duration(800).playOn(edtValorDigitado);
             }
-        }, 1000);
 
-    }
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
 
-    public void geraEscolheTelaRevisao() {
+                    if(positionLista == palavrasList.size() - 1){
+                        AlertDialog.Builder alert =   Mensagem.alertDialog(RevisaoActivity.this, "", "Parabéns todas as palavras estudas com sucesso. ")
+                                .setPositiveButton("Sair", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                });
+                        AlertDialog alertDialog = alert.create();
+                        alertDialog.show();
+                    }
+                    else {
+                        positionLista++;
+                        YoYo.with(Techniques.SlideInRight).duration(500).playOn(revisaoModo1);
+                        edtValorDigitado.setText("");
+                        edtValorDigitado.setHintTextColor(getResources().getColor(R.color.cinza));
+                        edtValorDigitado.setTextColor(getResources().getColor(R.color.black_de));
 
-        Random gerador = new Random();
-        int gerado =  0;//gerador.nextInt(2);
-
-        if(gerado == 0) {
-            revisaoModo1.setVisibility(View.VISIBLE);
-            revisaoModo2.setVisibility(View.GONE);
+                        atualizaTextViewPalavraEmIngles();
+                        p.setQtdVezesEstudou(p.getQtdVezesEstudou() + 1);
+                        atualizaPalavra(p);
+                    }
+                }
+            }, 1000);
         }
-        else if(gerado == 1) {
-            revisaoModo1.setVisibility(View.GONE);
-            revisaoModo2.setVisibility(View.VISIBLE);
-        }
     }
 
-    public void atualizaPalavras() {
-        //seta as palavras em ingles
-        txtPalavraInglesModo1.setText(palavrasList.get(positionLista).getPalavraEmIngles());
-        txtPalavraInglesModo2.setText(palavrasList.get(positionLista).getPalavraEmIngles());
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

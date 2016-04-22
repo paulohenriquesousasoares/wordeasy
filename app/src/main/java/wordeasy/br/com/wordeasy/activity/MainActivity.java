@@ -35,6 +35,7 @@ import io.realm.RealmResults;
 import wordeasy.br.com.wordeasy.R;
 import wordeasy.br.com.wordeasy.adapter.MyRecyclerViewAdapter;
 import wordeasy.br.com.wordeasy.adapter.ViewPagerAdapter;
+import wordeasy.br.com.wordeasy.dao.repositorio.PalavraRepositorio;
 import wordeasy.br.com.wordeasy.dominio.Usuario;
 import wordeasy.br.com.wordeasy.fragment.FragDificil;
 import wordeasy.br.com.wordeasy.fragment.FragInicial;
@@ -67,7 +68,6 @@ public class MainActivity extends AppCompatActivity   implements
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-
         ButterKnife.bind(this);
         initiView();
         this.savedInstanceState = savedInstanceState;
@@ -80,9 +80,9 @@ public class MainActivity extends AppCompatActivity   implements
     /*==============================================================================================================
     *       METODOS
     * ==============================================================================================================*/
+
     private void initiView() {
 
-        //inicializa os objetos
         mtoolbar = (Toolbar) findViewById(R.id.toolbar);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -90,19 +90,22 @@ public class MainActivity extends AppCompatActivity   implements
         mtoolbar.setTitle(R.string.app_name);
         setSupportActionBar(mtoolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
         setupViewPager(viewPager);
 
         tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.branco));
         tabLayout.setupWithViewPager(viewPager);
-
         getPalavrasEstudadas();
-
-
     }
 
-    private  void getPalavrasEstudadas() {
-        palavras = Utilitario.getPalavras();
+    public   ArrayList<Palavra> getPalavrasEstudadas() {
+
+        PalavraRepositorio palavraRepositorio = new PalavraRepositorio();
+        try {
+            palavras  = palavraRepositorio.get();
+        } catch (Exception e) {
+            Mensagem.toast(MainActivity.this, ""+e).show();
+        }
+        return palavras;
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -136,7 +139,6 @@ public class MainActivity extends AppCompatActivity   implements
         super.onSaveInstanceState(outState);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
@@ -154,7 +156,6 @@ public class MainActivity extends AppCompatActivity   implements
 
         return  true;
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -189,7 +190,6 @@ public class MainActivity extends AppCompatActivity   implements
 
         return super.onOptionsItemSelected(item);
     }
-
 
     @Override
     public void myOnClickListener(View v, int position) {

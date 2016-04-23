@@ -1,5 +1,6 @@
 package wordeasy.br.com.wordeasy.fragment;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -9,16 +10,25 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.util.Pair;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.ChangeBounds;
 
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 
@@ -31,6 +41,7 @@ import wordeasy.br.com.wordeasy.activity.PalavrasDetalhesActivity;
 import wordeasy.br.com.wordeasy.R;
 import wordeasy.br.com.wordeasy.activity.RevisaoActivity;
 import wordeasy.br.com.wordeasy.adapter.MyRecyclerViewAdapter;
+import wordeasy.br.com.wordeasy.dominio.MessageEvent;
 import wordeasy.br.com.wordeasy.interfaces.RecycleViewOnclickListener;
 import wordeasy.br.com.wordeasy.dominio.Palavra;
 import wordeasy.br.com.wordeasy.util.Mensagem;
@@ -48,6 +59,7 @@ public class FragInicial extends Fragment  implements
     private FloatingActionButton floatButtonCadastrar,floatButtonEstudar,floatButtonRevisao;
     private FloatingActionMenu floatingActionMenu;
     private SwipeRefreshLayout swipeRefreshLayout;
+    private  ArrayList<Palavra> palavrasLista;
 
 
     public FragInicial() {}
@@ -89,6 +101,8 @@ public class FragInicial extends Fragment  implements
                 carregaPalavra();
                 swipeRefreshLayout.setRefreshing(false);
                 swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.primary_dark));
+
+
             }
         });
 
@@ -101,9 +115,9 @@ public class FragInicial extends Fragment  implements
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-        ArrayList<Palavra> palavras = ((MainActivity) getActivity()).getPalavrasEstudadas();
+        palavrasLista = ((MainActivity) getActivity()).getPalavrasEstudadas();
 
-        mAdapter = new MyRecyclerViewAdapter(palavras,getActivity());
+        mAdapter = new MyRecyclerViewAdapter(palavrasLista,getActivity());
         mRecyclerView.setAdapter(mAdapter);
     }
 
@@ -113,23 +127,13 @@ public class FragInicial extends Fragment  implements
         Palavra palavra =   mAdapter.getPalavraSelecionada(position);
 
         Intent it = new Intent(getActivity(), PalavrasDetalhesActivity.class);
-
-        it.putExtra("id", palavra.getId());
-        it.putExtra("ingles", palavra.getPalavraEmIngles());
-        it.putExtra("portugues", palavra.getPalavraEmPortugues());
-        it.putExtra("indice", palavra.getIndicePalavra());
-        it.putExtra("favorito", palavra.isFavorito());
-        it.putExtra("acertos", palavra.getQtdAcertos());
-        it.putExtra("erros", palavra.getQtdErros());
-        it.putExtra("vezesEstudou", palavra.getQtdVezesEstudou());
+        it.putExtra(Palavra.ID,palavra);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-
             View ingles = v.findViewById(R.id.txtPalavraEmIngles);
             View indicePalavraContainer = v.findViewById(R.id.serial);
 
-            ActivityOptionsCompat options =
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
+            ActivityOptionsCompat options =  ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
                             Pair.create(ingles, "elemento1"),
                             Pair.create(ingles, "elemento2"));
 
@@ -140,12 +144,12 @@ public class FragInicial extends Fragment  implements
         }
     }
 
-
     @Override
     public void myOnLongPressClickListener(View v, int position) {
         Mensagem.toast(getActivity(), "OnLongPress").show();
     }
 
+    
     @Override
     public void onClick(View v) {
 
@@ -155,11 +159,27 @@ public class FragInicial extends Fragment  implements
             startActivity(new Intent(getActivity(), CadastrarNovaPalavraActivity.class));
         }
         else if(id == floatButtonEstudar.getId()) {
-            startActivity(new Intent(getActivity(), EstudarActivity.class));
+
+            if(palavrasLista.size() > 4)
+                startActivity(new Intent(getActivity(), EstudarActivity.class));
+            else {
+                AlertDialog.Builder alert = Mensagem.alertDialog(getActivity(), "Aviso", "è preciso ter pelo menos 5 palavras cadastradas para iniciar os estudos.");
+                AlertDialog alertDialog = alert.create();
+                alertDialog.show();
+            }
+
         }
         else if(id == floatButtonRevisao.getId()) {
-            startActivity(new Intent(getActivity(), RevisaoActivity.class));
+
+            if(palavrasLista.size() > 4)
+                startActivity(new Intent(getActivity(), RevisaoActivity.class));
+            else {
+                AlertDialog.Builder alert = Mensagem.alertDialog(getActivity(), "Aviso", "è preciso ter pelo menos 5 palavras cadastradas para iniciar os estudos.");
+                AlertDialog alertDialog = alert.create();
+                alertDialog.show();
+            }
         }
         floatingActionMenu.close(true);
     }
+
 }

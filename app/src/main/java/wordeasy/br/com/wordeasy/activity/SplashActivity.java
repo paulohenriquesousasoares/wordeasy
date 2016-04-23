@@ -85,19 +85,16 @@ public class SplashActivity extends AppCompatActivity {
             this.finish();
         }
 
-
+//
 //        Realm realm = Realm.getDefaultInstance();
-//        RealmResults<Usuario> results = realm.where(Usuario.class).findAll();
-//        RealmResults<Palavra> resultsPalavras = realm.where(Palavra.class).findAll();
+//        RealmResults<Palavra> results = realm.where(Palavra.class)
+//                .equalTo("usuario.id", 1)
+//                .findAll();
 //
-//        for(Usuario u : results) {
-//            Log.i("TAG","ID = " + u.getId() + " NOME = " + u.getNome() +  " EMAIL = " + u.getEmail() + " SENHA = " + u.getSenha());
-//        }
 //
-//        for(Palavra u : resultsPalavras) {
-//            Log.i("TAG","ID = " + u.getId() + " NOME = " + u.getPalavraEmIngles() );
+//        for (Palavra p: results) {
+//            Log.i("TAG",p.getPalavraEmIngles() + "/"+p.getUsuario().getNome());
 //        }
-//        realm.close();
 
     }
 

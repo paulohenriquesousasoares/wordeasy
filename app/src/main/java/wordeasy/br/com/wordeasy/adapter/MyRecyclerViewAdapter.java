@@ -59,7 +59,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         return mDataset.size();
     }
 
-    public  class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public  class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private TextView palavraEmIngles;
         private TextView palavraTraducaoUm;
         private TextView serial;
@@ -73,6 +73,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             serial = (TextView) itemView.findViewById(R.id.serial);
             containerRadius = (RelativeLayout) itemView.findViewById(R.id.container_radius);
             itemView.setOnClickListener(this);
+            itemView.setOnLongClickListener(this);
         }
 
         @Override
@@ -80,6 +81,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             if(recycleViewOnclickListener != null) {
                 recycleViewOnclickListener.myOnClickListener(v,getPosition());
             }
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            if(recycleViewOnclickListener != null) {
+                recycleViewOnclickListener.myOnLongPressClickListener(v,getPosition());
+            }
+            return true;
         }
     }
 
@@ -122,12 +131,16 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     public  Palavra getPalavraSelecionada(int position){
 
-        return new  Palavra(mDataset.get(position).getIndicePalavra(),
-                            mDataset.get(position).getPalavraEmIngles(),
-                            mDataset.get(position).getPalavraEmPortugues(),
-                            mDataset.get(position).isFavorito(),
-                            mDataset.get(position).getQtdErros(),
-                            mDataset.get(position).getQtdAcertos(),
-                            mDataset.get(position).getQtdVezesEstudou());
+        Palavra palavra = new Palavra();
+        palavra.setId(mDataset.get(position).getId());
+        palavra.setPalavraEmIngles(mDataset.get(position).getPalavraEmIngles());
+        palavra.setPalavraEmPortugues(mDataset.get(position).getPalavraEmPortugues());
+        palavra.setIndicePalavra(mDataset.get(position).getIndicePalavra());
+        palavra.setFavorito(mDataset.get(position).isFavorito());
+        palavra.setUsuario(mDataset.get(position).getUsuario());
+        palavra.setQtdErros(mDataset.get(position).getQtdErros());
+        palavra.setQtdAcertos(mDataset.get(position).getQtdAcertos());
+        palavra.setQtdVezesEstudou(mDataset.get(position).getQtdVezesEstudou());
+        return palavra;
     }
 }

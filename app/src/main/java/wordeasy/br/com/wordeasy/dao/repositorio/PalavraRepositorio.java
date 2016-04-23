@@ -11,18 +11,23 @@ import wordeasy.br.com.wordeasy.dao.contrato.IPalavraRepositorio;
 import wordeasy.br.com.wordeasy.dominio.Configuracao;
 import wordeasy.br.com.wordeasy.dominio.Palavra;
 import wordeasy.br.com.wordeasy.dominio.Usuario;
+import wordeasy.br.com.wordeasy.util.Utilitario;
 
 public class PalavraRepositorio implements IPalavraRepositorio {
 
     private Realm realm;
 
     @Override
-    public ArrayList<Palavra> get() throws Exception{
+    public ArrayList<Palavra> get(long userId) throws Exception{
 
         ArrayList<Palavra> palavraLista = new ArrayList<Palavra>();
 
         realm =  Realm.getDefaultInstance();
-        RealmResults<Palavra> resultPalavra = realm.where(Palavra.class).findAll();
+       //RealmResults<Palavra> resultPalavra = realm.where(Palavra.class).findAll();
+
+        RealmResults<Palavra> resultPalavra = realm.where(Palavra.class)
+                .equalTo("usuario.id", userId)
+                .findAll();
 
 
         for(Palavra p : resultPalavra) {
@@ -30,12 +35,18 @@ public class PalavraRepositorio implements IPalavraRepositorio {
             palavra.setId(p.getId());
             palavra.setPalavraEmIngles(p.getPalavraEmIngles());
             palavra.setPalavraEmPortugues(p.getPalavraEmPortugues());
-
             String indice = p.getIndicePalavra().toUpperCase() != null ? p.getIndicePalavra().toUpperCase() : "ND";
-
             palavra.setIndicePalavra(indice);
             palavra.setFavorito(p.isFavorito());
-            palavra.setUsuario(p.getUsuario());
+
+            //Preenche o objeto aqui para tirar do realm
+            Usuario user = new Usuario();
+            user.setId(p.getUsuario().getId());
+            user.setNome(p.getUsuario().getNome());
+            user.setEmail(p.getUsuario().getEmail());
+            user.setSenha(p.getUsuario().getSenha());
+
+            palavra.setUsuario(user);
             palavra.setQtdAcertos(p.getQtdAcertos());
             palavra.setQtdErros(p.getQtdErros());
             palavra.setQtdVezesEstudou(p.getQtdVezesEstudou());
@@ -46,11 +57,17 @@ public class PalavraRepositorio implements IPalavraRepositorio {
         return palavraLista;
     }
 
-    public ArrayList<Palavra> get(int qtdPalavras) {
+    public ArrayList<Palavra> get(int qtdPalavras, long userId) {
 
         realm =  Realm.getDefaultInstance();
+
         ArrayList<Palavra> palavraLista = new ArrayList<Palavra>();
-        RealmResults<Palavra> resultPalavra = realm.where(Palavra.class).findAll();
+        //RealmResults<Palavra> resultPalavra = realm.where(Palavra.class).findAll();
+
+        Realm realm = Realm.getDefaultInstance();
+        RealmResults<Palavra> resultPalavra = realm.where(Palavra.class)
+                .equalTo("usuario.id", userId)
+                .findAll();
 
         int count = resultPalavra.size();
         Random gerador = new Random();
@@ -105,9 +122,12 @@ public class PalavraRepositorio implements IPalavraRepositorio {
 
         realm = Realm.getDefaultInstance();
 
-        Palavra palavra = new Palavra();
+        RealmResults<Palavra> results = realm.where(Palavra.class)
+                .equalTo("id", id)
+                .findAll();
 
-        RealmResults<Palavra> results = realm.where(Palavra.class).equalTo("id", id).findAll();
+        Palavra palavra = new Palavra();
+        //RealmResults<Palavra> results = realm.where(Palavra.class).equalTo("id", id).findAll();
 
         for(Palavra u : results) {
             palavra.setId(u.getId()) ;
@@ -115,7 +135,14 @@ public class PalavraRepositorio implements IPalavraRepositorio {
             palavra.setPalavraEmPortugues(u.getPalavraEmPortugues());
             palavra.setIndicePalavra(u.getIndicePalavra());
             palavra.setFavorito(u.isFavorito());
-            palavra.setUsuario(palavra.getUsuario());
+
+            Usuario user = new Usuario();
+            user.setId(u.getUsuario().getId());
+            user.setNome(u.getUsuario().getNome());
+            user.setEmail(u.getUsuario().getEmail());
+            user.setSenha(u.getUsuario().getSenha());
+
+            palavra.setUsuario(user);
             palavra.setQtdErros(u.getQtdErros());
             palavra.setQtdAcertos(u.getQtdAcertos());
             palavra.setQtdVezesEstudou(u.getQtdVezesEstudou());

@@ -29,66 +29,6 @@ public class Utilitario {
 
     private static Realm realm;
 
-    public static int getColor(String indiceLetra) {
-        int color = 0;
-        if(indiceLetra.equals("A"))
-            color = -4660521 ;
-        else if(indiceLetra.equals("B"))
-            color = -3412965 ;
-        else if(indiceLetra.equals("C"))
-            color = -12940888 ;
-        else if(indiceLetra.equals("D"))
-            color = -3478580 ;
-        else if(indiceLetra.equals("E"))
-            color = -13154063 ;
-        else if(indiceLetra.equals("F"))
-            color = -14895558 ;
-        else if(indiceLetra.equals("G"))
-            color = -8562421 ;
-        else if(indiceLetra.equals("H"))
-            color = -1551638 ;
-        else if(indiceLetra.equals("I"))
-            color = -1551638 ;
-        else if(indiceLetra.equals("J"))
-            color = -11950552 ;
-        else if(indiceLetra.equals("K"))
-            color = -13144879 ;
-        else if(indiceLetra.equals("L"))
-            color = -10972431 ;
-        else if(indiceLetra.equals("M"))
-            color = -7000647 ;
-        else if(indiceLetra.equals("N"))
-            color = -7296035 ;
-        else if(indiceLetra.equals("O"))
-            color = -3702338 ;
-        else if(indiceLetra.equals("P"))
-            color = -2635926 ;
-        else if(indiceLetra.equals("Q"))
-            color = -10898198 ;
-        else if(indiceLetra.equals("R"))
-            color = -10930585 ;
-        else if(indiceLetra.equals("S"))
-            color = -4764745 ;
-        else if(indiceLetra.equals("T"))
-            color = -15084134 ;
-        else if(indiceLetra.equals("U"))
-            color = -12359560 ;
-        else if(indiceLetra.equals("V"))
-            color = -16492753 ;
-        else if(indiceLetra.equals("W"))
-            color = -772986 ;
-        else if(indiceLetra.equals("X"))
-            color = -124899 ;
-        else if(indiceLetra.equals("Y"))
-            color = -9619180 ;
-        else if(indiceLetra.equals("Z"))
-            color = -4905984 ;
-
-
-        return color;
-
-    }
-
     public static void getColor(String indiceLetra, View view) {
 
         if(indiceLetra.equals("A"))
@@ -230,24 +170,14 @@ public class Utilitario {
             calendar.add(Calendar.MINUTE, configuracao.getMinuto());
             calendar.add(Calendar.HOUR, configuracao.getHora());
 
-            long minutos = converteHoraEmMinuto(calendar);
-
             AlarmManager alarmManager = (AlarmManager)activity.getSystemService(activity.ALARM_SERVICE);
 
             //Normal
             //alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
 
             //Repeticao
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, minutos,1000 * 60 * 60 * 24 , pendingIntent);//repete em 24 horas depois
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),1000 * 60 * 60 * 24 , pendingIntent);//repete em 24 horas depois
         }
    // }
-
-    public static long converteHoraEmMinuto(Calendar c) {
-
-        Calendar calendar = Calendar.getInstance();
-        long m =  calendar.getTimeInMillis() - c.getTimeInMillis();
-        return m;
-    }
-
 }
 

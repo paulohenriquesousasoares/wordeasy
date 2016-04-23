@@ -106,12 +106,7 @@ public class CadastrarNovaPalavraActivity extends AppCompatActivity {
                 palavra.setIndicePalavra(edt_palavra_ingles.getText().toString().substring(0,1));
                 palavraServico.create(palavra);
                 clearCampos();
-                Mensagem.snackbar("Palavra salvo com sucesso.", findViewById(R.id.coordinator)).show();
-
-                Realm realm  = Realm.getDefaultInstance();
-                RealmResults<Palavra> results = realm.where(Palavra.class).findAll();
-                realm.close();
-
+                //Mensagem.snackbar("Palavra salva com sucesso.", findViewById(R.id.coordinator)).show();
             }catch (Exception e) {
                 Mensagem.toast(CadastrarNovaPalavraActivity.this,"Error ao persistir os dados "+ e.toString()).show();
             }

@@ -3,11 +3,13 @@ package wordeasy.br.com.wordeasy.dominio;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 
-public class Palavra extends RealmObject {
+public class Palavra extends RealmObject implements Serializable {
 
     public static final String  ID = "br.com.wordeasy.modelo.palavra";
 
@@ -24,7 +26,7 @@ public class Palavra extends RealmObject {
 
     public Palavra() {}
 
-    public Palavra(String indicePalavra,String palavraEmIngles, String palavraEmPortugues,boolean favorito,int qtdErros,int qtdAcertos,int qtdVezesEstudou) {
+    public Palavra(String indicePalavra,String palavraEmIngles, String palavraEmPortugues,boolean favorito,int qtdErros,int qtdAcertos,int qtdVezesEstudou,Usuario usuario) {
         this.PalavraEmIngles = palavraEmIngles;
         this.palavraEmPortugues = palavraEmPortugues;
         this.indicePalavra = indicePalavra;
@@ -32,12 +34,12 @@ public class Palavra extends RealmObject {
         this.qtdErros = qtdErros;
         this.qtdAcertos = qtdAcertos;
         this.qtdVezesEstudou = qtdVezesEstudou;
+        this.usuario = usuario;
     }
 
     public long getId() {
         return id;
     }
-
     public void setId(long id) {
         this.id = id;
     }
@@ -45,7 +47,6 @@ public class Palavra extends RealmObject {
     public String getPalavraEmIngles() {
         return PalavraEmIngles;
     }
-
     public void setPalavraEmIngles(String palavraEmIngles) {
         PalavraEmIngles = palavraEmIngles;
     }
@@ -53,7 +54,6 @@ public class Palavra extends RealmObject {
     public String getPalavraEmPortugues() {
         return palavraEmPortugues;
     }
-
     public void setPalavraEmPortugues(String palavraEmPortugues) {
         this.palavraEmPortugues = palavraEmPortugues;
     }
@@ -61,7 +61,6 @@ public class Palavra extends RealmObject {
     public String getIndicePalavra() {
         return indicePalavra;
     }
-
     public void setIndicePalavra(String indicePalavra) {
         this.indicePalavra = indicePalavra;
     }
@@ -69,7 +68,6 @@ public class Palavra extends RealmObject {
     public boolean isFavorito() {
         return favorito;
     }
-
     public void setFavorito(boolean favorito) {
         this.favorito = favorito;
     }
@@ -77,7 +75,6 @@ public class Palavra extends RealmObject {
     public Usuario getUsuario() {
         return usuario;
     }
-
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
     }
@@ -85,7 +82,6 @@ public class Palavra extends RealmObject {
     public int getQtdErros() {
         return qtdErros;
     }
-
     public void setQtdErros(int qtdErros) {
         this.qtdErros = qtdErros;
     }
@@ -93,7 +89,6 @@ public class Palavra extends RealmObject {
     public int getQtdAcertos() {
         return qtdAcertos;
     }
-
     public void setQtdAcertos(int qtdAcertos) {
         this.qtdAcertos = qtdAcertos;
     }
@@ -101,8 +96,7 @@ public class Palavra extends RealmObject {
     public int getQtdVezesEstudou() {
         return qtdVezesEstudou;
     }
+    public void setQtdVezesEstudou(int qtdVezesEstudou) {this.qtdVezesEstudou = qtdVezesEstudou;}
 
-    public void setQtdVezesEstudou(int qtdVezesEstudou) {
-        this.qtdVezesEstudou = qtdVezesEstudou;
-    }
+
 }

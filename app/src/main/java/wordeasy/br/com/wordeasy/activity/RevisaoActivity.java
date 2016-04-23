@@ -67,9 +67,12 @@ public class RevisaoActivity extends AppCompatActivity{
         ConfiguracaoRepositorio configuracaoRepositorio = new ConfiguracaoRepositorio();
         Configuracao config = null;
         try {
-            config = configuracaoRepositorio.getConfiguracao(Utilitario.getSharedPreferenceUsuario(RevisaoActivity.this).getId());
-            palavrasList = palavraRepositorio.get(config.getItensPorSessaoRevisao());
+            long userId = Utilitario.getSharedPreferenceUsuario(RevisaoActivity.this).getId();
+
+            config = configuracaoRepositorio.getConfiguracao(userId);
+            palavrasList = palavraRepositorio.get(config.getItensPorSessaoRevisao(), userId);
             atualizaTextViewPalavraEmIngles();
+
         } catch (Exception e) {
             e.printStackTrace();
         }

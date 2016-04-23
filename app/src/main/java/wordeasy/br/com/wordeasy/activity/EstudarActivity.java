@@ -115,7 +115,7 @@ public class EstudarActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        palavraLista = palavraRepositorio.get(config.getItensPorSessaoEstudo());
+        palavraLista = palavraRepositorio.get(config.getItensPorSessaoEstudo(),Utilitario.getSharedPreferenceUsuario(EstudarActivity.this).getId());
         palavraListaPosition = 0;
 
         if(palavraLista.size() > -1) {

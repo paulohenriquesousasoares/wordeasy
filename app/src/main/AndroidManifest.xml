@@ -10,7 +10,7 @@
     <application
         android:name=".aplication.CustomAplication"
         android:allowBackup="true"
-        android:icon="@drawable/logo2"
+        android:icon="@drawable/logo4"
         android:label="@string/app_name"
         android:theme="@style/MyMaterialTheme.Base" >
         <activity

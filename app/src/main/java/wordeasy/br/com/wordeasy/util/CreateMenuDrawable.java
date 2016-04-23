@@ -27,7 +27,7 @@ public class CreateMenuDrawable implements ImenuDrawer {
                 .withCompactStyle(false)
                 .withSavedInstance(savedInstanceState)
                 .withThreeSmallProfileImages(true)
-                .withHeaderBackground(R.drawable.logo3)
+                .withHeaderBackground(R.drawable.logo1)
 //                .addProfiles(new ProfileDrawerItem().withName(userNome).withEmail(userEmail))
 //                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
 //                    @Override

@@ -68,7 +68,7 @@ public class ConfiguracaoActivity extends AppCompatActivity implements
             configuracao.setHora(13);
             configuracao.setMinuto(00);
             configuracao.setUsuarioId(usuario.getId());
-            configuracao.setAtivo(false);
+            configuracao.setAtivo( true );
             salvaConfiguracao(configuracao);
         }
         //significa que tem alguma configuracao e preenche o obj com os dados
@@ -129,7 +129,6 @@ public class ConfiguracaoActivity extends AppCompatActivity implements
     private void salvaConfiguracao(Configuracao configuracao) {
         ConfiguracaoRepositorio configuracaoRepositorio = new ConfiguracaoRepositorio();
         try {
-            configuracao.setAtivo(true);
             configuracaoRepositorio.create(configuracao);
             Utilitario.criaAlarme(ConfiguracaoActivity.this, configuracao);
         } catch (Exception e) {
@@ -178,9 +177,7 @@ public class ConfiguracaoActivity extends AppCompatActivity implements
         }
 
         @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
+        public void onNothingSelected(AdapterView<?> parent) {}
     };
 
 

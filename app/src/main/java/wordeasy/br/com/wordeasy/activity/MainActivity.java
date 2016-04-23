@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity   implements
 
         PalavraRepositorio palavraRepositorio = new PalavraRepositorio();
         try {
-            palavras  = palavraRepositorio.get();
+            palavras  = palavraRepositorio.get(Utilitario.getSharedPreferenceUsuario(MainActivity.this).getId());
         } catch (Exception e) {
             Mensagem.toast(MainActivity.this, ""+e).show();
         }
@@ -197,14 +197,16 @@ public class MainActivity extends AppCompatActivity   implements
         Palavra palavra =   mAdapter.getPalavraSelecionada(position);
 
         Intent it = new Intent(this, PalavrasDetalhesActivity.class);
-        it.putExtra("id", palavra.getId());
-        it.putExtra("ingles", palavra.getPalavraEmIngles());
-        it.putExtra("portugues", palavra.getPalavraEmPortugues());
-        it.putExtra("indice", palavra.getIndicePalavra());
-        it.putExtra("favorito", palavra.isFavorito());
-        it.putExtra("acertos", palavra.getQtdAcertos() );
-        it.putExtra("erros", palavra.getQtdErros());
-        it.putExtra("vezesEstudou", palavra.getQtdVezesEstudou());
+        it.putExtra(Palavra.ID,palavra);
+
+//        it.putExtra("id", palavra.getId());
+//        it.putExtra("ingles", palavra.getPalavraEmIngles());
+//        it.putExtra("portugues", palavra.getPalavraEmPortugues());
+//        it.putExtra("indice", palavra.getIndicePalavra());
+//        it.putExtra("favorito", palavra.isFavorito());
+//        it.putExtra("acertos", palavra.getQtdAcertos() );
+//        it.putExtra("erros", palavra.getQtdErros());
+//        it.putExtra("vezesEstudou", palavra.getQtdVezesEstudou());
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 

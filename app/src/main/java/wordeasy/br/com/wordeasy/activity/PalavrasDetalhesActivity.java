@@ -19,7 +19,6 @@ import wordeasy.br.com.wordeasy.util.Utilitario;
 
 public class PalavrasDetalhesActivity extends AppCompatActivity {
 
-
     @Bind(R.id.toolbar) Toolbar mToolbar;
     @Bind(R.id.txtPalavraEmIngles_detalhes_palavra) TextView palavraEmIngles;
     @Bind(R.id.txtPalavraTraducao_detalhes_palavra) TextView palavraEmPortugues;
@@ -44,17 +43,16 @@ public class PalavrasDetalhesActivity extends AppCompatActivity {
 
         if(getIntent().getExtras() != null) {
 
-            if (getIntent().getExtras().getString("ingles") != null) {
-                palavraEmIngles.setText(getIntent().getExtras().getString("ingles"));
-                palavraEmPortugues.setText(getIntent().getExtras().getString("portugues"));
-                txtLetra.setText(getIntent().getExtras().getString("indice"));
-                txtVezesAcertou.setText("Vezes em que acertou: " + getIntent().getExtras().getInt("acertos"));
-                txtVezesErrou.setText("Vezes em que errou: " + getIntent().getExtras().getInt("erros"));
-                txtVezesEstudou.setText("Vezes em que estudou: " + getIntent().getExtras().getInt("vezesEstudou"));
+            Palavra palavra = (Palavra) getIntent().getExtras().getSerializable(Palavra.ID);
 
-                Utilitario.getColor(getIntent().getExtras().getString("indice"),containerRelative);
-
-                //containerRelative.setBackgroundDrawable(new ColorDrawable(Utilitario.getColor(getIntent().getExtras().getString("indice"))));
+            if (palavra != null ) {
+                palavraEmIngles.setText(palavra.getPalavraEmIngles());
+                palavraEmPortugues.setText(palavra.getPalavraEmPortugues());
+                txtLetra.setText(palavra.getIndicePalavra());
+                txtVezesAcertou.setText("Vezes em que acertou: " + palavra.getQtdAcertos());
+                txtVezesErrou.setText("Vezes em que errou: " + palavra.getQtdErros());
+                txtVezesEstudou.setText("Vezes em que estudou: " + palavra.getQtdVezesEstudou());
+                Utilitario.getColor(palavra.getIndicePalavra(),containerRelative);
             }
         }
     }

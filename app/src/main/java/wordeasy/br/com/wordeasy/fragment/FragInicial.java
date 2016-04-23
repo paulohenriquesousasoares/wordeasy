@@ -149,7 +149,7 @@ public class FragInicial extends Fragment  implements
         Mensagem.toast(getActivity(), "OnLongPress").show();
     }
 
-    
+
     @Override
     public void onClick(View v) {
 

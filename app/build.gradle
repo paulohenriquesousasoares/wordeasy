@@ -46,5 +46,6 @@ dependencies {
 
     compile 'com.wdullaer:materialdatetimepicker:2.3.0'
     compile 'io.realm:realm-android:0.86.0'
+    compile 'org.greenrobot:eventbus:3.0.0'
 
 }

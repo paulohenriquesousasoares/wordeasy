@@ -1,5 +1,6 @@
 package wordeasy.br.com.wordeasy.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
+import me.drakeet.materialdialog.MaterialDialog;
 import wordeasy.br.com.wordeasy.R;
 
 public class Mensagem {
@@ -28,6 +30,25 @@ public class Mensagem {
         TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
         textView.setTextColor(Color.YELLOW);
         return ( snackbar );
+    }
+
+    public static  AlertDialog.Builder materialDialogAviso(Activity activity, String title, String msg) {
+
+        MaterialDialog mMaterialDialog = null;
+        final AlertDialog.Builder alert = new AlertDialog.Builder(activity);
+
+        final MaterialDialog finalMMaterialDialog = mMaterialDialog;
+        mMaterialDialog = new MaterialDialog(activity)
+                .setTitle(title)
+                .setMessage(msg)
+                .setPositiveButton("Entendi", new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        finalMMaterialDialog.dismiss();
+                    }
+                });
+        mMaterialDialog.show();
+        return  alert;
     }
 
     public static Toast toast(Context context, String message) {

@@ -64,6 +64,14 @@
                 fab:fab_size="mini"
                 fab:fab_label="@string/revisao"/>
 
+            <com.github.clans.fab.FloatingActionButton
+                android:id="@+id/fab5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_camera_rear_white_24dp"
+                fab:fab_size="mini"
+                fab:fab_label="@string/card_personalizado"/>
+
         </com.github.clans.fab.FloatingActionMenu>
 
     </RelativeLayout>

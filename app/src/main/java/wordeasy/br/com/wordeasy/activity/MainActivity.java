@@ -234,7 +234,6 @@ public class MainActivity extends AppCompatActivity   implements
 
             Intent intent = new Intent(MainActivity.this,CadastrarUsuarioActivity.class);
             intent.putExtra(Usuario.ID,true);
-            //startActivity(intent);
             startActivityForResult(intent,1);
         }
         else if(position == Constantes.ENCERRRAR_SESSAO) {

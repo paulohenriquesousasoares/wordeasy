@@ -14,62 +14,62 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <RelativeLayout
-            android:id="@+id/container_radius"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:background="@drawable/radius_x">
-            <TextView
-                android:id="@+id/serial"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:layout_margin="1dp"
-                android:layout_alignParentLeft="true"
-                android:textSize="12dp"
-                android:textStyle="bold"
-                android:text="A"
-                android:textColor="@color/branco" />
-        </RelativeLayout>
+                <RelativeLayout
+                    android:id="@+id/container_radius"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/radius_x">
+                    <TextView
+                        android:id="@+id/serial"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="15dp"
+                        android:layout_margin="1dp"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="12dp"
+                        android:textStyle="bold"
+                        android:text="A"
+                        android:textColor="@color/branco" />
+                </RelativeLayout>
 
-        <TextView
-            android:id="@+id/txtPalavraEmIngles"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="15dp"
-            android:textStyle="bold"
-            android:layout_toRightOf="@+id/container_radius"
-            android:text="House"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="10dp"/>
+                <TextView
+                    android:id="@+id/txtPalavraEmIngles"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="15dp"
+                    android:textStyle="bold"
+                    android:layout_toRightOf="@+id/container_radius"
+                    android:text="House"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="10dp"/>
 
-        <TextView
-            android:id="@+id/txtTraducao"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@+id/container_radius"
-            android:layout_below="@+id/txtPalavraEmIngles"
-            android:textSize="13dp"
-            android:text="Traduçao um: Casa"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"
-            android:visibility="visible"/>
+                <TextView
+                    android:id="@+id/txtTraducao"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/container_radius"
+                    android:layout_below="@+id/txtPalavraEmIngles"
+                    android:textSize="13dp"
+                    android:text="Traduçao um: Casa"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:visibility="visible"/>
 
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dp"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_keyboard_arrow_right_black_24dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="5dp"/>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/cinza"
-            android:layout_marginTop="2dp"
-            android:layout_below="@+id/container_radius"/>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/cinza"
+                    android:layout_marginTop="2dp"
+                    android:layout_below="@+id/container_radius"/>
 
     </RelativeLayout>
 

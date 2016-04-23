@@ -23,13 +23,13 @@
         </activity>
 
         <activity android:name=".activity.CadastrarNovaPalavraActivity"/>
-        <activity android:name=".activity.EstudarActivity" />
         <activity android:name=".activity.MainActivity"/>
-        <activity android:name=".activity.RevisaoActivity"/>
         <activity android:name=".activity.LoginActivity"/>
         <activity android:name=".activity.CadastrarUsuarioActivity"/>
         <activity android:name=".activity.PalavrasDetalhesActivity" android:label="Detalhes"/>
         <activity android:name=".activity.ConfiguracaoActivity" android:label="Configuração"/>
+        <activity android:name=".activity.EstudarActivity"/>
+        <activity android:name=".activity.RevisaoActivity"/>
 
         <receiver android:name=".Testes.BroadcastReceiverAux">
             <intent-filter>

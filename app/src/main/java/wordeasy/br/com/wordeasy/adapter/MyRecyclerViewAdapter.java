@@ -29,8 +29,6 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     private Context context;
     private LayoutInflater gLayoutInflater;
 
-    DataObjectHolder mHolder;
-
     public MyRecyclerViewAdapter(ArrayList<Palavra> palavras, Context context) {
         this.mDataset = palavras;
         this.context = context;
@@ -54,7 +52,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.serial.setText("" + mDataset.get(position).getIndicePalavra());
         String indicePalavraAtual = mDataset.get(position).getIndicePalavra();
         Utilitario.getColor(indicePalavraAtual, holder.containerRadius);
-        mHolder = holder;
+
 
 //        try{
 //            YoYo.with(Techniques.FlipInX)
@@ -118,8 +116,14 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         notifyItemRemoved(index);
     }
 
-    public  void labelNaoEstudarMais(boolean mostra, int positon) {
-        mHolder.palavraTraducaoUm.setText("teste");;
+    public  void alterarObjetoNaoEstudar(int position) {
+       mDataset.get(position).setNaoEstudar(true);
+        mDataset.get(position).setPalavraEmPortugues("this is a test.");
+       notifyDataSetChanged();
+    }
+
+    public  void alterarObjetoCardPersonalizado(int position) {
+        mDataset.get(position).setCardPersonalizado(true);
         notifyDataSetChanged();
     }
 

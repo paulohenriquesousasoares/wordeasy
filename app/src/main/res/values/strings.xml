@@ -60,6 +60,11 @@
         <item >20</item>
     </string-array>
 
+    <!-- opcoes long press -->
+    <string-array name="onlong_press_itens">
+        <item >Não estudar mais</item>
+        <item >Adicionar ao card personalizado</item>
+    </string-array>
 
 
 </resources>

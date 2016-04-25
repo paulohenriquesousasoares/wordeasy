@@ -1,11 +1,14 @@
 package wordeasy.br.com.wordeasy.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.EditText;
+
+import java.util.ArrayList;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -34,6 +37,7 @@ public class CadastrarNovaPalavraActivity extends AppCompatActivity {
 
     private PalavraServico palavraServico;
     private PalavraRepositorio palavraRepositorio;
+    private  ArrayList<Palavra> palavrasSalvas;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +59,7 @@ public class CadastrarNovaPalavraActivity extends AppCompatActivity {
 
         palavraRepositorio = new PalavraRepositorio();
         palavraServico = new PalavraServico();
+        palavrasSalvas = new ArrayList<Palavra>();
     }
 
     public void auxiliarValidaCampo(String result) {
@@ -97,28 +102,39 @@ public class CadastrarNovaPalavraActivity extends AppCompatActivity {
         palavra.setFavorito(false);
         palavra.setUsuario(user);
 
-        String result =  palavraServico.validaPalavra(palavra);
+        String eNovaPalavra =  palavraServico.getByNome(user.getId(), edt_palavra_ingles.getText().toString().toLowerCase());
 
-        if(result.equals("ok")) {
+        if(eNovaPalavra.equals("ok")) {
 
-            try{
-                //salva na base
-                palavra.setIndicePalavra(edt_palavra_ingles.getText().toString().substring(0,1));
-                palavraServico.create(palavra);
-                clearCampos();
-                //Mensagem.snackbar("Palavra salva com sucesso.", findViewById(R.id.coordinator)).show();
-            }catch (Exception e) {
-                Mensagem.toast(CadastrarNovaPalavraActivity.this,"Error ao persistir os dados "+ e.toString()).show();
+            String result = palavraServico.validaPalavra(palavra);
+
+            if (result.equals("ok")) {
+                try {
+                    palavra.setIndicePalavra(edt_palavra_ingles.getText().toString().substring(0, 1));
+                    palavraServico.create(palavra);
+                    clearCampos();
+                    palavrasSalvas.add(palavra);
+                } catch (Exception e) {
+                    Mensagem.toast(CadastrarNovaPalavraActivity.this, "Error ao persistir os dados " + e.toString()).show();
+                }
+            } else {
+                auxiliarValidaCampo(result);
             }
         }
         else {
-            auxiliarValidaCampo(result);
+            if(eNovaPalavra.equals("existe"))
+                Mensagem.snackbar("Palavra já existe",findViewById(R.id.coordinator)).show();
+            else
+                Mensagem.snackbar(eNovaPalavra,findViewById(R.id.coordinator)).show();
         }
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent returnIntent = new Intent();
+        returnIntent.putExtra(Palavra.ID,palavrasSalvas);
+        setResult(2, returnIntent);
         this.finish();
         return true;
     }

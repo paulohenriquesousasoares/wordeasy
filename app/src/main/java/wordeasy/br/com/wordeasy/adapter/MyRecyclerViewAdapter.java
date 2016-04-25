@@ -11,6 +11,9 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
+
 import java.util.ArrayList;
 
 import me.drakeet.materialdialog.MaterialDialog;
@@ -23,9 +26,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     private ArrayList<Palavra> mDataset;
     private static RecycleViewOnclickListener recycleViewOnclickListener;
-    private MaterialDialog mMaterialDialog;
     private Context context;
     private LayoutInflater gLayoutInflater;
+
+    DataObjectHolder mHolder;
 
     public MyRecyclerViewAdapter(ArrayList<Palavra> palavras, Context context) {
         this.mDataset = palavras;
@@ -48,9 +52,16 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.palavraEmIngles.setText(mDataset.get(position).getPalavraEmIngles());
         holder.palavraTraducaoUm.setText(mDataset.get(position).getPalavraEmPortugues());
         holder.serial.setText("" + mDataset.get(position).getIndicePalavra());
-
         String indicePalavraAtual = mDataset.get(position).getIndicePalavra();
         Utilitario.getColor(indicePalavraAtual, holder.containerRadius);
+        mHolder = holder;
+
+//        try{
+//            YoYo.with(Techniques.FlipInX)
+//                    .duration(700)
+//                    .playOn(holder.itemView);
+//        }
+//        catch(Exception e){}
     }
 
 
@@ -107,27 +118,11 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         notifyItemRemoved(index);
     }
 
-    public  void exibirDialog(int position, View v, Palavra palavra) {
-
-        mMaterialDialog = new MaterialDialog(v.getContext())
-                .setTitle(palavra.getPalavraEmIngles())
-                .setMessage(
-                                "Tradução um : " + palavra.getPalavraEmPortugues()
-                )
-                .setPositiveButton("OK", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mMaterialDialog.dismiss();
-                    }
-                })
-                .setNegativeButton("Fechar", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mMaterialDialog.dismiss();
-                    }
-                });
-        mMaterialDialog.show();
+    public  void labelNaoEstudarMais(boolean mostra, int positon) {
+        mHolder.palavraTraducaoUm.setText("teste");;
+        notifyDataSetChanged();
     }
+
 
     public  Palavra getPalavraSelecionada(int position){
 
@@ -141,6 +136,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         palavra.setQtdErros(mDataset.get(position).getQtdErros());
         palavra.setQtdAcertos(mDataset.get(position).getQtdAcertos());
         palavra.setQtdVezesEstudou(mDataset.get(position).getQtdVezesEstudou());
+        palavra.setCardPersonalizado(mDataset.get(position).isCardPersonalizado());
+        palavra.setNaoEstudar(mDataset.get(position).isNaoEstudar());
         return palavra;
     }
 }

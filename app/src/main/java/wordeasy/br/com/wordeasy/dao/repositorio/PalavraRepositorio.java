@@ -13,22 +13,20 @@ import wordeasy.br.com.wordeasy.dominio.Palavra;
 import wordeasy.br.com.wordeasy.dominio.Usuario;
 import wordeasy.br.com.wordeasy.util.Utilitario;
 
-public class PalavraRepositorio implements IPalavraRepositorio {
+    public class PalavraRepositorio implements IPalavraRepositorio {
 
     private Realm realm;
 
-    @Override
-    public ArrayList<Palavra> get(long userId) throws Exception{
+    public ArrayList<Palavra> getAllCardPersonalizado(long userId) throws Exception{
 
         ArrayList<Palavra> palavraLista = new ArrayList<Palavra>();
 
         realm =  Realm.getDefaultInstance();
-       //RealmResults<Palavra> resultPalavra = realm.where(Palavra.class).findAll();
 
         RealmResults<Palavra> resultPalavra = realm.where(Palavra.class)
-                .equalTo("usuario.id", userId)
+                .equalTo("Usuario.id", userId)
+                .equalTo("CardPersonalizado", true)
                 .findAll();
-
 
         for(Palavra p : resultPalavra) {
             Palavra palavra = new Palavra();
@@ -50,6 +48,8 @@ public class PalavraRepositorio implements IPalavraRepositorio {
             palavra.setQtdAcertos(p.getQtdAcertos());
             palavra.setQtdErros(p.getQtdErros());
             palavra.setQtdVezesEstudou(p.getQtdVezesEstudou());
+            palavra.setCardPersonalizado(p.isCardPersonalizado());
+            palavra.setNaoEstudar(p.isNaoEstudar());
 
             palavraLista.add(palavra);
         }
@@ -57,16 +57,55 @@ public class PalavraRepositorio implements IPalavraRepositorio {
         return palavraLista;
     }
 
-    public ArrayList<Palavra> get(int qtdPalavras, long userId) {
+    public ArrayList<Palavra> get(long userId) throws Exception{
+
+        ArrayList<Palavra> palavraLista = new ArrayList<Palavra>();
+
+        realm =  Realm.getDefaultInstance();
+
+        RealmResults<Palavra> resultPalavra = realm.where(Palavra.class)
+                .equalTo("Usuario.id", userId)
+                .findAll();
+
+        for(Palavra p : resultPalavra) {
+            Palavra palavra = new Palavra();
+            palavra.setId(p.getId());
+            palavra.setPalavraEmIngles(p.getPalavraEmIngles());
+            palavra.setPalavraEmPortugues(p.getPalavraEmPortugues());
+            String indice = p.getIndicePalavra().toUpperCase() != null ? p.getIndicePalavra().toUpperCase() : "ND";
+            palavra.setIndicePalavra(indice);
+            palavra.setFavorito(p.isFavorito());
+
+            //Preenche o objeto aqui para tirar do realm
+            Usuario user = new Usuario();
+            user.setId(p.getUsuario().getId());
+            user.setNome(p.getUsuario().getNome());
+            user.setEmail(p.getUsuario().getEmail());
+            user.setSenha(p.getUsuario().getSenha());
+
+            palavra.setUsuario(user);
+            palavra.setQtdAcertos(p.getQtdAcertos());
+            palavra.setQtdErros(p.getQtdErros());
+            palavra.setQtdVezesEstudou(p.getQtdVezesEstudou());
+            palavra.setCardPersonalizado(p.isCardPersonalizado());
+            palavra.setNaoEstudar(p.isNaoEstudar());
+
+            palavraLista.add(palavra);
+        }
+        realm.close();
+        return palavraLista;
+    }
+
+
+    public ArrayList<Palavra> get(int qtdPalavras, long userId) throws  Exception{
 
         realm =  Realm.getDefaultInstance();
 
         ArrayList<Palavra> palavraLista = new ArrayList<Palavra>();
-        //RealmResults<Palavra> resultPalavra = realm.where(Palavra.class).findAll();
 
         Realm realm = Realm.getDefaultInstance();
         RealmResults<Palavra> resultPalavra = realm.where(Palavra.class)
-                .equalTo("usuario.id", userId)
+                .equalTo("Usuario.id", userId)
                 .findAll();
 
         int count = resultPalavra.size();
@@ -84,7 +123,6 @@ public class PalavraRepositorio implements IPalavraRepositorio {
                 position = gerador.nextInt(count);
             }
 
-
             Palavra palavra = new Palavra();
             palavra.setId(resultPalavra.get(position).getId());
             palavra.setPalavraEmIngles(resultPalavra.get(position).getPalavraEmIngles());
@@ -92,9 +130,9 @@ public class PalavraRepositorio implements IPalavraRepositorio {
             palavra.setIndicePalavra(resultPalavra.get(position).getIndicePalavra().toUpperCase());
             palavra.setFavorito(resultPalavra.get(position).isFavorito());
             palavra.setUsuario(resultPalavra.get(position).getUsuario());
-
+            palavra.setCardPersonalizado(resultPalavra.get(position).isCardPersonalizado());
+            palavra.setNaoEstudar(resultPalavra.get(position).isNaoEstudar());
             palavraLista.add(palavra);
-
         }
 
         realm.close();
@@ -106,7 +144,7 @@ public class PalavraRepositorio implements IPalavraRepositorio {
         realm = Realm.getDefaultInstance();
 
         RealmResults<Palavra> results = realm.where(Palavra.class)
-                .equalTo("PalavraId",id)
+                .equalTo("id",id)
                 .findAll();
 
         realm.beginTransaction();
@@ -127,7 +165,6 @@ public class PalavraRepositorio implements IPalavraRepositorio {
                 .findAll();
 
         Palavra palavra = new Palavra();
-        //RealmResults<Palavra> results = realm.where(Palavra.class).equalTo("id", id).findAll();
 
         for(Palavra u : results) {
             palavra.setId(u.getId()) ;
@@ -146,10 +183,30 @@ public class PalavraRepositorio implements IPalavraRepositorio {
             palavra.setQtdErros(u.getQtdErros());
             palavra.setQtdAcertos(u.getQtdAcertos());
             palavra.setQtdVezesEstudou(u.getQtdVezesEstudou());
+            palavra.setCardPersonalizado(u.isCardPersonalizado());
+            palavra.setNaoEstudar(u.isNaoEstudar());
         }
 
         realm.close();
         return palavra;
+    }
+
+
+    public boolean getByName(long userId,String palavra) throws Exception{
+        boolean retorno = true;
+
+        realm =  Realm.getDefaultInstance();
+        RealmResults<Palavra> resultPalavra = realm.where(Palavra.class)
+                .equalTo("Usuario.id", userId)
+                .equalTo("PalavraEmIngles".toLowerCase(), palavra)
+                .findAll();
+
+        if(resultPalavra.size() > 0)
+            retorno = false;
+
+        realm.close();
+
+        return  retorno;
     }
 
     @Override

@@ -24,6 +24,7 @@ import wordeasy.br.com.wordeasy.dao.repositorio.ConfiguracaoRepositorio;
 import wordeasy.br.com.wordeasy.dao.repositorio.PalavraRepositorio;
 import wordeasy.br.com.wordeasy.dominio.Configuracao;
 import wordeasy.br.com.wordeasy.dominio.Palavra;
+import wordeasy.br.com.wordeasy.dominio.Usuario;
 import wordeasy.br.com.wordeasy.util.Mensagem;
 import wordeasy.br.com.wordeasy.util.Utilitario;
 
@@ -76,8 +77,8 @@ public class EstudarActivity extends AppCompatActivity {
     private void mensagemContinuarEstudando() {
 
         AlertDialog.Builder alert = new AlertDialog.Builder(EstudarActivity.this);
-        alert.setTitle("Parabéns todas as palavras foram estudadas.");
-        alert.setMessage("Gostaria de estudar estes card novamente ?");
+        alert.setTitle("Aguardando");
+        alert.setMessage("Continuar estudando estes card ?");
 
         alert.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
             @Override
@@ -111,14 +112,15 @@ public class EstudarActivity extends AppCompatActivity {
         Configuracao  config = null;
         try {
             config = configuracaoRepositorio.getConfiguracao(Utilitario.getSharedPreferenceUsuario(EstudarActivity.this).getId());
+            Usuario user = Utilitario.getSharedPreferenceUsuario(EstudarActivity.this);
+            palavraLista = palavraRepositorio.get(config.getItensPorSessaoEstudo(), user.getId());
         } catch (Exception e) {
-            e.printStackTrace();
+            Mensagem.toast(EstudarActivity.this,""+e).show();
         }
 
-        palavraLista = palavraRepositorio.get(config.getItensPorSessaoEstudo(),Utilitario.getSharedPreferenceUsuario(EstudarActivity.this).getId());
         palavraListaPosition = 0;
 
-        if(palavraLista.size() > -1) {
+        if(palavraLista.size() > 0) {
             txtIngles.setText(palavraLista.get(palavraListaPosition).getPalavraEmIngles());
             txtTraducao.setText(palavraLista.get(palavraListaPosition).getPalavraEmPortugues());
         }
@@ -165,9 +167,8 @@ public class EstudarActivity extends AppCompatActivity {
             }
         }
         else {
+
             mensagemContinuarEstudando();
-
-
         }
     }
 

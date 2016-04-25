@@ -12,10 +12,12 @@ public class PalavraServico implements IPalavraServico {
         palavraRepositorio = new PalavraRepositorio();
     }
 
+
     @Override
     public void create(Palavra palavra)throws Exception{
         palavraRepositorio.create(palavra);
     }
+
 
     @Override
     public String validaPalavra(Palavra palavra) {
@@ -32,4 +34,16 @@ public class PalavraServico implements IPalavraServico {
         return  null;
     }
 
+    public String getByNome(long userId, String palavra ) {
+        String result = "ok";
+        try {
+             boolean notExiste =  palavraRepositorio.getByName(userId,palavra);
+             if(!notExiste)
+                result =  "existe";
+
+        } catch (Exception e) {
+            result = ""+e;
+        }
+        return result;
+    }
 }

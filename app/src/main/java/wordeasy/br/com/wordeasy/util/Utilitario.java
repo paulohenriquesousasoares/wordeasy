@@ -84,25 +84,40 @@ public class Utilitario {
     }
 
     //Pega as palavras como teste
-    public static ArrayList<Palavra> getDataSet() {
-        ArrayList results = new ArrayList<Palavra>();
+    public static int getPalavrasIniciais(Usuario user) {
+
+        PalavraRepositorio palavraRepositorio = new PalavraRepositorio();
+        int qtdPalavrasInseridas = 0;
 
         String[] ingles = new String[]{"Home","Car","Therefore","Wonderful","Against","Take","Smile"
                 ,"Yourself","I","Gift","Document","Cross","Coffe","Anybody","Religion","Murder"
-                ,"Stick","Engage","Beginning","Very","Do","Did"};
+                ,"Stick","Engage","Beginning","Very"};
 
         String[] portugues = new String[]{"Casa","Carro","Portanto","Maravihoso","Contra","Pegar","Sorriso"
                 ,"Voce mesmo","Eu","Presente","Documento","Atravessar","Café","Alguém","Religião","Assassinato"
-                ,"Lançar","Envolver-se","Começo","Muito","Fazer","Fiz"};
+                ,"Lançar","Envolver-se","Começo","Muito"};
 
+        for (int index = 0; index < ingles.length; index++) {
 
-//        for (int index = 0; index < ingles.length; index++) {
-//
-//            String palavraAtualIndice = ingles[index].substring(0,1);
-//            Palavra obj = new Palavra(palavraAtualIndice.toUpperCase(), ingles[index], portugues[index], false);
-//            results.add(index, obj);
-//        }
-        return results;
+                Palavra palavra = new Palavra();
+                palavra.setPalavraEmIngles(ingles[index].toString());
+                palavra.setPalavraEmPortugues(portugues[index].toString());
+                palavra.setIndicePalavra(ingles[index].toString().substring(0, 1).toUpperCase());
+                palavra.setFavorito(false);
+                palavra.setUsuario(user);
+                palavra.setQtdErros(0);
+                palavra.setQtdAcertos(0);
+                palavra.setQtdVezesEstudou(0);
+                palavra.setCardPersonalizado(false);
+                palavra.setNaoEstudar(false);
+
+            try {
+                palavraRepositorio.create(palavra);
+                qtdPalavrasInseridas +=1;
+            }
+            catch (Exception e) {}
+        }
+        return qtdPalavrasInseridas;
     }
 
 

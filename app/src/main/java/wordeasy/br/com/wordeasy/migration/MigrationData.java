@@ -16,7 +16,13 @@ public class MigrationData implements RealmMigration {
         RealmSchema schema = realm.getSchema();
 
         if(newVersion ==  0) {createSchema(schema);}
-//        if(newVersion ==  1) { schema.get("Usuario").removeField("teste");}
+//        if(newVersion == 1) {
+//            schema.get("Palavra")
+//                    .addField("CardPersonalizado",boolean.class)
+//                    .addField("NaoEstudar",boolean.class);
+//
+//        }
+//        if(newVersion ==  1) { schema.get("Palavra").removeField("teste");}
 //
 //        if(newVersion ==  2) {
 //            schema.create("Configuracao")
@@ -53,13 +59,15 @@ public class MigrationData implements RealmMigration {
         schema.create("Palavra")
                 .addField("id", long.class, FieldAttribute.PRIMARY_KEY)
                 .addField("PalavraEmIngles", String.class)
-                .addField("palavraEmPortugues", String.class)
-                .addField("indicePalavra", String.class)
-                .addField("favorito", Boolean.class)
-                .addRealmObjectField("usuario", schema.get("Usuario"))
-                .addField("qtdErros", int.class)
-                .addField("qtdAcertos", int.class)
-                .addField("qtdVezesEstudou", int.class);
+                .addField("PalavraEmPortugues", String.class)
+                .addField("IndicePalavra", String.class)
+                .addField("Favorito", Boolean.class)
+                .addRealmObjectField("Usuario", schema.get("Usuario"))
+                .addField("QtdErros", int.class)
+                .addField("QtdAcertos", int.class)
+                .addField("QtdVezesEstudou", int.class)
+                .addField("CardPersonalizado",boolean.class)
+                .addField("NaoEstudar",boolean.class);
 
         //Configuracao
         schema.create("Configuracao")

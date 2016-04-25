@@ -77,6 +77,7 @@ public class SplashActivity extends AppCompatActivity {
 
                 }
             }, SPLASH_DISPLAY_LENGTH);
+        
 
 
         //verifica se ja tem algum usuario no shared preference
@@ -84,18 +85,6 @@ public class SplashActivity extends AppCompatActivity {
             startActivity(new Intent(SplashActivity.this, MainActivity.class));
             this.finish();
         }
-
-//
-//        Realm realm = Realm.getDefaultInstance();
-//        RealmResults<Palavra> results = realm.where(Palavra.class)
-//                .equalTo("usuario.id", 1)
-//                .findAll();
-//
-//
-//        for (Palavra p: results) {
-//            Log.i("TAG",p.getPalavraEmIngles() + "/"+p.getUsuario().getNome());
-//        }
-
     }
 
     @OnClick(R.id.edt_Entrar_login)

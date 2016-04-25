@@ -127,6 +127,10 @@ public class MainActivity extends AppCompatActivity   implements
         navigationDrawerLeft.setOnDrawerItemClickListener(this);
     }
 
+    public ArrayList<Palavra> getAllPalavras(){
+        return palavras;
+    }
+
 
     /*==============================================================================================================
     *      LISTENER
@@ -199,15 +203,6 @@ public class MainActivity extends AppCompatActivity   implements
         Intent it = new Intent(this, PalavrasDetalhesActivity.class);
         it.putExtra(Palavra.ID,palavra);
 
-//        it.putExtra("id", palavra.getId());
-//        it.putExtra("ingles", palavra.getPalavraEmIngles());
-//        it.putExtra("portugues", palavra.getPalavraEmPortugues());
-//        it.putExtra("indice", palavra.getIndicePalavra());
-//        it.putExtra("favorito", palavra.isFavorito());
-//        it.putExtra("acertos", palavra.getQtdAcertos() );
-//        it.putExtra("erros", palavra.getQtdErros());
-//        it.putExtra("vezesEstudou", palavra.getQtdVezesEstudou());
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
             View ingles = v.findViewById(R.id.txtPalavraEmIngles);
@@ -257,6 +252,26 @@ public class MainActivity extends AppCompatActivity   implements
                 if(result.equals("alterando")) {
                     criaMenuDrawer(savedInstanceState);
                 }
+            }
+        }
+
+        //se salvou uma nova palavra quando sair da tela cai aqui e adiciona as palvras na lista geral de palavras
+        if(resultCode == 2) {
+            ArrayList<Palavra> novasPalavras = (ArrayList<Palavra>) data.getExtras().getSerializable(Palavra.ID);
+
+            for(Palavra p : novasPalavras){
+                Palavra palavra = new Palavra();
+                palavra.setId(p.getId());
+                palavra.setPalavraEmIngles(p.getPalavraEmIngles());
+                palavra.setPalavraEmPortugues(p.getPalavraEmPortugues());
+                palavra.setCardPersonalizado(false);
+                palavra.setNaoEstudar(false);
+                palavra.setIndicePalavra(p.getIndicePalavra());
+                palavra.setUsuario(p.getUsuario());
+                palavra.setQtdErros(p.getQtdErros());
+                palavra.setQtdAcertos(p.getQtdAcertos());
+                palavra.setQtdVezesEstudou(p.getQtdVezesEstudou());
+                palavras.add(palavra);
             }
         }
     }

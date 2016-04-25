@@ -12,7 +12,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import wordeasy.br.com.wordeasy.R;
+import wordeasy.br.com.wordeasy.dao.repositorio.ConfiguracaoRepositorio;
 import wordeasy.br.com.wordeasy.dao.repositorio.UsuarioRepositorio;
+import wordeasy.br.com.wordeasy.dominio.Configuracao;
 import wordeasy.br.com.wordeasy.dominio.Usuario;
 import wordeasy.br.com.wordeasy.util.Mensagem;
 import wordeasy.br.com.wordeasy.util.Utilitario;
@@ -23,6 +25,8 @@ public class LoginActivity extends AppCompatActivity{
     @Bind(R.id.toolbar) Toolbar mToolbar;
     @Bind(R.id.input_email)  TextView email;
     @Bind(R.id.input_senha) TextView senha;
+
+    private ConfiguracaoRepositorio configuracaoRepositorio;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,7 @@ public class LoginActivity extends AppCompatActivity{
         setSupportActionBar(mToolbar);
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        configuracaoRepositorio = new ConfiguracaoRepositorio();
     }
 
 
@@ -64,6 +69,20 @@ public class LoginActivity extends AppCompatActivity{
                 intent.putExtra(Usuario.ID,true);
                 startActivity(intent);
                 this.finish();
+
+                Configuracao config = getConfiguracao();
+                //se menor que -1 significa que ainda nao cadastrou nenhuma configuracao
+                if(config.getUsuarioId() < 1) {
+                    Configuracao configuracao = new Configuracao();
+
+                    configuracao.setItensPorSessaoRevisao(5);
+                    configuracao.setItensPorSessaoEstudo(5);
+                    configuracao.setHora(13);
+                    configuracao.setMinuto(00);
+                    configuracao.setUsuarioId(user.getId());
+                    configuracao.setAtivo( true );
+                    configuracaoRepositorio.create(configuracao);
+                }
             }
             else {
                 Mensagem.snackbar("Usuário ou senha inválidos", findViewById(R.id.coordinator)).show();
@@ -72,11 +91,18 @@ public class LoginActivity extends AppCompatActivity{
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
 
-
+    private Configuracao getConfiguracao() {
+        Configuracao config = null;
+        try {
+            config = configuracaoRepositorio.getConfiguracao(Utilitario.getSharedPreferenceUsuario(LoginActivity.this).getId());
+        } catch (Exception e) {
+            Mensagem.toast(LoginActivity.this, "Error ao recuperar as configurações." + e);
+        }
+        return  config;
+    }
 
      /*
     ===================================================================================================================

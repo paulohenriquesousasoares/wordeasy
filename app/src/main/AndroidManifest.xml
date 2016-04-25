@@ -28,8 +28,26 @@
         <activity android:name=".activity.CadastrarUsuarioActivity"/>
         <activity android:name=".activity.PalavrasDetalhesActivity" android:label="Detalhes"/>
         <activity android:name=".activity.ConfiguracaoActivity" android:label="Configuração"/>
-        <activity android:name=".activity.EstudarActivity"/>
-        <activity android:name=".activity.RevisaoActivity"/>
+
+        <activity
+            android:name=".activity.EstudarActivity"
+            android:label="Estudar card"
+            android:icon="@drawable/ic_settings_applications_black_24dp">
+                <intent-filter>
+                    <action android:name="CARD_PERSONALIZADO"/>
+                    <category android:name="android.intent.category.DEFAULT"/>
+                </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".activity.RevisaoActivity"
+            android:label="Revisão"
+            android:icon="@drawable/ic_exit_to_app_black_24dp">
+            <intent-filter>
+                <action android:name="CARD_PERSONALIZADO"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
 
         <receiver android:name=".Testes.BroadcastReceiverAux">
             <intent-filter>

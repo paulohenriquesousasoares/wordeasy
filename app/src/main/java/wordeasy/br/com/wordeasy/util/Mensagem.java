@@ -32,23 +32,19 @@ public class Mensagem {
         return ( snackbar );
     }
 
-    public static  AlertDialog.Builder materialDialogAviso(Activity activity, String title, String msg) {
+    public static MaterialDialog materialDialogAviso(Activity activity, String title, String msg) {
 
-        MaterialDialog mMaterialDialog = null;
-        final AlertDialog.Builder alert = new AlertDialog.Builder(activity);
+        final MaterialDialog mMaterialDialog = new MaterialDialog(activity);
+        mMaterialDialog.setTitle(title);
+        mMaterialDialog.setMessage(msg);
+        mMaterialDialog.setPositiveButton("Entendi", new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mMaterialDialog.dismiss();
 
-        final MaterialDialog finalMMaterialDialog = mMaterialDialog;
-        mMaterialDialog = new MaterialDialog(activity)
-                .setTitle(title)
-                .setMessage(msg)
-                .setPositiveButton("Entendi", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        finalMMaterialDialog.dismiss();
-                    }
-                });
-        mMaterialDialog.show();
-        return  alert;
+            }
+        });
+        return  mMaterialDialog;
     }
 
     public static Toast toast(Context context, String message) {

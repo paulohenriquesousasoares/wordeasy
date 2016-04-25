@@ -8,6 +8,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import me.drakeet.materialdialog.MaterialDialog;
 import wordeasy.br.com.wordeasy.R;
 import wordeasy.br.com.wordeasy.dao.repositorio.ConfiguracaoRepositorio;
 import wordeasy.br.com.wordeasy.dao.repositorio.PalavraRepositorio;
@@ -48,7 +50,15 @@ public class RevisaoActivity extends AppCompatActivity{
         setContentView(R.layout.revisao);
         ButterKnife.bind(this);
         initView();
-        getListaPalavraRevisao();
+
+
+       if( getIntent().getExtras() != null) {
+           if(getIntent().getExtras().get(Palavra.ID).equals("")){
+               getAllCardPersonalizado();
+           }
+       }
+        else
+           getListaPalavraRevisao();
     }
 
     /*=======================================================================================================
@@ -70,11 +80,27 @@ public class RevisaoActivity extends AppCompatActivity{
             long userId = Utilitario.getSharedPreferenceUsuario(RevisaoActivity.this).getId();
 
             config = configuracaoRepositorio.getConfiguracao(userId);
-            palavrasList = palavraRepositorio.get(config.getItensPorSessaoRevisao(), userId);
-            atualizaTextViewPalavraEmIngles();
+
+            if(config.getItensPorSessaoRevisao() > 4) {
+                palavrasList = palavraRepositorio.get(config.getItensPorSessaoRevisao(), userId);
+                atualizaTextViewPalavraEmIngles();
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    private void getAllCardPersonalizado() {
+        ConfiguracaoRepositorio configuracaoRepositorio = new ConfiguracaoRepositorio();
+        Configuracao config = null;
+        try {
+            long userId = Utilitario.getSharedPreferenceUsuario(RevisaoActivity.this).getId();
+            palavrasList = palavraRepositorio.getAllCardPersonalizado(userId);
+            atualizaTextViewPalavraEmIngles();
+
+        } catch (Exception e) {
+            Mensagem.toast(RevisaoActivity.this,""+e).show();
         }
     }
 
@@ -140,15 +166,16 @@ public class RevisaoActivity extends AppCompatActivity{
                 public void run() {
 
                     if(positionLista == palavrasList.size() - 1){
-                        AlertDialog.Builder alert =   Mensagem.alertDialog(RevisaoActivity.this, "", "Parabéns todas as palavras estudas com sucesso. ")
-                                .setPositiveButton("Sair", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        finish();
-                                    }
-                                });
-                        AlertDialog alertDialog = alert.create();
-                        alertDialog.show();
+                       final MaterialDialog dialog =  Mensagem.materialDialogAviso(RevisaoActivity.this, "Informação",
+                               "Parabéns palavras revisada com sucesso.");
+                        dialog.setPositiveButton("Sair", new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                                RevisaoActivity.this.finish();
+                            }
+                        });
+                        dialog.show();
                     }
                     else {
                         positionLista++;

@@ -1,0 +1,52 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_refresh_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="160dp"
+    android:background="@color/branco"
+    android:layout_alignParentBottom="true"
+    android:visibility="invisible"
+    android:padding="10dp">
+
+
+    <TextView
+        android:id="@+id/txtTitulo"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="ESCOLHA UMA DAS AÇÕES"
+        android:textColor="@color/cinza"/>
+
+    <TextView
+        android:id="@+id/txtEstudarCardPersonalizado"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txtTitulo"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:text="Estudar card"/>
+
+
+    <TextView
+        android:id="@+id/txtRevisaoCardPersonalizado"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Revisar card personalizado"
+        android:layout_below="@+id/txtEstudarCardPersonalizado"
+        android:padding="5dp"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
+        android:id="@+id/txtFechar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/azul_claro"
+        android:text="FECHAR"
+        android:layout_below="@+id/txtRevisaoCardPersonalizado"
+        android:layout_marginTop="10dp"
+        android:padding="5dp"
+        android:layout_alignParentRight="true"/>
+
+
+</RelativeLayout>

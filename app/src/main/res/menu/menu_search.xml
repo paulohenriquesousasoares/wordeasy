@@ -15,4 +15,16 @@
         android:title="ordernar"
         android:icon="@drawable/ic_sort_by_alpha_white_24dp"
         app:showAsAction="ifRoom|collapseActionView"/>
+
+
+    <!--opces varias -->
+    <item android:id="@+id/addCardPersonalizadas"
+        android:title="Card personalizado" />
+
+    <item android:id="@+id/naoEstudar"
+        android:title="Já sei" />
+
+    <item android:id="@+id/todas"
+        android:title="Todas" />
+
 </menu>

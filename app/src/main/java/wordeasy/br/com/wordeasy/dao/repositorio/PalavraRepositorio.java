@@ -17,16 +17,30 @@ import wordeasy.br.com.wordeasy.util.Utilitario;
 
     private Realm realm;
 
-    public ArrayList<Palavra> getAllCardPersonalizado(long userId) throws Exception{
+    //opcao 0 = get all cardpersonalizado
+    //opcao 1 = get all nao estudar
+    public ArrayList<Palavra> getAllCardPersonalizado(long userId, int opcao) throws Exception{
 
         ArrayList<Palavra> palavraLista = new ArrayList<Palavra>();
 
         realm =  Realm.getDefaultInstance();
 
-        RealmResults<Palavra> resultPalavra = realm.where(Palavra.class)
-                .equalTo("Usuario.id", userId)
-                .equalTo("CardPersonalizado", true)
-                .findAll();
+        RealmResults<Palavra> resultPalavra = null;
+
+        if(opcao == 0) {
+            resultPalavra = realm.where(Palavra.class)
+                    .equalTo("Usuario.id", userId)
+                    .equalTo("CardPersonalizado", true)
+                    .equalTo("NaoEstudar",false)
+                    .findAll();
+        }
+        else if(opcao == 1) {
+            resultPalavra = realm.where(Palavra.class)
+                    .equalTo("Usuario.id", userId)
+                    .equalTo("NaoEstudar", true)
+                    .findAll();
+        }
+
 
         for(Palavra p : resultPalavra) {
             Palavra palavra = new Palavra();
@@ -57,6 +71,7 @@ import wordeasy.br.com.wordeasy.util.Utilitario;
         return palavraLista;
     }
 
+
     public ArrayList<Palavra> get(long userId) throws Exception{
 
         ArrayList<Palavra> palavraLista = new ArrayList<Palavra>();
@@ -65,6 +80,7 @@ import wordeasy.br.com.wordeasy.util.Utilitario;
 
         RealmResults<Palavra> resultPalavra = realm.where(Palavra.class)
                 .equalTo("Usuario.id", userId)
+                .equalTo("NaoEstudar",false)
                 .findAll();
 
         for(Palavra p : resultPalavra) {
@@ -89,6 +105,8 @@ import wordeasy.br.com.wordeasy.util.Utilitario;
             palavra.setQtdVezesEstudou(p.getQtdVezesEstudou());
             palavra.setCardPersonalizado(p.isCardPersonalizado());
             palavra.setNaoEstudar(p.isNaoEstudar());
+            palavra.setNaoEstudarMaisSelecionado("");
+            palavra.setCardPersonalizadoSelecionado("");
 
             palavraLista.add(palavra);
         }
@@ -106,6 +124,7 @@ import wordeasy.br.com.wordeasy.util.Utilitario;
         Realm realm = Realm.getDefaultInstance();
         RealmResults<Palavra> resultPalavra = realm.where(Palavra.class)
                 .equalTo("Usuario.id", userId)
+                .equalTo("NaoEstudar",false)
                 .findAll();
 
         int count = resultPalavra.size();
@@ -198,7 +217,7 @@ import wordeasy.br.com.wordeasy.util.Utilitario;
         realm =  Realm.getDefaultInstance();
         RealmResults<Palavra> resultPalavra = realm.where(Palavra.class)
                 .equalTo("Usuario.id", userId)
-                .equalTo("PalavraEmIngles".toLowerCase(), palavra)
+                .equalTo("PalavraEmIngles", palavra.toUpperCase())
                 .findAll();
 
         if(resultPalavra.size() > 0)

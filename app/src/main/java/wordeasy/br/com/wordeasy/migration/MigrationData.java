@@ -1,5 +1,7 @@
 package wordeasy.br.com.wordeasy.migration;
 
+import javax.xml.validation.Schema;
+
 import io.realm.DynamicRealm;
 import io.realm.FieldAttribute;
 import io.realm.RealmMigration;
@@ -8,7 +10,7 @@ import wordeasy.br.com.wordeasy.dominio.Usuario;
 
 public class MigrationData implements RealmMigration {
 
-    public static final int VERSION = 0;
+    public static final int VERSION = 1;
 
     @Override
     public void migrate(DynamicRealm realm, long loldVersion, long newVersion) {
@@ -16,6 +18,13 @@ public class MigrationData implements RealmMigration {
         RealmSchema schema = realm.getSchema();
 
         if(newVersion ==  0) {createSchema(schema);}
+        if(newVersion == 1) {
+            schema.get("Palavra")
+                    .addField("CardPersonalizadoSelecionado", String.class)
+                    .addField("NaoEstudarMaisSelecionado",String.class);
+
+        }
+
 //        if(newVersion == 1) {
 //            schema.get("Palavra")
 //                    .addField("CardPersonalizado",boolean.class)

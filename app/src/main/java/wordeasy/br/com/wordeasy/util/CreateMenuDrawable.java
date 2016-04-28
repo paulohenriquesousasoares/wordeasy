@@ -21,22 +21,22 @@ public class CreateMenuDrawable implements ImenuDrawer {
     private AccountHeader.Result headerNavigationLeft;
 
     @Override
-    public void header(Activity activity, Bundle savedInstanceState,String userNome,String userEmail) {
+    public void header(final Activity activity, Bundle savedInstanceState,String userNome,String userEmail) {
         headerNavigationLeft = new AccountHeader()
                 .withActivity(activity)
                 .withCompactStyle(false)
                 .withSavedInstance(savedInstanceState)
                 .withThreeSmallProfileImages(true)
                 .withHeaderBackground(R.drawable.logo_menu_drawer)
-//                .addProfiles(new ProfileDrawerItem().withName(userNome).withEmail(userEmail))
-//                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-//                    @Override
-//                    public boolean onProfileChanged(View view, IProfile iProfile, boolean b) {
-//                        //Toast.makeText(activity.this, "onProfileChanged: " + iProfile.getName(), Toast.LENGTH_SHORT).show();
-//                        //headerNavigationLeft.setBackgroundRes(R.drawable.vyron);
-//                        return false;
-//                    }
-//                })
+                .addProfiles(new ProfileDrawerItem().withName(userNome).withEmail(userEmail)).withSelectionListEnabled(false)
+                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+                    @Override
+                    public boolean onProfileChanged(View view, IProfile iProfile, boolean b) {
+                        Mensagem.toast(activity,"Em breve").show();
+                        //headerNavigationLeft.setBackgroundRes(R.drawable.vyron);
+                        return false;
+                    }
+                })
                 .build();
     }
 

@@ -20,8 +20,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.github.clans.fab.FloatingActionButton;
 import com.github.clans.fab.FloatingActionMenu;
 
@@ -35,7 +38,6 @@ import wordeasy.br.com.wordeasy.activity.PalavrasDetalhesActivity;
 import wordeasy.br.com.wordeasy.R;
 import wordeasy.br.com.wordeasy.activity.RevisaoActivity;
 import wordeasy.br.com.wordeasy.adapter.MyRecyclerViewAdapter;
-import wordeasy.br.com.wordeasy.dao.repositorio.PalavraRepositorio;
 import wordeasy.br.com.wordeasy.interfaces.RecycleViewOnclickListener;
 import wordeasy.br.com.wordeasy.dominio.Palavra;
 import wordeasy.br.com.wordeasy.util.Mensagem;
@@ -50,6 +52,8 @@ public class FragInicial extends Fragment  implements RecycleViewOnclickListener
     private FloatingActionMenu floatingActionMenu;
     private SwipeRefreshLayout swipeRefreshLayout;
     private  ArrayList<Palavra> palavrasLista;
+    private RelativeLayout rl;
+    private TextView fechar, estudarCardPersonalizado, revisarCardPersonalizado;
 
     public FragInicial() {}
 
@@ -86,17 +90,16 @@ public class FragInicial extends Fragment  implements RecycleViewOnclickListener
         floatButtonEstudar.setOnClickListener(this);
         floatButtonRevisao.setOnClickListener(this);
         floatButtonCardPersonalizado.setOnClickListener(this);
-        mAdapter.setRecycleViewOnClickListenerHack(this);
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                preencheRecycleView(((MainActivity) getActivity()).getAllPalavras());
+                //preencheRecycleView(((MainActivity) getActivity()).getAllPalavras());
+                preencheRecycleView(((MainActivity) getActivity()).getPalavrasEstudadas());
+                ((MainActivity)getActivity()).alteraSubTituloToolbar("Todas");
+
                 swipeRefreshLayout.setRefreshing(false);
-                swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.primary_dark));
-
-
-            }
+                swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.primary_dark));}
         });
         return  view;
     }
@@ -113,54 +116,18 @@ public class FragInicial extends Fragment  implements RecycleViewOnclickListener
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycleView);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         floatingActionMenu = (FloatingActionMenu) view.findViewById(R.id.float_menu);
+        rl = (RelativeLayout) view.findViewById(R.id.opcoes_menu_botton);
+        fechar = (TextView) view.findViewById(R.id.txtFechar);
+        estudarCardPersonalizado = (TextView) view.findViewById(R.id.txtEstudarCardPersonalizado);
+        revisarCardPersonalizado = (TextView) view.findViewById(R.id.txtRevisaoCardPersonalizado);
+
     }
 
     public void preencheRecycleView(ArrayList<Palavra> palavrasLista) {
-
         mRecyclerView.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MyRecyclerViewAdapter(palavrasLista,getActivity());
-        mRecyclerView.setAdapter(mAdapter);
-    }
-
-    public String alteraObjetoClicado(Palavra palavra, String textoClicado, int positionOpcaoClicado) {
-        try {
-
-            PalavraRepositorio palavraRepositorio = new PalavraRepositorio();
-            String retorno = "";
-
-            if ( positionOpcaoClicado == 0) {
-
-                palavra.setNaoEstudar(palavra.isNaoEstudar() ? false : true);
-                retorno =  verificaSeEstaNaoEstudarMais(textoClicado);
-
-            }
-            else if(positionOpcaoClicado == 1 ) {
-
-                palavra.setCardPersonalizado(palavra.isCardPersonalizado() ? false : true);
-                retorno =  verificaCardPersonalizado(textoClicado);
-            }
-
-            palavraRepositorio.create(palavra);
-            return retorno;
-
-        } catch (Exception e) {Mensagem.toast(getActivity(),""+e).show();}
-        return null;
-    }
-
-    private String verificaSeEstaNaoEstudarMais(String texto) {
-        if(texto.equals("Voltar a estudar"))
-            return  "Não estudar mais";
-        else
-            return  "Voltar a estudar";
-    }
-
-    private String verificaCardPersonalizado(String texto) {
-        if(texto.equals("Adicionar ao card personalizado"))
-            return  "Adicionado ao card personalizado";
-        else
-            return  "Adicionar ao card personalizado";
+       ((MainActivity)getActivity()).preencheRecycleview(palavrasLista,mRecyclerView,mAdapter);
     }
 
 
@@ -227,19 +194,21 @@ public class FragInicial extends Fragment  implements RecycleViewOnclickListener
         alert.setView(view);
         alert.show();
 
+
+
         //CLIQUE ITEM NO LISTVIEW
         lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
                 String itemTextoClicado = ((TextView) view).getText().toString();
-                String result =  alteraObjetoClicado(palavra, itemTextoClicado, position);
+                String result =    ((MainActivity)getActivity()).alteraObjetoClicado(palavra, itemTextoClicado, position);
                 ((TextView) view).setText(result);
 
                 String msgToast = "";
                 if(position == 0){
 
-                     mAdapter.alterarObjetoNaoEstudar(posicao);
+                     mAdapter.removerItemJaSei(posicao);
                     if(palavra.isNaoEstudar())
                         msgToast =  "Adicionado ao nao estudar mais.";
                     else
@@ -254,14 +223,11 @@ public class FragInicial extends Fragment  implements RecycleViewOnclickListener
                 }
 
                 Mensagem.toast(getActivity(),msgToast).show();
-//                msgToast = "";
             }
 
         });
 
     }
-
-
 
     @Override
     public void onClick(View v) {
@@ -269,7 +235,6 @@ public class FragInicial extends Fragment  implements RecycleViewOnclickListener
         int id = v.getId();
 
         if(id == floatButtonCadastrar.getId()) {
-            //startActivity(new Intent(getActivity(), CadastrarNovaPalavraActivity.class));
             Intent it = new Intent(getActivity(),CadastrarNovaPalavraActivity.class);
             startActivityForResult(it,1);
         }
@@ -292,9 +257,42 @@ public class FragInicial extends Fragment  implements RecycleViewOnclickListener
             }
         }
         else if(id == floatButtonCardPersonalizado.getId()) {
-            Intent it = new Intent("CARD_PERSONALIZADO");
-            it.putExtra(Palavra.ID,"");
-            startActivity(it);
+
+            rl.setVisibility(View.VISIBLE);
+
+            try{
+                YoYo.with(Techniques.SlideInUp).duration(700).playOn(rl);
+            }catch(Exception e){}
+
+
+            fechar.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    rl.setVisibility(View.GONE);
+                }
+            });
+
+            estudarCardPersonalizado.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent it = new Intent(getActivity(), EstudarActivity.class);
+                    it.putExtra(Palavra.ID, Palavra.ID);
+                    startActivity(it);
+                    rl.setVisibility(View.GONE);
+                }
+            });
+
+            revisarCardPersonalizado.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent it = new Intent(getActivity(), RevisaoActivity.class);
+                    it.putExtra(Palavra.ID, Palavra.ID);
+                    startActivity(it);
+                    rl.setVisibility(View.GONE);
+                }
+            });
+
         }
         floatingActionMenu.close(true);
     }

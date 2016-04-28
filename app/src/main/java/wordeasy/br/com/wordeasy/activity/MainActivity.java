@@ -2,24 +2,28 @@ package wordeasy.br.com.wordeasy.activity;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
@@ -30,8 +34,6 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import butterknife.ButterKnife;
-import io.realm.Realm;
-import io.realm.RealmResults;
 import wordeasy.br.com.wordeasy.R;
 import wordeasy.br.com.wordeasy.adapter.MyRecyclerViewAdapter;
 import wordeasy.br.com.wordeasy.adapter.ViewPagerAdapter;
@@ -62,6 +64,7 @@ public class MainActivity extends AppCompatActivity   implements
     private Drawer.Result navigationDrawerLeft;
     private AccountHeader.Result headerNavigationLeft;
     private Bundle savedInstanceState;
+    private int posicaoAux;
 
     @TargetApi(Build.VERSION_CODES.M)
     @Override
@@ -86,6 +89,7 @@ public class MainActivity extends AppCompatActivity   implements
         mtoolbar = (Toolbar) findViewById(R.id.toolbar);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
+        mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
 
         mtoolbar.setTitle(R.string.app_name);
         setSupportActionBar(mtoolbar);
@@ -95,6 +99,10 @@ public class MainActivity extends AppCompatActivity   implements
         tabLayout.setSelectedTabIndicatorColor(getResources().getColor(R.color.branco));
         tabLayout.setupWithViewPager(viewPager);
         getPalavrasEstudadas();
+    }
+
+    public void alteraSubTituloToolbar(String subTitulo) {
+        mtoolbar.setSubtitle(subTitulo);
     }
 
     public   ArrayList<Palavra> getPalavrasEstudadas() {
@@ -111,7 +119,7 @@ public class MainActivity extends AppCompatActivity   implements
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new FragInicial(), getResources().getString(R.string.frag_Inicial));
-        adapter.addFragment(new FragDificil(), getResources().getString(R.string.frag_dificil));
+        adapter.addFragment(new FragDificil(), getResources().getString(R.string.frag_erradas));
         viewPager.setAdapter(adapter);
     }
 
@@ -120,7 +128,7 @@ public class MainActivity extends AppCompatActivity   implements
         Usuario user =  Utilitario.getSharedPreferenceUsuario(MainActivity.this);
 
         CreateMenuDrawable draweMenu = new CreateMenuDrawable();
-        draweMenu.header(this, savedInstanceState,user.getNome(),user.getEmail());
+        draweMenu.header(this, savedInstanceState, user.getNome(), user.getEmail());
         navigationDrawerLeft = draweMenu.drawerMenu(this, mtoolbar, savedInstanceState,-1);
         draweMenu.navigationItem(this, navigationDrawerLeft);
 
@@ -129,6 +137,52 @@ public class MainActivity extends AppCompatActivity   implements
 
     public ArrayList<Palavra> getAllPalavras(){
         return palavras;
+    }
+
+    public void preencheRecycleview(ArrayList<Palavra> palavrasL,RecyclerView recyclerView, MyRecyclerViewAdapter adapter) {
+
+        mAdapter = new MyRecyclerViewAdapter(palavrasL, MainActivity.this);
+        recyclerView.setAdapter(mAdapter);
+        mAdapter.setRecycleViewOnClickListenerHack(MainActivity.this);
+    }
+
+    public String alteraObjetoClicado(Palavra palavra, String textoClicado, int positionOpcaoClicado) {
+        try {
+
+            PalavraRepositorio palavraRepositorio = new PalavraRepositorio();
+            String retorno = "";
+
+            if ( positionOpcaoClicado == 0) {
+
+                palavra.setNaoEstudar(palavra.isNaoEstudar() ? false : true);
+                retorno =  verificaSeEstaNaoEstudarMais(textoClicado);
+
+            }
+            else if(positionOpcaoClicado == 1 ) {
+
+                palavra.setCardPersonalizado(palavra.isCardPersonalizado() ? false : true);
+                retorno =  verificaCardPersonalizado(textoClicado);
+            }
+
+            palavraRepositorio.create(palavra);
+            return retorno;
+
+        } catch (Exception e) {Mensagem.toast(MainActivity.this,""+e).show();}
+        return null;
+    }
+
+    private String verificaSeEstaNaoEstudarMais(String texto) {
+        if(texto.equals("Voltar a estudar"))
+            return  "Não estudar mais";
+        else
+            return  "Voltar a estudar";
+    }
+
+    private String verificaCardPersonalizado(String texto) {
+        if(texto.equals("Adicionar ao card personalizado"))
+            return  "Adicionado ao card personalizado";
+        else
+            return  "Adicionar ao card personalizado";
     }
 
 
@@ -164,12 +218,13 @@ public class MainActivity extends AppCompatActivity   implements
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        PalavraRepositorio palavraRepositorio = new PalavraRepositorio();
+        long idUser =  Utilitario.getSharedPreferenceUsuario(MainActivity.this).getId();
+
         int id = item.getItemId();
 
         if(id == R.id.ic_orderby) {
-
             ordenaCrescente=!ordenaCrescente;
-
             Collections.sort(palavras, new Comparator<Palavra>() {
                 @Override
                 public int compare(Palavra o1, Palavra o2) {
@@ -181,15 +236,45 @@ public class MainActivity extends AppCompatActivity   implements
                         return p1.getPalavraEmIngles().compareToIgnoreCase(p2.getPalavraEmIngles());
                     else
                         return p2.getPalavraEmIngles().compareToIgnoreCase(p1.getPalavraEmIngles());
-
                 }
             });
+
             mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
-            mAdapter = new MyRecyclerViewAdapter(palavras, MainActivity.this);
-            mRecyclerView.setAdapter(mAdapter);
-            mAdapter.setRecycleViewOnClickListenerHack(MainActivity.this);
+            preencheRecycleview(palavras,mRecyclerView,mAdapter);
             String ordenacaoTipo = ordenaCrescente ? "AZ" : "ZA";
-            Mensagem.snackbar("Ordenado de " +  ordenacaoTipo ,findViewById(R.id.main)).show();
+            Mensagem.snackbar("Ordenado de " + ordenacaoTipo, findViewById(R.id.main)).show();
+        }
+        //menu varios
+        else if(id == R.id.addCardPersonalizadas) {
+
+            try {
+
+                mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
+                ArrayList<Palavra> lista =  palavraRepositorio.getAllCardPersonalizado(idUser,0);
+                preencheRecycleview(lista,mRecyclerView,mAdapter);
+                alteraSubTituloToolbar("Card personalizado");
+
+            } catch (Exception e) {
+                Mensagem.toast(MainActivity.this,""+e).show();
+            }
+        }
+        else if(id == R.id.naoEstudar) {
+
+            try {
+
+                mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
+                ArrayList<Palavra> lista =  palavraRepositorio.getAllCardPersonalizado(idUser,1);
+                preencheRecycleview(lista, mRecyclerView, mAdapter);
+                alteraSubTituloToolbar("Já sei");
+
+            } catch (Exception e) {
+                Mensagem.toast(MainActivity.this,""+e).show();
+            }
+
+        }
+        else if(id == R.id.todas) {
+            preencheRecycleview(palavras,mRecyclerView,mAdapter);
+            alteraSubTituloToolbar("Todas");
         }
 
         return super.onOptionsItemSelected(item);
@@ -219,10 +304,76 @@ public class MainActivity extends AppCompatActivity   implements
 
     @Override
     public void myOnLongPressClickListener(View v, int position) {
-            Mensagem.toast(MainActivity.this,"OnLongPress").show();
+
+        posicaoAux = position;
+
+        LayoutInflater layoutInflater = (LayoutInflater) MainActivity.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        final View view = layoutInflater.inflate(R.layout.long_press, null);
+
+        final Palavra palavra =   mAdapter.getPalavraSelecionada(posicaoAux);
+        AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
+
+        //get as views
+        TextView palavraSelecionada = (TextView) view.findViewById(R.id.txtPalavraSelecionada);
+        ListView lst = (ListView) view.findViewById(R.id.lstOpcoes);
+
+        palavraSelecionada.setText(palavra.getPalavraEmIngles());
+
+        //PREENCHE O ADAPTER DO LISTVIEW
+        ArrayList<String>  opcoes = new ArrayList<String>();
+        String[] itens = getResources().getStringArray(R.array.onlong_press_itens);
+
+        //verifica o estado do objeto naoEstudaMais
+        for (int i=0;i<itens.length;i++) {
+
+            if(i == 0 && palavra.isNaoEstudar())
+                opcoes.add("Voltar a estudar");
+            else if(i ==  1 && palavra.isCardPersonalizado())
+                opcoes.add("Adicionado ao card personalizado");
+            else
+                opcoes.add(itens[i]);
+        }
+
+        lst.setAdapter(new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, opcoes));
+
+        alert.setView(view);
+        alert.show();
+
+        //CLIQUE ITEM NO LISTVIEW
+        lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                String itemTextoClicado = ((TextView) view).getText().toString();
+                String result =  alteraObjetoClicado(palavra, itemTextoClicado, position);
+                ((TextView) view).setText(result);
+
+                String msgToast = "";
+                if(position == 0){
+                    mAdapter.removerItemJaSei(posicaoAux);
+                    msgToast = palavra.isNaoEstudar() ? "Adicionado ao nao estudar mais." :  "Removido do nao estudar mais.";
+                }
+                else if(position ==  1) {
+                    mAdapter.alterarObjetoCardPersonalizado(posicaoAux);
+                    msgToast = palavra.isCardPersonalizado() ?  "Adicionado ao card pesonalizado." : "Removido do card pesonalizado.";
+                }
+                else if(position == 2) {
+                    ((TextView) view).setText("Alterar palavra");
+
+                    Intent it = new Intent(MainActivity.this, CadastrarNovaPalavraActivity.class);
+                    it.putExtra(Palavra.ID, palavra);
+                    startActivityForResult(it, 3);
+                }
+
+
+                if(position < 2 )
+                    Mensagem.toast(MainActivity.this,msgToast).show();
+            }
+
+        });
     }
 
-    //Click MenuDrawable
+    //Click MenuDrawer
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
         if(position ==  Constantes.ACTIVITY_CADASTRAR) {
@@ -271,7 +422,18 @@ public class MainActivity extends AppCompatActivity   implements
                 palavra.setQtdErros(p.getQtdErros());
                 palavra.setQtdAcertos(p.getQtdAcertos());
                 palavra.setQtdVezesEstudou(p.getQtdVezesEstudou());
-                palavras.add(palavra);
+                mAdapter.itensInserido(palavra,posicaoAux);
+                //palavras.add(palavra);
+
+            }
+        }
+
+        if(resultCode == 3) {
+            if(data != null) {
+                if(data.getExtras().getSerializable(Palavra.ID) !=null){
+                    Palavra  palavraAlterada = (Palavra) data.getExtras().getSerializable(Palavra.ID);
+                    mAdapter.notifyObjetoAlterado(palavraAlterada,posicaoAux);
+                }
             }
         }
     }

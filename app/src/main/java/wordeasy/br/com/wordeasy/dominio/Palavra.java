@@ -23,6 +23,10 @@ public class Palavra extends RealmObject implements Serializable {
     private boolean CardPersonalizado;
     private boolean NaoEstudar;
 
+    //usadas no recycleview quando estiver CardPersonalizado e NaoEstudar como true para serem exibidas na lista
+    private String CardPersonalizadoSelecionado;
+    private String NaoEstudarMaisSelecionado;
+
     public Palavra() {}
 
     public Palavra(String indicePalavra,String palavraEmIngles, String palavraEmPortugues,boolean favorito,int qtdErros,int qtdAcertos,int qtdVezesEstudou,Usuario usuario) {
@@ -98,16 +102,18 @@ public class Palavra extends RealmObject implements Serializable {
     public void setQtdVezesEstudou(int qtdVezesEstudou) {this.QtdVezesEstudou = qtdVezesEstudou;}
 
     public boolean isCardPersonalizado() {return CardPersonalizado;}
-
-    public void setCardPersonalizado(boolean cardPersonalizado) {
-        CardPersonalizado = cardPersonalizado;
-    }
+    public void setCardPersonalizado(boolean cardPersonalizado) {  CardPersonalizado = cardPersonalizado; }
 
     public boolean isNaoEstudar() {
         return NaoEstudar;
     }
-
     public void setNaoEstudar(boolean naoEstudar) {
         NaoEstudar = naoEstudar;
     }
+
+    public String getCardPersonalizadoSelecionado() { return CardPersonalizadoSelecionado; }
+    public void setCardPersonalizadoSelecionado(String cardPersonalizadoSelecionado) {CardPersonalizadoSelecionado = cardPersonalizadoSelecionado;}
+
+    public String getNaoEstudarMaisSelecionado() {return NaoEstudarMaisSelecionado;}
+    public void setNaoEstudarMaisSelecionado(String naoEstudarMaisSelecionado) {NaoEstudarMaisSelecionado = naoEstudarMaisSelecionado;}
 }

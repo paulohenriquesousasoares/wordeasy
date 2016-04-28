@@ -53,12 +53,11 @@ public class RevisaoActivity extends AppCompatActivity{
 
 
        if( getIntent().getExtras() != null) {
-           if(getIntent().getExtras().get(Palavra.ID).equals("")){
-               getAllCardPersonalizado();
-           }
+           if(getIntent().getExtras().get(Palavra.ID).equals(Palavra.ID))
+               getListaPalavraRevisao(true);
        }
         else
-           getListaPalavraRevisao();
+           getListaPalavraRevisao(false);
     }
 
     /*=======================================================================================================
@@ -73,7 +72,7 @@ public class RevisaoActivity extends AppCompatActivity{
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
-    private void getListaPalavraRevisao() {
+    private void getListaPalavraRevisao(boolean takeCardPersonalizado) {
         ConfiguracaoRepositorio configuracaoRepositorio = new ConfiguracaoRepositorio();
         Configuracao config = null;
         try {
@@ -81,14 +80,19 @@ public class RevisaoActivity extends AppCompatActivity{
 
             config = configuracaoRepositorio.getConfiguracao(userId);
 
-            if(config.getItensPorSessaoRevisao() > 4) {
-                palavrasList = palavraRepositorio.get(config.getItensPorSessaoRevisao(), userId);
+            if (config.getItensPorSessaoRevisao() > 4) {
+
+                if(takeCardPersonalizado)
+                    palavrasList = palavraRepositorio.getAllCardPersonalizado(userId,0);
+                else
+                    palavrasList = palavraRepositorio.get(config.getItensPorSessaoRevisao(), userId);
+
                 atualizaTextViewPalavraEmIngles();
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+            }catch(Exception e){
+                Mensagem.toast(RevisaoActivity.this,""+e).show();
+            }
     }
 
     private void getAllCardPersonalizado() {
@@ -96,7 +100,7 @@ public class RevisaoActivity extends AppCompatActivity{
         Configuracao config = null;
         try {
             long userId = Utilitario.getSharedPreferenceUsuario(RevisaoActivity.this).getId();
-            palavrasList = palavraRepositorio.getAllCardPersonalizado(userId);
+            palavrasList = palavraRepositorio.getAllCardPersonalizado(userId,0);
             atualizaTextViewPalavraEmIngles();
 
         } catch (Exception e) {
@@ -141,55 +145,71 @@ public class RevisaoActivity extends AppCompatActivity{
             long id = palavrasList.get(positionLista).getId();
             final Palavra p = getPalavraById(id);
 
+            String[] palavraCorreta = p.getPalavraEmPortugues().split(",");
             String palavraResposta = edtValorDigitado.getText().toString();
-            String palavraCorreta = p.getPalavraEmPortugues();
 
-            if (palavraResposta.toLowerCase().equals(palavraCorreta.toLowerCase())) {
-                try {
-                    p.setQtdAcertos(p.getQtdAcertos() + 1);
-                    atualizaPalavra(p);
-                } catch (Exception e) {
-                    Mensagem.toast(RevisaoActivity.this, "Error ao salvar esta palavras , " + e);
+            boolean jaVerificouPalavra =false;
+            int volta = 0;
+            for (int i = 0; i <palavraCorreta.length; i++) {
+
+                volta =  volta + 1;
+                if (palavraResposta.toLowerCase().trim().equals(palavraCorreta[i].toLowerCase().trim())) {
+                    try {
+                        p.setQtdAcertos(p.getQtdAcertos() + 1);
+                        atualizaPalavra(p);
+                        jaVerificouPalavra =true;
+                        break;
+
+                    } catch (Exception e) {
+                        Mensagem.toast(RevisaoActivity.this, "Error ao salvar esta palavras , " + e);
+                    }
                 }
-            } else {
 
-                p.setQtdErros(p.getQtdErros() + 1);
-                atualizaPalavra(p);
+                else if(volta == palavraCorreta.length || palavraCorreta.length ==1) {
 
-                edtValorDigitado.setHintTextColor(getResources().getColor(R.color.vermelho));
-                edtValorDigitado.setTextColor(getResources().getColor(R.color.vermelho));
-                YoYo.with(Techniques.Shake).duration(800).playOn(edtValorDigitado);
+                    p.setQtdErros(p.getQtdErros() + 1);
+                    atualizaPalavra(p);
+
+                    edtValorDigitado.setHintTextColor(getResources().getColor(R.color.vermelho));
+                    edtValorDigitado.setTextColor(getResources().getColor(R.color.vermelho));
+                    YoYo.with(Techniques.Shake).duration(800).playOn(edtValorDigitado);
+                    jaVerificouPalavra = true;
+                    break;
+                }
             }
 
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
 
-                    if(positionLista == palavrasList.size() - 1){
-                       final MaterialDialog dialog =  Mensagem.materialDialogAviso(RevisaoActivity.this, "Informação",
-                               "Parabéns palavras revisada com sucesso.");
-                        dialog.setPositiveButton("Sair", new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                dialog.dismiss();
-                                RevisaoActivity.this.finish();
-                            }
-                        });
-                        dialog.show();
-                    }
-                    else {
-                        positionLista++;
-                        YoYo.with(Techniques.SlideInRight).duration(500).playOn(revisaoModo1);
-                        edtValorDigitado.setText("");
-                        edtValorDigitado.setHintTextColor(getResources().getColor(R.color.cinza));
-                        edtValorDigitado.setTextColor(getResources().getColor(R.color.black_de));
+            if(jaVerificouPalavra) {
 
-                        atualizaTextViewPalavraEmIngles();
-                        p.setQtdVezesEstudou(p.getQtdVezesEstudou() + 1);
-                        atualizaPalavra(p);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        if (positionLista == palavrasList.size() - 1) {
+                            final MaterialDialog dialog = Mensagem.materialDialogAviso(RevisaoActivity.this, "Informação",
+                                    "Parabéns palavras revisada com sucesso.");
+                            dialog.setPositiveButton("Sair", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    dialog.dismiss();
+                                    RevisaoActivity.this.finish();
+                                }
+                            });
+                            dialog.show();
+                        } else {
+                            positionLista++;
+                            YoYo.with(Techniques.SlideInRight).duration(500).playOn(revisaoModo1);
+                            edtValorDigitado.setText("");
+                            edtValorDigitado.setHintTextColor(getResources().getColor(R.color.cinza));
+                            edtValorDigitado.setTextColor(getResources().getColor(R.color.black_de));
+
+                            atualizaTextViewPalavraEmIngles();
+                            p.setQtdVezesEstudou(p.getQtdVezesEstudou() + 1);
+                            atualizaPalavra(p);
+                        }
                     }
-                }
-            }, 1000);
+                }, 1000);
+            }
         }
     }
 

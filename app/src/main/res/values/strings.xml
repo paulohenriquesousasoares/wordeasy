@@ -33,9 +33,9 @@
     <string name="err_msg_senha">entre com sua senha.</string>
 
     <!--Fragments-->
-    <string name="frag_Inicial">APRENDIDAS</string>
+    <string name="frag_Inicial">PALAVRAS</string>
     <string name="frag_favoritos">FAVORITOS</string>
-    <string name="frag_dificil">DIFICIL</string>
+    <string name="frag_erradas">ERRADAS</string>
 
     <string name="btn_salvar">Gravar</string>
     <string name="btn_flip">Virar card</string>
@@ -50,6 +50,7 @@
     <string name="meus_dados">Meus dados</string>
     <string name="revisao">Revisão</string>
     <string name="card_personalizado">Card personalizado</string>
+    <string name="nao_estudar_mais">Não estudar mais</string>
 
 
     <!-- Nav Drawer Menu Items -->
@@ -62,8 +63,9 @@
 
     <!-- opcoes long press -->
     <string-array name="onlong_press_itens">
-        <item >Não estudar mais</item>
+        <item >Já sei</item>
         <item >Adicionar ao card personalizado</item>
+        <item >Alterar palavra</item>
     </string-array>
 
 

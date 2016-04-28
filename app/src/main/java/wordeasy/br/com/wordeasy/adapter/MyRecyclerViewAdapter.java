@@ -50,6 +50,18 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.palavraEmIngles.setText(mDataset.get(position).getPalavraEmIngles());
         holder.palavraTraducaoUm.setText(mDataset.get(position).getPalavraEmPortugues());
         holder.serial.setText("" + mDataset.get(position).getIndicePalavra());
+
+//        if(mDataset.get(position).isNaoEstudar())
+//            holder.naoEstudarMaisSelecionado.setText("nao estudar mais");
+//        else
+//            holder.naoEstudarMaisSelecionado.setText("");
+
+        if(mDataset.get(position).isCardPersonalizado())
+            holder.cardPersonalizadoSelecionado.setText("Adicionado card personalizado");
+        else
+            holder.cardPersonalizadoSelecionado.setText("");
+
+
         String indicePalavraAtual = mDataset.get(position).getIndicePalavra();
         Utilitario.getColor(indicePalavraAtual, holder.containerRadius);
 
@@ -71,6 +83,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
     public  class DataObjectHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
         private TextView palavraEmIngles;
         private TextView palavraTraducaoUm;
+        private TextView cardPersonalizadoSelecionado;
         private TextView serial;
         private RelativeLayout containerRadius;
 
@@ -80,6 +93,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             palavraEmIngles = (TextView) itemView.findViewById(R.id.txtPalavraEmIngles);
             palavraTraducaoUm = (TextView) itemView.findViewById(R.id.txtTraducao);
             serial = (TextView) itemView.findViewById(R.id.serial);
+            cardPersonalizadoSelecionado = (TextView) itemView.findViewById(R.id.txtCardPersonalizadoItem);
             containerRadius = (RelativeLayout) itemView.findViewById(R.id.container_radius);
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
@@ -116,17 +130,39 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         notifyItemRemoved(index);
     }
 
-    public  void alterarObjetoNaoEstudar(int position) {
-       mDataset.get(position).setNaoEstudar(true);
-        mDataset.get(position).setPalavraEmPortugues("this is a test.");
-       notifyDataSetChanged();
+    public  void removerItemJaSei(int position) {
+
+        mDataset.remove(position);
+        notifyItemRemoved(position);
     }
 
     public  void alterarObjetoCardPersonalizado(int position) {
-        mDataset.get(position).setCardPersonalizado(true);
+
+        if(mDataset.get(position).isCardPersonalizado()) {
+            mDataset.get(position).setCardPersonalizado(false);
+            mDataset.get(position).setCardPersonalizadoSelecionado("");
+        }
+        else {
+            mDataset.get(position).setCardPersonalizado(true);
+            mDataset.get(position).setCardPersonalizadoSelecionado("Adicionado ao card personalizado");
+
+        }
         notifyDataSetChanged();
     }
 
+    public void itensInserido(Palavra palavra , int position) {
+
+        mDataset.add(palavra);
+
+        notifyDataSetChanged();
+    }
+
+    public void notifyObjetoAlterado(Palavra palavra,int positon) {
+        mDataset.get(positon).setPalavraEmIngles(palavra.getPalavraEmIngles());
+        mDataset.get(positon).setPalavraEmPortugues(palavra.getPalavraEmPortugues());
+        mDataset.get(positon).setIndicePalavra(palavra.getPalavraEmIngles().substring(0,1));
+        notifyDataSetChanged();
+    }
 
     public  Palavra getPalavraSelecionada(int position){
 
@@ -142,6 +178,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         palavra.setQtdVezesEstudou(mDataset.get(position).getQtdVezesEstudou());
         palavra.setCardPersonalizado(mDataset.get(position).isCardPersonalizado());
         palavra.setNaoEstudar(mDataset.get(position).isNaoEstudar());
+        palavra.setNaoEstudarMaisSelecionado(mDataset.get(position).getNaoEstudarMaisSelecionado());
+        palavra.setCardPersonalizadoSelecionado(mDataset.get(position).getCardPersonalizadoSelecionado());
         return palavra;
     }
 }

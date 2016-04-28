@@ -52,7 +52,15 @@ public class EstudarActivity extends AppCompatActivity {
         setContentView(R.layout.estudar);
         ButterKnife.bind(this);
         initView();
-        getPalavrasEstudar();
+
+        if(getIntent().getExtras() != null) {
+            if( getIntent().getExtras().getString(Palavra.ID).equals(Palavra.ID) ) {
+                getPalavrasEstudar(true);
+            }
+        }
+        else {
+              getPalavrasEstudar(false);
+        }
     }
 
 
@@ -106,14 +114,19 @@ public class EstudarActivity extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void getPalavrasEstudar() {
+    private void getPalavrasEstudar(boolean takeCardPersonalizado) {
 
         ConfiguracaoRepositorio configuracaoRepositorio = new ConfiguracaoRepositorio();
         Configuracao  config = null;
         try {
             config = configuracaoRepositorio.getConfiguracao(Utilitario.getSharedPreferenceUsuario(EstudarActivity.this).getId());
             Usuario user = Utilitario.getSharedPreferenceUsuario(EstudarActivity.this);
-            palavraLista = palavraRepositorio.get(config.getItensPorSessaoEstudo(), user.getId());
+
+            if(takeCardPersonalizado)
+                palavraLista = palavraRepositorio.getAllCardPersonalizado(user.getId(),0);
+            else
+                palavraLista = palavraRepositorio.get(config.getItensPorSessaoEstudo(), user.getId());
+
         } catch (Exception e) {
             Mensagem.toast(EstudarActivity.this,""+e).show();
         }

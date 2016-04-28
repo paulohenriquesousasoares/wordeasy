@@ -22,4 +22,9 @@
         android:bottom="4dp"    >
     </padding>
 
+    <corners
+        android:bottomLeftRadius="6dp"
+        android:topLeftRadius="6dp">
+    </corners>
+
 </shape>

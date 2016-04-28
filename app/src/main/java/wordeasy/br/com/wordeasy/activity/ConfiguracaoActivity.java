@@ -61,7 +61,7 @@ public class ConfiguracaoActivity extends AppCompatActivity implements
         //verifica se este usuario tem alguma configuracao ja cadastrada
        Configuracao config = getConfiguracao();
 
-        //se menor que -1 significa que ainda nao cadastrou nenhuma configuracao
+        //se menor que -1 significa que ainda nao cradastrou nenhuma configuracao
         if(config.getUsuarioId() < 1) {
             configuracao.setItensPorSessaoRevisao(5);
             configuracao.setItensPorSessaoEstudo(5);

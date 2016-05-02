@@ -35,7 +35,7 @@
     <!--Fragments-->
     <string name="frag_Inicial">PALAVRAS</string>
     <string name="frag_favoritos">FAVORITOS</string>
-    <string name="frag_erradas">ERRADAS</string>
+    <string name="frag_rank">RANK</string>
 
     <string name="btn_salvar">Gravar</string>
     <string name="btn_flip">Virar card</string>

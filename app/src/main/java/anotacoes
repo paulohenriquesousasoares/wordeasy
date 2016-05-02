@@ -1,4 +1,7 @@
 
+CTRL + N = > abre pesquisador de class
+
+
 1 - Usado para quando dar um scroll no view page
 
 positionPage = scrollX;

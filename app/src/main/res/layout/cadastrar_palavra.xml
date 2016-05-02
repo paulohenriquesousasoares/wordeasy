@@ -70,6 +70,7 @@
                        android:layout_width="fill_parent"
                        android:layout_height="wrap_content"
                        android:text="@string/btn_salvar"
+                       android:onClick="onclick_gravarPalavra"
                        android:background="@drawable/button_azul"
                        android:layout_marginTop="40dp"
                        android:textColor="@android:color/white"
@@ -125,6 +126,7 @@
                 android:id="@+id/imgPalavraInglesEditar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:onClick="onclick_alterarIngles"
                 android:src="@drawable/ic_create_black_24dp"
                 android:layout_alignParentRight="true"/>
 
@@ -154,6 +156,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/separador_editar"
                 android:src="@drawable/ic_create_black_24dp"
+                android:onClick="onclick_alterarPortugues"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
                 android:layout_alignParentRight="true"/>

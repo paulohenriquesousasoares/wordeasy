@@ -83,6 +83,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/btn_salvar"
+                    android:onClick="onclick_salvarUsuario"
                     android:background="@drawable/button_azul"
                     android:layout_marginTop="40dp"
                     android:textColor="@android:color/white"

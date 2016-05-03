@@ -11,6 +11,21 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    sourceSets{
+        main{
+            res.srcDirs = [
+                    'src/main/res-main',
+                    'src/main/res-screen/activity',
+                    'src/main/res-screen/fragment',
+                    'src/main/res-screen/cadastrar',
+                    'src/main/res-screen/item_lista'
+
+            ]
+        }
+    }
+
+
     buildTypes {
         release {
             minifyEnabled false

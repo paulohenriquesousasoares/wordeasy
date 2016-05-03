@@ -1,0 +1,174 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/coordinator"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/vermelho">
+
+    <!--LAYOUT PARA CADASTRAR A PALAVRA-->
+    <ScrollView
+       android:id="@+id/scrollViewCadastrar"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:visibility="visible">
+
+       <RelativeLayout
+           android:id="@+id/rl_cadastro"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent">
+
+              <include   android:id="@+id/toolbar" layout="@layout/toolbar" />
+
+            <!--LAYOUT PARA CADASTRAR A PALAVRA-->
+              <LinearLayout
+                  android:id="@+id/ll_cadastrar"
+                   android:layout_width="match_parent"
+                   android:layout_height="match_parent"
+                   android:orientation="vertical"
+                   android:layout_below="@+id/toolbar"
+                   android:background="@drawable/layout_radius"
+                   android:layout_marginTop="15dp"
+                   android:layout_marginLeft="8dp"
+                   android:layout_marginRight="8dp"
+                   android:paddingLeft="25dp"
+                   android:paddingRight="25dp"
+                   android:paddingTop="25dp"
+                   android:visibility="visible">
+
+                   <!--Palavra em ingles-->
+                   <android.support.design.widget.TextInputLayout
+                       android:id="@+id/input_layout_name_palavra_ingles"
+                       android:layout_width="fill_parent"
+                       android:layout_height="wrap_content">
+
+                       <EditText
+                           android:id="@+id/input_name_palavra_ingles"
+                           android:layout_width="fill_parent"
+                           android:layout_height="wrap_content"
+                           android:singleLine="true"
+                           android:textSize="18dp"
+                           android:hint="@string/hint_name_palavra_ingles" />
+
+                   </android.support.design.widget.TextInputLayout>
+
+                   <!--Traducao-->
+                   <android.support.design.widget.TextInputLayout
+                       android:id="@+id/input_layout_traducao_um"
+                       android:layout_width="match_parent"
+                       android:layout_height="wrap_content"
+                       android:layout_marginTop="15dp">
+
+                       <EditText
+                           android:id="@+id/input_traducao_um"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:inputType="text"
+                           android:textSize="18dp"
+                           android:digits="qwertzuiopasdfghjklyxcvbnm, "
+                           android:hint="@string/hint_name_palavra_traducao_um" />
+                   </android.support.design.widget.TextInputLayout>
+
+                   <Button
+                       android:id="@+id/btn_gravar"
+                       android:layout_width="fill_parent"
+                       android:layout_height="wrap_content"
+                       android:text="@string/btn_salvar"
+                       android:textSize="18dp"
+                       android:onClick="onclick_gravarPalavra"
+                       android:background="@drawable/button_azul"
+                       android:layout_marginTop="60dp"
+                       android:textColor="@android:color/white"
+                       android:layout_marginBottom="15dp"
+                       android:textAllCaps="false"/>
+
+              </LinearLayout>
+
+              <TextView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_below="@+id/ll_cadastrar"
+                   android:layout_centerInParent="true"
+                   android:gravity="center_horizontal"
+                  android:textSize="17dp"
+                   android:layout_marginTop="8dp"
+                   android:text="Para traduzir uma palavra em inglês com mais de uma tradução separe por vírgula" />
+        </RelativeLayout>
+
+       </ScrollView>
+
+
+    <!--LAYOUT PARA ALTERAR A PALAVRA-->
+    <ScrollView
+        android:id="@+id/scrollViewAlterar"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone">
+
+
+        <RelativeLayout
+            android:id="@+id/ll_palavra_alterar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_below="@+id/toolbar"
+            android:background="@drawable/layout_radius"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="8dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="18dp">
+
+            <TextView
+                android:id="@+id/txtPalavraInglesEditar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:text="Para traduzir " />
+
+
+            <ImageView
+                android:id="@+id/imgPalavraInglesEditar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onclick_alterarIngles"
+                android:src="@drawable/ic_create_black_24dp"
+                android:layout_alignParentRight="true"/>
+
+
+            <View
+                android:id="@+id/separador_editar"
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="30dp"
+                android:layout_below="@+id/imgPalavraInglesEditar"
+                android:background="@color/cinza"/>
+
+
+            <TextView
+                android:id="@+id/txtPalavraPortuguesEditar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:layout_marginTop="30dp"
+                android:layout_below="@+id/separador_editar"
+                android:text="Para traduzir"
+                android:layout_marginBottom="15dp"/>
+
+            <ImageView
+                android:id="@+id/imgPalavraPortuguesEditar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/separador_editar"
+                android:src="@drawable/ic_create_black_24dp"
+                android:onClick="onclick_alterarPortugues"
+                android:layout_marginTop="23dp"
+                android:layout_marginBottom="15dp"
+                android:layout_alignParentRight="true"/>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</RelativeLayout>

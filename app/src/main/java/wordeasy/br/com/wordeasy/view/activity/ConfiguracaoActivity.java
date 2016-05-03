@@ -50,7 +50,7 @@ public class ConfiguracaoActivity extends AppCompatActivity
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState)  {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.configuracao);
+        setContentView(R.layout.cadastrar_configuracao);
 
         ButterKnife.bind(this);
         inicializarViewsTela();

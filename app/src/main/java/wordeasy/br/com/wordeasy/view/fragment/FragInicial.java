@@ -211,8 +211,6 @@ public class FragInicial extends Fragment  implements RecycleViewOnclickListener
 
                 String itemTextoClicado = ((TextView) view).getText().toString();
 
-                //palavra, itemTextoClicado, position
-                //descomentar
                 String result = ((MainActivity)getActivity()).alteraObjetoClicado(palavra, itemTextoClicado, position);
                 ((TextView) view).setText(result);
 

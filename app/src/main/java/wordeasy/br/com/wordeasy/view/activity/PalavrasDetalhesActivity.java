@@ -6,8 +6,10 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.transition.ChangeBounds;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -80,6 +82,9 @@ public class PalavrasDetalhesActivity extends AppCompatActivity  {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.detalhes_palavra_menu,menu);
+
+
+
         return true;
     }
 

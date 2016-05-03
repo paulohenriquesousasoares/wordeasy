@@ -55,7 +55,6 @@ public class MainModel implements ModelOperacaoMain{
         draweMenu.navigationItem(context, navigationDrawerLeft);
 
         mPresenteRetorno.onMenuDrawerCriado(navigationDrawerLeft);
-//        navigationDrawerLeft.setOnDrawerItemClickListener(this);
 
 
     }

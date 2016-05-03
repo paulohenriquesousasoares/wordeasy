@@ -21,25 +21,25 @@
            android:id="@+id/rl_primeiro"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:layout_marginTop="5dp"
+            android:padding="15dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/layout_radius"
-            android:layout_marginLeft="3dp"
-            android:layout_marginRight="3dp">
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
             <RelativeLayout
                 android:id="@+id/container_radius_act_detalhes"
-                android:layout_width="50dp"
-                android:layout_marginLeft="2dp"
+                android:layout_width="75dp"
+                android:layout_marginLeft="3dp"
                 android:layout_height="wrap_content"
                 android:background="@drawable/round_red">
                 <TextView
                     android:id="@+id/txtletra_act_detalhes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="15dp"
+                    android:padding="23dp"
                     android:layout_margin="1dp"
                     android:layout_centerInParent="true"
-                    android:textSize="14dp"
+                    android:textSize="21dp"
                     android:textStyle="bold"
                     android:text="A"
                     android:transitionName="elemento2"
@@ -51,10 +51,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="ingles"
-                    android:textSize="15dp"
+                    android:textSize="23dp"
                     android:textStyle="bold"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginLeft="15dp"
                     android:transitionName="elemento1"
                     android:layout_alignParentTop="true"
                     android:layout_toRightOf="@+id/container_radius_act_detalhes"
@@ -65,8 +65,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Portanto"
-                    android:textSize="13dp"
-                    android:layout_marginLeft="10dp"
+                    android:textSize="20dp"
+                    android:layout_marginLeft="15dp"
                     android:layout_below="@+id/txtPalavraEmIngles_detalhes_palavra"
                     android:layout_toRightOf="@+id/container_radius_act_detalhes"
                     android:layout_toEndOf="@+id/container_radius_act_detalhes" />
@@ -77,17 +77,17 @@
         android:id="@+id/rl_segundo"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:padding="15dp"
         android:background="@drawable/layout_sem_radius"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="3dp"
-        android:layout_marginTop="2dp">
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="3dp">
 
         <TextView
             android:id="@+id/txtPalavraVezesPraticou_detalhes_palavra"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12dp"
+            android:textSize="18dp"
             android:text="Quantidade em que estudou: 0"
             android:layout_centerHorizontal="false"
             android:textStyle="bold"/>
@@ -96,39 +96,42 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginTop="2dp"
+        android:padding="15dp"
+        android:layout_marginTop="3dp"
         android:background="@drawable/layout_sem_radius"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="3dp">
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="5dp">
 
         <TextView
             android:id="@+id/txtPalavraVezesError_detalhes_palavra"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12dp"
+            android:textSize="18dp"
             android:text="Vezes em que errou: 0"
             android:layout_centerHorizontal="false"
             android:textStyle="bold"/>
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rl_terceiro"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_marginTop="2dp"
+        android:padding="15dp"
+        android:layout_marginTop="3dp"
         android:background="@drawable/layout_sem_radius"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="3dp">
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="5dp">
 
         <TextView
             android:id="@+id/txtPalavraVezesAcertou_detalhes_palavra"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12dp"
+            android:textSize="18dp"
             android:text="Vezes em que acertou: 0"
             android:layout_centerHorizontal="false"
             android:textStyle="bold"/>
     </RelativeLayout>
+
+
 
 </LinearLayout>

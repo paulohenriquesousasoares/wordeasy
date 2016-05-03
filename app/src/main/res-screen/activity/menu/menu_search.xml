@@ -18,7 +18,8 @@
 
 
     <!--opces varias -->
-    <item android:id="@+id/addCardPersonalizadas"
+    <item
+        android:id="@+id/addCardPersonalizadas"
         android:title="Card personalizado" />
 
     <item android:id="@+id/naoEstudar"

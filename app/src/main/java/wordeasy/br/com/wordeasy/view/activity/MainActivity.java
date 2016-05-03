@@ -1,10 +1,11 @@
 package wordeasy.br.com.wordeasy.view.activity;
 
-import android.annotation.TargetApi;
+;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+
 import android.os.Build;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -14,6 +15,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -33,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import wordeasy.br.com.wordeasy.R;
 import wordeasy.br.com.wordeasy.interfaces.presenter.PresenteOperacaoMain;
@@ -59,9 +62,9 @@ public class MainActivity extends AppCompatActivity   implements
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private MenuItem item1;
+    private  RecyclerView mRecyclerView;
     private int positionPage = 0;
     private boolean ordenaCrescente;
-    private  RecyclerView mRecyclerView;
     private MyRecyclerViewAdapter mAdapter;
     private ArrayList<Palavra> palavrasListaGlobal;
     private ArrayList<Palavra> palavrasListaGlobalAuxiliar;
@@ -69,18 +72,18 @@ public class MainActivity extends AppCompatActivity   implements
    // private AccountHeader.Result headerNavigationLeft;
     private Bundle savedInstanceState;
     private int posicaoAux;
-
+    private TextView palavraSelecionadaAlterar;
     private PresenteOperacaoMain mPresente;
     private Usuario usuarioLogadoGlobal;
 
-    @TargetApi(Build.VERSION_CODES.M)
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        ButterKnife.bind(this);
+        ButterKnife.bind(MainActivity.this);
         inicializarViewsTela();
+
         this.savedInstanceState = savedInstanceState;
         usuarioLogadoGlobal =  getUsuarioLogado();
         criaDrawerMenu(savedInstanceState);
@@ -336,10 +339,10 @@ public class MainActivity extends AppCompatActivity   implements
         AlertDialog.Builder alert = new AlertDialog.Builder(MainActivity.this);
 
         //get as views
-        TextView palavraSelecionada = (TextView) view.findViewById(R.id.txtPalavraSelecionada);
+        palavraSelecionadaAlterar = (TextView) view.findViewById(R.id.txtPalavraSelecionada);
         ListView lst = (ListView) view.findViewById(R.id.lstOpcoes);
 
-        palavraSelecionada.setText(palavra.getPalavraEmIngles());
+        palavraSelecionadaAlterar.setText(palavra.getPalavraEmIngles());
 
         //PREENCHE O ADAPTER DO LISTVIEW
         ArrayList<String>  opcoes = new ArrayList<String>();
@@ -460,8 +463,6 @@ public class MainActivity extends AppCompatActivity   implements
                 palavra.setQtdAcertos(p.getQtdAcertos());
                 palavra.setQtdVezesEstudou(p.getQtdVezesEstudou());
                 mAdapter.itensInserido(palavra,posicaoAux);
-
-
             }
         }
 
@@ -470,6 +471,7 @@ public class MainActivity extends AppCompatActivity   implements
                 if(data.getExtras().getSerializable(Palavra.ID) !=null){
                     Palavra  palavraAlterada = (Palavra) data.getExtras().getSerializable(Palavra.ID);
                     mAdapter.notifyObjetoAlterado(palavraAlterada,posicaoAux);
+                    palavraSelecionadaAlterar.setText(palavraAlterada.getPalavraEmIngles());
                 }
             }
         }

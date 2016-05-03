@@ -37,6 +37,7 @@ public class RevisaoActivity extends AppCompatActivity implements ViewOperacaoRe
     @Bind(R.id.revisaoModo1_actRevisao)RelativeLayout revisaoModo1;
     @Bind(R.id.txtPalavraInglesActRevisao)TextView txtPalavraInglesModo1;
     @Bind(R.id.edtTraduzir_actRevisao)EditText edtValorDigitado;
+    @Bind(R.id.txtPalavraInglesActRevisaoErrada) TextView txtErrada;
 
     private PalavraRepositorio palavraRepositorio;
     private ArrayList<Palavra> palavrasListaGlobal;
@@ -141,6 +142,8 @@ public class RevisaoActivity extends AppCompatActivity implements ViewOperacaoRe
                 }
 
                 else if(volta == palavraCorreta.length || palavraCorreta.length ==1) {
+                    txtErrada.setVisibility(View.VISIBLE);
+                    txtErrada.setText(palavraAtualSendoRevisada.getPalavraEmPortugues());
 
                     palavraAtualSendoRevisada.setQtdErros(palavraAtualSendoRevisada.getQtdErros() + 1);
                     atualizaPalavra(palavraAtualSendoRevisada);
@@ -163,11 +166,11 @@ public class RevisaoActivity extends AppCompatActivity implements ViewOperacaoRe
                         if (positionLista == palavrasListaGlobal.size() - 1) {
                             final MaterialDialog dialog = Mensagem.materialDialogAviso(RevisaoActivity.this, "Informação",
                                     "Parabéns palavras revisada com sucesso.");
-                            dialog.setPositiveButton("Sair", new View.OnClickListener() {
+                                     dialog.setPositiveButton("Sair", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    dialog.dismiss();
-                                    RevisaoActivity.this.finish();
+                                     dialog.dismiss();
+                                     RevisaoActivity.this.finish();
                                 }
                             });
                             dialog.show();
@@ -181,9 +184,12 @@ public class RevisaoActivity extends AppCompatActivity implements ViewOperacaoRe
                             atualizaTextViewPalavraEmIngles();
                             palavraAtualSendoRevisada.setQtdVezesEstudou(palavraAtualSendoRevisada.getQtdVezesEstudou() + 1);
                             atualizaPalavra(palavraAtualSendoRevisada);
+
+                            txtErrada.setVisibility(View.VISIBLE);
+                            txtErrada.setText("");
                         }
                     }
-                }, 1000);
+                }, 2000);
             }
         }
     }

@@ -5,6 +5,8 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.drawable.GradientDrawable;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -22,58 +24,121 @@ public class Utilitario {
 
     private static Realm realm;
 
+
+
     public static void getColor(String indiceLetra, View view) {
 
-        if(indiceLetra.equals("A"))
-            view.setBackgroundResource(R.drawable.radius_a);
-        else if(indiceLetra.equals("B"))
-            view.setBackgroundResource(R.drawable.radius_b);
-        else if(indiceLetra.equals("C"))
-            view.setBackgroundResource(R.drawable.radius_c);
-        else if(indiceLetra.equals("D"))
-            view.setBackgroundResource(R.drawable.radius_d);
-        else if(indiceLetra.equals("E"))
-            view.setBackgroundResource(R.drawable.radius_e);
-        else if(indiceLetra.equals("F"))
-            view.setBackgroundResource(R.drawable.radius_f);
-        else if(indiceLetra.equals("G"))
-            view.setBackgroundResource(R.drawable.radius_g);
-        else if(indiceLetra.equals("H"))
-            view.setBackgroundResource(R.drawable.radius_h);
-        else if(indiceLetra.equals("I"))
-            view.setBackgroundResource(R.drawable.radius_i);
-        else if(indiceLetra.equals("J"))
-            view.setBackgroundResource(R.drawable.radius_j);
-        else if(indiceLetra.equals("K"))
-            view.setBackgroundResource(R.drawable.radius_k);
-        else if(indiceLetra.equals("L"))
-            view.setBackgroundResource(R.drawable.radius_l);
-        else if(indiceLetra.equals("M"))
-            view.setBackgroundResource(R.drawable.radius_m);
-        else if(indiceLetra.equals("N"))
-            view.setBackgroundResource(R.drawable.radius_n);
-        else if(indiceLetra.equals("O"))
-            view.setBackgroundResource(R.drawable.radius_o);
-        else if(indiceLetra.equals("P"))
-            view.setBackgroundResource(R.drawable.radius_p);
-        else if(indiceLetra.equals("Q"))
-            view.setBackgroundResource(R.drawable.radius_q);
-        else if(indiceLetra.equals("R"))
-            view.setBackgroundResource(R.drawable.radius_r);
-        else if(indiceLetra.equals("S"))
-            view.setBackgroundResource(R.drawable.radius_s);
-        else if(indiceLetra.equals("T"))
-            view.setBackgroundResource(R.drawable.radius_t);
-        else if(indiceLetra.equals("U"))
-            view.setBackgroundResource(R.drawable.radius_u);
-        else if(indiceLetra.equals("V"))
-            view.setBackgroundResource(R.drawable.radius_v);
-        else if(indiceLetra.equals("W"))
-            view.setBackgroundResource(R.drawable.radius_w);
-        else if(indiceLetra.equals("X"))
-            view.setBackgroundResource(R.drawable.radius_x);
-        else if(indiceLetra.equals("Y"))
-            view.setBackgroundResource(R.drawable.radius_y);
+        GradientDrawable shape = (GradientDrawable) view.getBackground();
+
+
+        if(indiceLetra.equals("A")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.verde) );
+            shape.setColor(view.getResources().getColor(R.color.verde));
+
+        }
+        else if(indiceLetra.equals("B")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.azul_claro) );
+            shape.setColor(view.getResources().getColor(R.color.azul_claro));
+        }
+        else if(indiceLetra.equals("C")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.siena) );
+            shape.setColor(view.getResources().getColor(R.color.siena));
+        }
+        else if(indiceLetra.equals("D")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.pink) );
+            shape.setColor(view.getResources().getColor(R.color.pink));
+        }
+        else if(indiceLetra.equals("E")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.azul_claro_bebe) );
+            shape.setColor(view.getResources().getColor(R.color.azul_claro_bebe));
+        }
+        else if (indiceLetra.equals("F")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.stell_blue) );
+            shape.setColor(view.getResources().getColor(R.color.stell_blue));
+        }
+        else if (indiceLetra.equals("G")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.mediumsean) );
+            shape.setColor(view.getResources().getColor(R.color.mediumsean));
+        }
+        else if (indiceLetra.equals("H")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.darkcyan) );
+            shape.setColor(view.getResources().getColor(R.color.darkcyan));
+        }
+        else if (indiceLetra.equals("I")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.saddlebrown) );
+            shape.setColor(view.getResources().getColor(R.color.saddlebrown));
+        }
+        else if (indiceLetra.equals("J")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.salmon) );
+            shape.setColor(view.getResources().getColor(R.color.salmon));
+        }
+        else if (indiceLetra.equals("K")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.burlywood) );
+            shape.setColor(view.getResources().getColor(R.color.burlywood));
+        }
+        else if (indiceLetra.equals("L")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.lightgreen) );
+            shape.setColor(view.getResources().getColor(R.color.lightgreen));
+        }
+        else if (indiceLetra.equals("M")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.lightPurple) );
+            shape.setColor(view.getResources().getColor(R.color.lightPurple));
+        }
+        else if (indiceLetra.equals("N")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.forestgreen) );
+            shape.setColor(view.getResources().getColor(R.color.forestgreen));
+        }
+        else if (indiceLetra.equals("O")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.weat) );
+            shape.setColor(view.getResources().getColor(R.color.weat));
+
+        }
+        else if (indiceLetra.equals("P")) {
+             shape.setStroke(1, view.getResources().getColor( R.color.thistle) );
+            shape.setColor(view.getResources().getColor(R.color.thistle));
+        }
+        else if (indiceLetra.equals("Q")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.palertuquose) );
+            shape.setColor(view.getResources().getColor(R.color.palertuquose));
+        }
+        else if (indiceLetra.equals("R")) {
+             shape.setStroke(1, view.getResources().getColor( R.color.blanchedalmond) );
+            shape.setColor(view.getResources().getColor(R.color.blanchedalmond));
+
+        }
+        else if (indiceLetra.equals("S")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.darkkhaki) );
+            shape.setColor(view.getResources().getColor(R.color.darkkhaki));
+        }
+        else if (indiceLetra.equals("T")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.darkseagreen) );
+            shape.setColor(view.getResources().getColor(R.color.darkseagreen));
+        }
+        else if (indiceLetra.equals("U")) {
+           shape.setStroke(1, view.getResources().getColor( R.color.darkslategrey) );
+            shape.setColor(view.getResources().getColor(R.color.darkslategrey));
+        }
+        else if (indiceLetra.equals("V")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.firebrick) );
+            shape.setColor(view.getResources().getColor(R.color.firebrick));
+        }
+        else if (indiceLetra.equals("W")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.lightpink) );
+            shape.setColor(view.getResources().getColor(R.color.lightpink));
+        }
+        else if (indiceLetra.equals("XXX")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.cinza) );
+            shape.setColor(view.getResources().getColor(R.color.cinza));
+
+        }
+        else if (indiceLetra.equals("Y")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.colorPrimary) );
+            shape.setColor(view.getResources().getColor(R.color.colorPrimary));
+        }
+        else if(indiceLetra.equals("Z")) {
+            shape.setStroke(1, view.getResources().getColor( R.color.betagreen) );
+            shape.setColor(view.getResources().getColor(R.color.betagreen));
+        }
     }
 
     //Pega as palavras como teste

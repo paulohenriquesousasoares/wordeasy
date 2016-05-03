@@ -3,6 +3,7 @@ package wordeasy.br.com.wordeasy.view.activity;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.support.design.widget.TabLayout;
@@ -83,13 +84,17 @@ public class MainActivity extends AppCompatActivity   implements
         this.savedInstanceState = savedInstanceState;
         usuarioLogadoGlobal =  getUsuarioLogado();
         criaDrawerMenu(savedInstanceState);
-        getPalavras();
+        getPalavras(Constantes.TAKE_ALL_PALAVRAS);
     }
 
     //metodos usados nos frgaments
     public ArrayList<Palavra> getAllPalvrasAtual(){
         return palavrasListaGlobal;
     }
+    public ArrayList<Palavra> getAllPalavraAux() {
+        return palavrasListaGlobalAuxiliar;
+    }
+
 
    //metodos desta tela
 
@@ -116,8 +121,8 @@ public class MainActivity extends AppCompatActivity   implements
         }
     }
 
-    public  void getPalavras() {
-        mPresente.getAllPalavras(usuarioLogadoGlobal.getId(), Constantes.TAKE_ALL_PALAVRAS);
+    public  void getPalavras(int tipoBuscado) {
+        mPresente.getAllPalavras(usuarioLogadoGlobal.getId(), tipoBuscado);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -263,7 +268,8 @@ public class MainActivity extends AppCompatActivity   implements
             try {
 
                 mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
-                mPresente.getAllPalavras(usuarioLogadoGlobal.getId(),Constantes.TAKE_ALL_CARD_PERSONALIZADO);
+               // mPresente.getAllPalavras(usuarioLogadoGlobal.getId(),Constantes.TAKE_ALL_CARD_PERSONALIZADO);
+                getPalavras(Constantes.TAKE_ALL_CARD_PERSONALIZADO);
 
                 preencheRecycleview(palavrasListaGlobalAuxiliar,mRecyclerView,mAdapter);
                 trocaLabelToolbar("Card personalizado");
@@ -276,7 +282,8 @@ public class MainActivity extends AppCompatActivity   implements
             try {
 
                 mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
-                mPresente.getAllPalavras(usuarioLogadoGlobal.getId(),Constantes.TAKE_ALL_NAO_ESTUDAR);
+                //mPresente.getAllPalavras(usuarioLogadoGlobal.getId(),Constantes.TAKE_ALL_NAO_ESTUDAR);
+                getPalavras(Constantes.TAKE_ALL_NAO_ESTUDAR);
                 preencheRecycleview(palavrasListaGlobalAuxiliar, mRecyclerView, mAdapter);
                 trocaLabelToolbar("Já sei");
 
@@ -398,9 +405,24 @@ public class MainActivity extends AppCompatActivity   implements
             startActivityForResult(intent,1);
         }
         else if(position == Constantes.ENCERRRAR_SESSAO) {
-            Utilitario.deletaSharedPreferenceUsuario(MainActivity.this);
-            startActivity(new Intent(MainActivity.this, SplashActivity.class));
-            this.finish();
+
+
+            AlertDialog.Builder alert =   Mensagem.alertDialog(MainActivity.this, "Encerrar sessão", "Deseja realmente sair ?")
+                    .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Utilitario.deletaSharedPreferenceUsuario(MainActivity.this);
+                            startActivity(new Intent(MainActivity.this, SplashActivity.class));
+                            finish();
+                        }
+                    }).setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+            AlertDialog alertDialog = alert.create();
+            alertDialog.show();
         }
         else if(position == Constantes.CONFIGURACAO) {
             startActivity(new Intent(MainActivity.this, ConfiguracaoActivity.class));

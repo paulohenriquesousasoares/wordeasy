@@ -13,21 +13,21 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="2dp">
+            android:padding="4dp">
 
                 <RelativeLayout
                     android:id="@+id/container_radius"
-                    android:layout_width="50dp"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/radius_x">
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:background="@drawable/round_red">
                     <TextView
                         android:id="@+id/serial"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:padding="15dp"
+                        android:padding="9dp"
                         android:layout_margin="1dp"
-                        android:layout_alignParentLeft="true"
-                        android:textSize="12dp"
+                        android:layout_centerInParent="true"
+                        android:textSize="13dp"
                         android:textStyle="bold"
                         android:text="A"
                         android:textColor="@color/branco" />
@@ -40,7 +40,7 @@
                     android:textSize="12dp"
                     android:textStyle="bold"
                     android:layout_toRightOf="@+id/container_radius"
-                    android:text="House"
+                    android:text="teste"
                     android:layout_marginLeft="5dp"/>
 
                 <TextView
@@ -50,7 +50,7 @@
                     android:layout_toRightOf="@+id/container_radius"
                     android:layout_below="@+id/txtPalavraEmIngles"
                     android:textSize="11dp"
-                    android:text="casa"
+                    android:text="teste"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="2dp"
                     android:visibility="visible"/>
@@ -61,7 +61,8 @@
                     android:layout_height="wrap_content"
                     android:textSize="11dp"
                     android:gravity="right"
-                    android:text=""
+                    android:text="sasasasasasasas"
+                    android:textColor="@color/betagreen"
                     android:layout_marginLeft="5dp"
                     android:layout_marginTop="5dp"
                     android:layout_toRightOf="@+id/container_radius"
@@ -80,7 +81,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:background="@color/cinza"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="13dp"
                     android:layout_below="@+id/container_radius"/>
 
     </RelativeLayout>

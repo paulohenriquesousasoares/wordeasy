@@ -3,6 +3,7 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:id="@+id/layout_detalhes"
         android:background="@color/colorCinzaClaro">
 
     <!--Toolbar-->
@@ -20,7 +21,7 @@
            android:id="@+id/rl_primeiro"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:padding="1dp"
+            android:padding="10dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/layout_radius"
             android:layout_marginLeft="3dp"
@@ -28,15 +29,16 @@
             <RelativeLayout
                 android:id="@+id/container_radius_act_detalhes"
                 android:layout_width="50dp"
+                android:layout_marginLeft="2dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/radius_x">
+                android:background="@drawable/round_red">
                 <TextView
                     android:id="@+id/txtletra_act_detalhes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:padding="15dp"
                     android:layout_margin="1dp"
-                    android:layout_alignParentLeft="true"
+                    android:layout_centerInParent="true"
                     android:textSize="14dp"
                     android:textStyle="bold"
                     android:text="A"
@@ -51,7 +53,7 @@
                     android:text="ingles"
                     android:textSize="15dp"
                     android:textStyle="bold"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginLeft="10dp"
                     android:transitionName="elemento1"
                     android:layout_alignParentTop="true"
@@ -77,7 +79,7 @@
         android:layout_height="wrap_content"
         android:padding="10dp"
         android:background="@drawable/layout_sem_radius"
-        android:layout_marginLeft="3dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginRight="3dp"
         android:layout_marginTop="2dp">
 
@@ -97,7 +99,7 @@
         android:padding="10dp"
         android:layout_marginTop="2dp"
         android:background="@drawable/layout_sem_radius"
-        android:layout_marginLeft="3dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginRight="3dp">
 
         <TextView
@@ -113,10 +115,10 @@
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:padding="10dp"
         android:layout_marginTop="2dp"
         android:background="@drawable/layout_sem_radius"
-        android:layout_marginLeft="3dp"
+        android:layout_marginLeft="5dp"
         android:layout_marginRight="3dp">
 
         <TextView

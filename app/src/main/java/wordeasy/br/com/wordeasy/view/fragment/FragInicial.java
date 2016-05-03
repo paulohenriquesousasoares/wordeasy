@@ -30,6 +30,9 @@ import com.github.clans.fab.FloatingActionMenu;
 
 import java.util.ArrayList;
 
+import wordeasy.br.com.wordeasy.interfaces.presenter.PresenteOperacaoMain;
+import wordeasy.br.com.wordeasy.interfaces.view.ViewOperacaoRequisitaMain;
+import wordeasy.br.com.wordeasy.presenter.MainPresenter;
 import wordeasy.br.com.wordeasy.view.activity.EstudarActivity;
 
 import wordeasy.br.com.wordeasy.view.activity.CadastrarNovaPalavraActivity;
@@ -40,6 +43,7 @@ import wordeasy.br.com.wordeasy.view.activity.RevisaoActivity;
 import wordeasy.br.com.wordeasy.view.adapter.MyRecyclerViewAdapter;
 import wordeasy.br.com.wordeasy.interfaces.RecycleViewOnclickListener;
 import wordeasy.br.com.wordeasy.view.dominio.Palavra;
+import wordeasy.br.com.wordeasy.view.util.Constantes;
 import wordeasy.br.com.wordeasy.view.util.Mensagem;
 
 
@@ -54,6 +58,7 @@ public class FragInicial extends Fragment  implements RecycleViewOnclickListener
     private  ArrayList<Palavra> palavrasLista;
     private RelativeLayout rl;
     private TextView fechar, estudarCardPersonalizado, revisarCardPersonalizado;
+
 
     public FragInicial() {}
 
@@ -82,7 +87,8 @@ public class FragInicial extends Fragment  implements RecycleViewOnclickListener
         else {
             //carrega pela primeira vez
 //            palavrasLista = ((MainActivity) getActivity()).getPalavras();
-            palavrasLista = ((MainActivity) getActivity()).getAllPalvrasAtual();
+             ((MainActivity) getActivity()).getPalavras(Constantes.TAKE_ALL_PALAVRAS);
+             palavrasLista =  ((MainActivity) getActivity()).getAllPalvrasAtual();
         }
 
         preencheRecycleView(palavrasLista);
@@ -96,7 +102,8 @@ public class FragInicial extends Fragment  implements RecycleViewOnclickListener
             @Override
             public void onRefresh() {
 
-                preencheRecycleView(((MainActivity) getActivity()).getAllPalvrasAtual());
+                ((MainActivity) getActivity()).getPalavras(Constantes.TAKE_ALL_PALAVRAS);
+                 preencheRecycleView(((MainActivity) getActivity()).getAllPalvrasAtual());
                 ((MainActivity) getActivity()).trocaLabelToolbar("Todas");
 
                 swipeRefreshLayout.setRefreshing(false);
@@ -279,10 +286,21 @@ public class FragInicial extends Fragment  implements RecycleViewOnclickListener
             estudarCardPersonalizado.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent it = new Intent(getActivity(), EstudarActivity.class);
-                    it.putExtra(Palavra.ID, Palavra.ID);
-                    startActivity(it);
-                    rl.setVisibility(View.GONE);
+
+                    ((MainActivity) getActivity()).getPalavras(Constantes.TAKE_ALL_CARD_PERSONALIZADO);
+                     ArrayList<Palavra> listPalavraAux = ((MainActivity) getActivity()).getAllPalavraAux();
+
+                    if(listPalavraAux.size() >  4) {
+
+                        Intent it = new Intent(getActivity(), EstudarActivity.class);
+                        it.putExtra(Palavra.ID, Palavra.ID);
+                        startActivity(it);
+                        rl.setVisibility(View.GONE);
+                    }
+                    else {
+                        Mensagem.materialDialogAviso(getActivity(),
+                                "Informação", "É preciso ter pelo menos 5 palavras cadastradas para iniciar os estudos.").show();
+                    }
                 }
             });
 
@@ -290,10 +308,21 @@ public class FragInicial extends Fragment  implements RecycleViewOnclickListener
                 @Override
                 public void onClick(View v) {
 
-                    Intent it = new Intent(getActivity(), RevisaoActivity.class);
-                    it.putExtra(Palavra.ID, Palavra.ID);
-                    startActivity(it);
-                    rl.setVisibility(View.GONE);
+                   ((MainActivity) getActivity()).getPalavras(Constantes.TAKE_ALL_CARD_PERSONALIZADO);
+                    ArrayList<Palavra> listPalavraAux = ((MainActivity) getActivity()).getAllPalavraAux();
+
+                    if(listPalavraAux.size() >  4) {
+
+                        Intent it = new Intent(getActivity(), RevisaoActivity.class);
+                        it.putExtra(Palavra.ID, Palavra.ID);
+                        startActivity(it);
+                        rl.setVisibility(View.GONE);
+                    }
+                    else {
+                        Mensagem.materialDialogAviso(getActivity(),
+                        "Informação", "É preciso ter pelo menos 5 palavras cadastradas para iniciar os estudos.").show();
+                    }
+
                 }
             });
 
@@ -307,6 +336,4 @@ public class FragInicial extends Fragment  implements RecycleViewOnclickListener
         outState.putSerializable(Palavra.ID, palavrasLista);
 
     }
-
-
 }

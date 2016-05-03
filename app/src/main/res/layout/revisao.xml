@@ -32,32 +32,50 @@
             android:id="@+id/txtPalavraInglesActRevisao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Casa"
+            android:text="Teste"
             android:textSize="30dp"
             android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/txtPalavraInglesActRevisaoErrada"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txtPalavraInglesActRevisao"
+            android:textColor="@color/vermelho"
+            android:text="errada"
+            android:textSize="15dp"
+            android:visibility="invisible"
+            android:layout_marginLeft="5dp"
+            android:textStyle="italic"/>
 
         <EditText
             android:id="@+id/edtTraduzir_actRevisao"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:hint="informe a tradução..."
-            android:layout_below="@+id/txtPalavraInglesActRevisao"
+            android:layout_below="@+id/txtPalavraInglesActRevisaoErrada"
             android:layout_marginTop="30dp"
             android:padding="20dp"
             android:textColorHint="@color/cinza"/>
 
 
-        <Button
+        <RelativeLayout
             android:id="@+id/btnVerificarResposat_actRevisao"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="Verificar reposta"
+            android:layout_height="50dp"
             android:onClick="onclickVerificarResposta"
-            android:layout_below="@+id/edtTraduzir_actRevisao"
-            android:background="@drawable/button_azul"
-            android:padding="1dp"
-            android:textColor="@color/branco"
-            android:layout_marginTop="20dp"/>
+            android:layout_below="@+id/edtTraduzir_actRevisao">
+
+            <ImageView
+                android:layout_width="fill_parent"
+                android:layout_height="48dp"
+                android:src="@drawable/ic_arrow_forward_white_48dp"
+                android:background="@drawable/button_azul"
+                android:padding="1dp"
+                android:textColor="@color/branco"/>
+
+        </RelativeLayout>
+
     </RelativeLayout>
 
 </RelativeLayout>

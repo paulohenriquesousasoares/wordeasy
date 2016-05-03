@@ -80,16 +80,17 @@
               </LinearLayout>
 
               <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_below="@+id/ll_cadastrar"
-               android:gravity="center_horizontal"
-               android:layout_marginTop="5dp"
-               android:visibility="visible"
-               android:text="Para traduzir uma palavra em inglês com mais de uma tradução separe por vírgula" />
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_below="@+id/ll_cadastrar"
+                   android:layout_centerInParent="true"
+                  android:gravity="center_horizontal"
+                   android:layout_marginTop="5dp"
+                   android:text="Para traduzir uma palavra em inglês com mais de uma tradução separe por vírgula" />
         </RelativeLayout>
 
     </ScrollView>
+
 
     <!--LAYOUT PARA ALTERAR A PALAVRA-->
     <ScrollView

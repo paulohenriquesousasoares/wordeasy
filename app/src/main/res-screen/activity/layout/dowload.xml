@@ -1,0 +1,251 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dowloadPalavra"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorCinzaClaro">
+
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+             <include   android:id="@+id/toolbar" layout="@layout/toolbar" />
+
+            <!--BASICA-->
+             <RelativeLayout
+                android:id="@+id/rl_download_basica"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/toolbar"
+                android:layout_marginTop="5dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="5dp"
+                 android:background="@drawable/layout_quadrado">
+
+
+                <ImageView
+                    android:id="@+id/imgUpload_basica"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="1dp"
+                    android:src="@drawable/dowload"/>
+
+                <TextView
+                    android:id="@+id/txtUpload_basica"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Estudas as 500 palavras básicas."
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/imgUpload_basica"/>
+
+                <ImageView
+                    android:id="@+id/imgEstudadaOK_basica"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="1dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/check_icon"/>
+
+                 <ProgressBar
+                     android:id="@+id/progressBar1_basica"
+                     style="?android:attr/progressBarStyleHorizontal"
+                     android:layout_width="fill_parent"
+                     android:layout_height="wrap_content"
+                     android:indeterminate="false"
+                     android:max="100"
+                     android:layout_marginLeft="5dp"
+                     android:layout_marginRight="5dp"
+                     android:progress="50"
+                     android:layout_marginTop="30dp"
+                     android:layout_below="@+id/imgUpload_basica"/>
+
+
+                 <TextView
+                     android:id="@+id/txtUploadInicio_basica"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="10"
+                     android:textStyle="bold"
+                     android:textColor="@color/black_de"
+                     android:layout_below="@+id/progressBar1_basica"
+                     android:layout_marginLeft="5dp"/>
+
+                 <TextView
+                     android:id="@+id/txtUploadFim_basica"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="50%"
+                     android:layout_alignParentRight="true"
+                     android:layout_marginRight="5dp"
+                     android:textStyle="bold"
+                     android:textColor="@color/black_de"
+                     android:layout_below="@+id/progressBar1_basica"/>
+            </RelativeLayout>
+
+            <!--INTERMEDIARIA-->
+            <RelativeLayout
+                android:id="@+id/rl_download_intermediaria"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_download_basica"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/layout_quadrado">
+
+
+                <ImageView
+                    android:id="@+id/imgUpload_intermediaria"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="1dp"
+                    android:src="@drawable/dowload"/>
+
+                <TextView
+                    android:id="@+id/txtUpload_intermediaria"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Estudas as 300 palavras Intermediária."
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/imgUpload_intermediaria"/>
+
+                <ImageView
+                    android:id="@+id/imgEstudadaOK_intermediaria"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="1dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/check_icon"/>
+
+                <ProgressBar
+                    android:id="@+id/progressBar1_intermediaria"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:progress="50"
+                    android:layout_marginTop="30dp"
+                    android:layout_below="@+id/imgUpload_intermediaria"/>
+
+
+                <TextView
+                    android:id="@+id/txtUploadInicio_intermediaria"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10"
+                    android:textStyle="bold"
+                    android:textColor="@color/black_de"
+                    android:layout_below="@+id/progressBar1_intermediaria"
+                    android:layout_marginLeft="5dp"/>
+
+                <TextView
+                    android:id="@+id/txtUploadFim_intermediaria"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="50%"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="5dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black_de"
+                    android:layout_below="@+id/progressBar1_intermediaria"/>
+            </RelativeLayout>
+
+            <!--AVANCADA-->
+            <RelativeLayout
+                android:id="@+id/rl_download_avancada"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/rl_download_intermediaria"
+                android:layout_marginTop="3dp"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="5dp"
+                android:background="@drawable/layout_quadrado">
+
+
+                <ImageView
+                    android:id="@+id/imgUpload_avancada"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="1dp"
+                    android:src="@drawable/dowload"/>
+
+                <TextView
+                    android:id="@+id/txtUpload_avancada"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Estudas as 300 palavras Avançada."
+                    android:layout_marginLeft="10dp"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/imgUpload_avancada"/>
+
+                <ImageView
+                    android:id="@+id/imgEstudadaOK_avancada"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="1dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/check_icon"/>
+
+                <ProgressBar
+                    android:id="@+id/progressBar1_avancada"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:progress="50"
+                    android:layout_marginTop="30dp"
+                    android:layout_below="@+id/imgUpload_avancada"/>
+
+
+                <TextView
+                    android:id="@+id/txtUploadInicio_avancada"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="10"
+                    android:textStyle="bold"
+                    android:textColor="@color/black_de"
+                    android:layout_below="@+id/progressBar1_avancada"
+                    android:layout_marginLeft="5dp"/>
+
+                <TextView
+                    android:id="@+id/txtUploadFim_avancada"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="50%"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="5dp"
+                    android:textStyle="bold"
+                    android:textColor="@color/black_de"
+                    android:layout_below="@+id/progressBar1_avancada"/>
+                <!-- -->
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+
+
+    </ScrollView>
+
+</RelativeLayout>

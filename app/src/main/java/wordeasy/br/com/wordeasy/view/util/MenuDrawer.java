@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.accountswitcher.AccountHeader;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
@@ -68,6 +69,8 @@ public class MenuDrawer implements ImenuDrawer {
     public void navigationItem(Activity activity, Drawer.Result navigationDrawerLeft) {
         navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Configurações").withIcon(activity.getResources().getDrawable(R.drawable.ic_settings_applications_black_24dp)));
         navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Meus dados").withIcon(activity.getResources().getDrawable(R.drawable.ic_perm_contact_calendar_black_24dp)));
+        navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Baixar estudo"));
+        navigationDrawerLeft.addItem(new DividerDrawerItem());
         navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Encerrar sessão").withIcon(activity.getResources().getDrawable(R.drawable.ic_exit_to_app_black_24dp)));
     }
 }

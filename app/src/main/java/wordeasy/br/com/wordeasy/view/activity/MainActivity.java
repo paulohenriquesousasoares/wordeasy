@@ -401,11 +401,18 @@ public class MainActivity extends AppCompatActivity   implements
     //Click MenuDrawer
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id, IDrawerItem drawerItem) {
-        if(position ==  Constantes.ACTIVITY_CADASTRAR) {
+
+        if(position == Constantes.CONFIGURACAO) {
+            startActivity(new Intent(MainActivity.this, ConfiguracaoActivity.class));
+        }
+        else if(position ==  Constantes.ACTIVITY_CADASTRAR) {
 
             Intent intent = new Intent(MainActivity.this,CadastrarUsuarioActivity.class);
             intent.putExtra(Usuario.ID,true);
-            startActivityForResult(intent,1);
+            startActivityForResult(intent, 1);
+        }
+        else if(position == Constantes.DOWNLOAD) {
+            startActivity(new Intent(MainActivity.this, DownloadPalavra.class));
         }
         else if(position == Constantes.ENCERRRAR_SESSAO) {
 
@@ -426,9 +433,6 @@ public class MainActivity extends AppCompatActivity   implements
                     });
             AlertDialog alertDialog = alert.create();
             alertDialog.show();
-        }
-        else if(position == Constantes.CONFIGURACAO) {
-            startActivity(new Intent(MainActivity.this, ConfiguracaoActivity.class));
         }
     }
 

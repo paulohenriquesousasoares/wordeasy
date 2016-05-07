@@ -26,6 +26,7 @@
         <activity android:name=".view.activity.MainActivity"/>
         <activity android:name=".view.activity.LoginActivity"/>
         <activity android:name=".view.activity.CadastrarUsuarioActivity"/>
+        <activity android:name=".view.activity.DownloadPalavra"/>
         <activity android:name=".view.activity.PalavrasDetalhesActivity" android:label="Detalhes"/>
         <activity android:name=".view.activity.ConfiguracaoActivity" android:label="Configuração"/>
 

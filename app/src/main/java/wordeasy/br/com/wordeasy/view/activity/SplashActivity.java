@@ -30,15 +30,22 @@ import java.io.ByteArrayOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import wordeasy.br.com.wordeasy.R;
+import wordeasy.br.com.wordeasy.view.dao.DatabaseHelper;
+import wordeasy.br.com.wordeasy.view.dao.repositorio.PalavraRepositorio;
+import wordeasy.br.com.wordeasy.view.dao.repositorio.UsuarioRepositorio;
 import wordeasy.br.com.wordeasy.view.dominio.Configuracao;
 import wordeasy.br.com.wordeasy.view.dominio.ObjTeste;
+import wordeasy.br.com.wordeasy.view.dominio.Palavra;
+import wordeasy.br.com.wordeasy.view.dominio.Usuario;
 import wordeasy.br.com.wordeasy.view.network.NetworkConnection;
+import wordeasy.br.com.wordeasy.view.util.Mensagem;
 import wordeasy.br.com.wordeasy.view.util.Utilitario;
 
 
@@ -86,7 +93,14 @@ public class SplashActivity extends AppCompatActivity {
                 }
             }, SPLASH_DISPLAY_LENGTH);
 
+//            PalavraRepositorio palavraRepositorio = new PalavraRepositorio(SplashActivity.this);
+//            try {
+//                palavraRepositorio.deleta();
+//            } catch (Exception e) { }
+
+
         //verifica se ja tem algum usuario no shared preference
+
         if(  Utilitario.getSharedPreferenceUsuario(SplashActivity.this).getId() > 0  ){
             startActivity(new Intent(SplashActivity.this, MainActivity.class));
             this.finish();

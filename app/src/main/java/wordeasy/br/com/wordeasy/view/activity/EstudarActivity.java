@@ -75,7 +75,7 @@ public class EstudarActivity extends AppCompatActivity implements ViewOperacaoRe
 
         //inicializa o presente
         try {
-            mPresente = new EstudarPresente(this);
+            mPresente = new EstudarPresente(this,EstudarActivity.this);
         } catch (Exception e) {
             Mensagem.toast(EstudarActivity.this, "" + e);
         }

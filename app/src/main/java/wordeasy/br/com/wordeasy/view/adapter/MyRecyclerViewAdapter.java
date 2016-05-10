@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import wordeasy.br.com.wordeasy.R;
 import wordeasy.br.com.wordeasy.interfaces.RecycleViewOnclickListener;
 import wordeasy.br.com.wordeasy.view.dominio.Palavra;
+import wordeasy.br.com.wordeasy.view.util.Constantes;
 import wordeasy.br.com.wordeasy.view.util.Utilitario;
 
 public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAdapter.DataObjectHolder> {
@@ -46,7 +47,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         holder.palavraTraducaoUm.setText(mDataset.get(position).getPalavraEmPortugues());
         holder.serial.setText("" + mDataset.get(position).getIndicePalavra());
 
-        if(mDataset.get(position).isCardPersonalizado())
+        if(mDataset.get(position).isCardPersonalizado() == Constantes.TRUE)
             holder.cardPersonalizadoSelecionado.setText("Adicionado card personalizado");
         else
             holder.cardPersonalizadoSelecionado.setText("");
@@ -127,12 +128,12 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
 
     public  void alterarObjetoCardPersonalizado(int position) {
 
-        if(mDataset.get(position).isCardPersonalizado()) {
-            mDataset.get(position).setCardPersonalizado(false);
+        if(mDataset.get(position).isCardPersonalizado() ==  Constantes.TRUE) {
+            mDataset.get(position).setCardPersonalizado(Constantes.FALSE);
             mDataset.get(position).setCardPersonalizadoSelecionado("");
         }
         else {
-            mDataset.get(position).setCardPersonalizado(true);
+            mDataset.get(position).setCardPersonalizado(Constantes.TRUE);
             mDataset.get(position).setCardPersonalizadoSelecionado("Adicionado ao card personalizado");
 
         }
@@ -160,8 +161,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         palavra.setPalavraEmIngles(mDataset.get(position).getPalavraEmIngles());
         palavra.setPalavraEmPortugues(mDataset.get(position).getPalavraEmPortugues());
         palavra.setIndicePalavra(mDataset.get(position).getIndicePalavra());
-        palavra.setFavorito(mDataset.get(position).isFavorito());
-        palavra.setUsuario(mDataset.get(position).getUsuario());
+        palavra.setUsuarioId(mDataset.get(position).getUsuarioId());
         palavra.setQtdErros(mDataset.get(position).getQtdErros());
         palavra.setQtdAcertos(mDataset.get(position).getQtdAcertos());
         palavra.setQtdVezesEstudou(mDataset.get(position).getQtdVezesEstudou());

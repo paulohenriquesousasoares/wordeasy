@@ -17,12 +17,11 @@ public class EstudarModel implements ModelOperacaoEstudar {
     private RetornoPresenteOperacaoEstudar mPresenteRetorno;
     private PalavraRepositorio palavraRepositorio;
 
-    public EstudarModel(RetornoPresenteOperacaoEstudar mPresenteRetorno) {
+    public EstudarModel(RetornoPresenteOperacaoEstudar mPresenteRetorno, Context context) {
         this.mPresenteRetorno = mPresenteRetorno;
-        palavraRepositorio = new PalavraRepositorio();
+        palavraRepositorio = new PalavraRepositorio(context);
     }
-
-
+    
     /**
      *
      * @param takeAllPalavras true -  traz todas as palavras, incluindo as que estão no ja sei e no card personalizado

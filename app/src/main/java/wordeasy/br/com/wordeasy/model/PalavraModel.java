@@ -1,5 +1,8 @@
 package wordeasy.br.com.wordeasy.model;
 
+import android.content.Context;
+import android.support.v4.content.ContextCompat;
+
 import wordeasy.br.com.wordeasy.view.dominio.Palavra;
 import wordeasy.br.com.wordeasy.interfaces.model.ModelOperacaoPalavra;
 import wordeasy.br.com.wordeasy.interfaces.presenter.RetornoPresenteOperacaoPalavra;
@@ -11,9 +14,9 @@ public class PalavraModel implements ModelOperacaoPalavra {
     private RetornoPresenteOperacaoPalavra mPresent;
     private PalavraServico palavraServico;
 
-    public PalavraModel(RetornoPresenteOperacaoPalavra mPresent){
+    public PalavraModel(RetornoPresenteOperacaoPalavra mPresent, Context context){
         this.mPresent = mPresent;
-        palavraServico = new PalavraServico();
+        palavraServico = new PalavraServico(context);
     }
 
     @Override
@@ -54,7 +57,7 @@ public class PalavraModel implements ModelOperacaoPalavra {
         String novaPalavra="";
 
         if(validarCampo)
-            novaPalavra = palavraServico.getByNome(palavra.getUsuario().getId(), palavra.getPalavraEmIngles());
+            novaPalavra = palavraServico.getByNome(palavra.getUsuarioId(), palavra.getPalavraEmIngles());
         else
             novaPalavra = Constantes.OK;
 
@@ -66,7 +69,12 @@ public class PalavraModel implements ModelOperacaoPalavra {
 
                 try {
                     palavra.setIndicePalavra(palavra.getPalavraEmIngles().substring(0, 1));
-                    palavraServico.create(palavra);
+                    if(operacao ==  Constantes.ALTERANDO){
+                        palavraServico.altera(palavra);
+                    }
+                    else if(operacao == Constantes.CADASTRANDO) {
+                        palavraServico.create(palavra);
+                    }
                     retorno = Constantes.OK;
                 } catch (Exception e) {
                     retorno = ""+e;

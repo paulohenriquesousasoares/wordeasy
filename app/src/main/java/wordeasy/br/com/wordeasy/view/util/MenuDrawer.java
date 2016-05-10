@@ -30,14 +30,14 @@ public class MenuDrawer implements ImenuDrawer {
                 .withThreeSmallProfileImages(true)
                 .withHeaderBackground(R.drawable.logo_menu_drawer)
                 .addProfiles(new ProfileDrawerItem().withName(userNome).withEmail(userEmail)).withSelectionListEnabled(false)
-                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
-                    @Override
-                    public boolean onProfileChanged(View view, IProfile iProfile, boolean b) {
-                        Mensagem.toast(activity,"Em breve").show();
-                        //headerNavigationLeft.setBackgroundRes(R.drawable.vyron);
-                        return false;
-                    }
-                })
+//                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
+//                    @Override
+//                    public boolean onProfileChanged(View view, IProfile iProfile, boolean b) {
+//                        Mensagem.toast(activity,"Em breve").show();
+//                        //headerNavigationLeft.setBackgroundRes(R.drawable.vyron);
+//                        return false;
+//                    }
+//                })
                 .build();
     }
 
@@ -69,8 +69,8 @@ public class MenuDrawer implements ImenuDrawer {
     public void navigationItem(Activity activity, Drawer.Result navigationDrawerLeft) {
         navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Configurações").withIcon(activity.getResources().getDrawable(R.drawable.ic_settings_applications_black_24dp)));
         navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Meus dados").withIcon(activity.getResources().getDrawable(R.drawable.ic_perm_contact_calendar_black_24dp)));
-        navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Baixar estudo"));
-        navigationDrawerLeft.addItem(new DividerDrawerItem());
+        //navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Baixar estudo"));
+        //navigationDrawerLeft.addItem(new DividerDrawerItem());
         navigationDrawerLeft.addItem(new PrimaryDrawerItem().withName("Encerrar sessão").withIcon(activity.getResources().getDrawable(R.drawable.ic_exit_to_app_black_24dp)));
     }
 }

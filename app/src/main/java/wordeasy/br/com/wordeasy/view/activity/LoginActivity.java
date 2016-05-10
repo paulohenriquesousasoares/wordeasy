@@ -34,10 +34,7 @@ public class LoginActivity extends AppCompatActivity implements ViewOperacaoRequ
         startMVP();
     }
 
-
-
     //metodos
-
 
     private void startMVP() {
         try {

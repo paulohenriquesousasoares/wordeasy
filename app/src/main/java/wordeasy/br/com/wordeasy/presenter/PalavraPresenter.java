@@ -21,7 +21,7 @@ public class PalavraPresenter implements PresenteOperacaoPalavra, RetornoPresent
 
     public PalavraPresenter(ViewOperacaoRequisitaPalavra view, Context context) {
         this.mView = new WeakReference<ViewOperacaoRequisitaPalavra>(view);
-        this.mModel = new PalavraModel(this);
+        this.mModel = new PalavraModel(this, context);
         this.context = context;
     }
 

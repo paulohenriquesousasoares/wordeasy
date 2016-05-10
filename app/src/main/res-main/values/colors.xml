@@ -2,11 +2,12 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="branco">#FFFFFF</color>
+    <color name="branco">#FFF</color>
     <color name="verde">#00796B</color>
     <color name="verde_claro">#009688</color>
     <color name="navigationBarColor">#000000</color>
     <color name="colorAccent">#303F9F</color>
+    <color name="dimGray">#C0C0C0</color>
     <color name="cinza">#ccc</color>
     <color name="cinza_claro">#D3D3D3</color>
     <color name="colorCinzaClaro">#ddd</color>

@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity   implements
         tabLayout.setupWithViewPager(viewPager);
 
         try{
-            mPresente = new MainPresenter(this);
+            mPresente = new MainPresenter(this, MainActivity.this);
         }
         catch (Exception e){
             Mensagem.snackbar(""+e,findViewById(R.id.main)).show();
@@ -131,7 +131,7 @@ public class MainActivity extends AppCompatActivity   implements
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new FragInicial(), getResources().getString(R.string.frag_Inicial));
-        adapter.addFragment(new FragRank(), getResources().getString(R.string.frag_rank));
+        //adapter.addFragment(new FragRank(), getResources().getString(R.string.frag_rank));
         viewPager.setAdapter(adapter);
     }
 
@@ -173,23 +173,23 @@ public class MainActivity extends AppCompatActivity   implements
     @Override
     public String alteraObjetoClicado(Palavra palavra, String textoClicado, int positionOpcaoClicado) {
 
-        PalavraRepositorio palavraRepositorio = new PalavraRepositorio();
+        PalavraRepositorio palavraRepositorio = new PalavraRepositorio(MainActivity.this);
         String retorno = "";
 
         try {
                 if ( positionOpcaoClicado == 0) {
 
-                    palavra.setNaoEstudar(palavra.isNaoEstudar() ? false : true);
+                    palavra.setNaoEstudar(palavra.isNaoEstudar() == Constantes.TRUE  ? Constantes.FALSE : Constantes.TRUE);
                     retorno =  verificaSeEstaNaoEstudarMais(textoClicado);
 
                 }
                 else if(positionOpcaoClicado == 1 ) {
 
-                    palavra.setCardPersonalizado(palavra.isCardPersonalizado() ? false : true);
+                    palavra.setCardPersonalizado(palavra.isCardPersonalizado() == Constantes.TRUE ? Constantes.FALSE: Constantes.TRUE);
                     retorno =  verificaCardPersonalizado(textoClicado);
                 }
 
-                palavraRepositorio.create(palavra);
+                palavraRepositorio.alteraPalavra(palavra);
 
         } catch (Exception e) {
             Mensagem.toast(MainActivity.this,""+e).show();
@@ -271,7 +271,6 @@ public class MainActivity extends AppCompatActivity   implements
             try {
 
                 mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
-               // mPresente.getAllPalavras(usuarioLogadoGlobal.getId(),Constantes.TAKE_ALL_CARD_PERSONALIZADO);
                 getPalavras(Constantes.TAKE_ALL_CARD_PERSONALIZADO);
 
                 preencheRecycleview(palavrasListaGlobalAuxiliar,mRecyclerView,mAdapter);
@@ -351,9 +350,9 @@ public class MainActivity extends AppCompatActivity   implements
         //verifica o estado do objeto naoEstudaMais
         for (int i=0;i<itens.length;i++) {
 
-            if(i == 0 && palavra.isNaoEstudar())
+            if(i == 0 && palavra.isNaoEstudar() == Constantes.TRUE)
                 opcoes.add("Voltar a estudar");
-            else if(i ==  1 && palavra.isCardPersonalizado())
+            else if(i ==  1 && palavra.isCardPersonalizado() == Constantes.TRUE)
                 opcoes.add("Adicionado ao card personalizado");
             else
                 opcoes.add(itens[i]);
@@ -362,7 +361,8 @@ public class MainActivity extends AppCompatActivity   implements
         lst.setAdapter(new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, opcoes));
 
         alert.setView(view);
-        alert.show();
+        final AlertDialog dialog  = alert.create();
+        dialog.show();
 
         //CLIQUE ITEM NO LISTVIEW
         lst.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -376,11 +376,11 @@ public class MainActivity extends AppCompatActivity   implements
                 String msgToast = "";
                 if(position == 0){
                     mAdapter.removerItemJaSei(posicaoAux);
-                    msgToast = palavra.isNaoEstudar() ? "Adicionado ao nao estudar mais." :  "Removido do nao estudar mais.";
+                    msgToast = palavra.isNaoEstudar() == Constantes.TRUE ? "Adicionado ao nao estudar mais." :  "Removido do nao estudar mais.";
                 }
                 else if(position ==  1) {
                     mAdapter.alterarObjetoCardPersonalizado(posicaoAux);
-                    msgToast = palavra.isCardPersonalizado() ?  "Adicionado ao card pesonalizado." : "Removido do card pesonalizado.";
+                    msgToast = palavra.isCardPersonalizado() == Constantes.TRUE ?  "Adicionado ao card pesonalizado." : "Removido do card pesonalizado.";
                 }
                 else if(position == 2) {
                     ((TextView) view).setText("Alterar palavra");
@@ -389,10 +389,10 @@ public class MainActivity extends AppCompatActivity   implements
                     it.putExtra(Palavra.ID, palavra);
                     startActivityForResult(it, 3);
                 }
-
-
                 if(position < 2 )
                     Mensagem.toast(MainActivity.this,msgToast).show();
+
+                dialog.dismiss();
             }
 
         });
@@ -411,12 +411,7 @@ public class MainActivity extends AppCompatActivity   implements
             intent.putExtra(Usuario.ID,true);
             startActivityForResult(intent, 1);
         }
-        else if(position == Constantes.DOWNLOAD) {
-            startActivity(new Intent(MainActivity.this, DownloadPalavra.class));
-        }
         else if(position == Constantes.ENCERRRAR_SESSAO) {
-
-
             AlertDialog.Builder alert =   Mensagem.alertDialog(MainActivity.this, "Encerrar sessão", "Deseja realmente sair ?")
                     .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                         @Override
@@ -445,6 +440,7 @@ public class MainActivity extends AppCompatActivity   implements
 
                 boolean estaAlterando = data.getBooleanExtra(Palavra .ID,true);
                 if(estaAlterando) {
+                    usuarioLogadoGlobal =  getUsuarioLogado();
                     criaDrawerMenu(savedInstanceState);
                 }
             }
@@ -459,10 +455,10 @@ public class MainActivity extends AppCompatActivity   implements
                 palavra.setId(p.getId());
                 palavra.setPalavraEmIngles(p.getPalavraEmIngles());
                 palavra.setPalavraEmPortugues(p.getPalavraEmPortugues());
-                palavra.setCardPersonalizado(false);
-                palavra.setNaoEstudar(false);
+                palavra.setCardPersonalizado(Constantes.FALSE);
+                palavra.setNaoEstudar(Constantes.FALSE);
                 palavra.setIndicePalavra(p.getIndicePalavra());
-                palavra.setUsuario(p.getUsuario());
+                palavra.setUsuarioId(p.getUsuarioId());
                 palavra.setQtdErros(p.getQtdErros());
                 palavra.setQtdAcertos(p.getQtdAcertos());
                 palavra.setQtdVezesEstudou(p.getQtdVezesEstudou());

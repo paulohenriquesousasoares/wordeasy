@@ -82,9 +82,9 @@ public class CadastrarNovaPalavraActivity extends AppCompatActivity implements V
         Palavra p = new Palavra();
 
         Usuario user  =  Utilitario.getSharedPreferenceUsuario(CadastrarNovaPalavraActivity.this);
-        p.setPalavraEmPortugues( edt_palavra_traducao_um.getText().toString().toUpperCase());
-        p.setPalavraEmIngles( edt_palavra_ingles.getText().toString().toUpperCase());
-        p.setUsuario(user);
+        p.setPalavraEmPortugues( edt_palavra_traducao_um.getText().toString().toLowerCase());
+        p.setPalavraEmIngles( edt_palavra_ingles.getText().toString().toLowerCase());
+        p.setUsuarioId(user.getId());
         mPresenter.novaPalavra(p,Constantes.CADASTRANDO);
     }
 
@@ -108,7 +108,7 @@ public class CadastrarNovaPalavraActivity extends AppCompatActivity implements V
             @Override
             public void onClick(View v) {
 
-                palavra.setPalavraEmPortugues(editar_palavra.getText().toString().toUpperCase());
+                palavra.setPalavraEmPortugues(editar_palavra.getText().toString().toLowerCase());
                 boolean alterou =  mPresenter.alteraPalavra(palavra,false);
 
                 if(alterou) {
@@ -140,7 +140,7 @@ public class CadastrarNovaPalavraActivity extends AppCompatActivity implements V
             @Override
             public void onClick(View v) {
 
-                palavra.setPalavraEmIngles(editar_palavra.getText().toString().toUpperCase());
+                palavra.setPalavraEmIngles(editar_palavra.getText().toString().toLowerCase());
                 boolean alterou =  mPresenter.alteraPalavra(palavra,true);
 
                 if(alterou) {

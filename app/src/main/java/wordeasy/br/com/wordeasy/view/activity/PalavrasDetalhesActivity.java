@@ -75,16 +75,13 @@ public class PalavrasDetalhesActivity extends AppCompatActivity  {
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        palavraRepositorio = new PalavraRepositorio();
+        palavraRepositorio = new PalavraRepositorio(PalavrasDetalhesActivity.this);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.detalhes_palavra_menu,menu);
-
-
-
         return true;
     }
 
@@ -94,13 +91,13 @@ public class PalavrasDetalhesActivity extends AppCompatActivity  {
         int id =  item.getItemId();
         if(id == R.id.ic_refresh) {
             try {
-                palavra =  palavraRepositorio.getById(palavra.getId());
+                palavra =  palavraRepositorio.getByIdSingle(palavra.getId());
                 if (palavra != null ) {
                     preencherObjetoPalavra(palavra);
                     Mensagem.snackbar("Atualizada com sucesso.", findViewById(R.id.layout_detalhes)).show();
                 }
             } catch (Exception e) {
-                Mensagem.snackbar("Error; " +e,findViewById(R.id.layout_detalhes));
+                Mensagem.snackbar("Error; " +e,findViewById(R.id.layout_detalhes)).show();
             }
         }
         else {

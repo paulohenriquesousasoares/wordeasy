@@ -1,5 +1,7 @@
 package wordeasy.br.com.wordeasy.view.servico;
 
+import android.content.Context;
+
 import wordeasy.br.com.wordeasy.view.dao.repositorio.PalavraRepositorio;
 import wordeasy.br.com.wordeasy.view.dao.servico.IPalavraServico;
 import wordeasy.br.com.wordeasy.view.dominio.Palavra;
@@ -9,14 +11,18 @@ public class PalavraServico implements IPalavraServico {
 
     PalavraRepositorio palavraRepositorio;
 
-    public PalavraServico(){
-        palavraRepositorio = new PalavraRepositorio();
+    public PalavraServico(Context context){
+        palavraRepositorio = new PalavraRepositorio(context);
     }
 
 
     @Override
     public void create(Palavra palavra)throws Exception{
         palavraRepositorio.create(palavra);
+    }
+
+    public void altera(Palavra palavra)throws Exception{
+        palavraRepositorio.alteraPalavra(palavra);
     }
 
 

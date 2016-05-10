@@ -1,6 +1,7 @@
 package wordeasy.br.com.wordeasy.model;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
@@ -20,9 +21,9 @@ public class MainModel implements ModelOperacaoMain{
     private PalavraRepositorio palavraRepositorio;
     private ArrayList<Palavra> palavras;
 
-    public MainModel(RetornoPresenteOpercaoMain mPresenteRetorno) {
+    public MainModel(RetornoPresenteOpercaoMain mPresenteRetorno, Context context) {
         this.mPresenteRetorno = mPresenteRetorno;
-        palavraRepositorio = new PalavraRepositorio();
+        palavraRepositorio = new PalavraRepositorio(context);
         palavras = new ArrayList<Palavra>();
     }
 

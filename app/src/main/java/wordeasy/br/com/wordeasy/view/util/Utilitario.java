@@ -11,7 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import io.realm.Realm;
 import wordeasy.br.com.wordeasy.R;
@@ -22,14 +25,10 @@ import wordeasy.br.com.wordeasy.view.dominio.Usuario;
 
 public class Utilitario {
 
-    private static Realm realm;
-
-
 
     public static void getColor(String indiceLetra, View view) {
 
         GradientDrawable shape = (GradientDrawable) view.getBackground();
-
 
         if(indiceLetra.equals("A")) {
             shape.setStroke(1, view.getResources().getColor( R.color.verde) );
@@ -141,52 +140,15 @@ public class Utilitario {
         }
     }
 
-    //Pega as palavras como teste
-    public static int getPalavrasIniciais(Usuario user) {
-
-        PalavraRepositorio palavraRepositorio = new PalavraRepositorio();
-        int qtdPalavrasInseridas = 0;
-
-        String[] ingles = new String[]{"Home","Car","Therefore","Wonderful","Against","Take","Smile"
-                ,"Yourself","I","Gift","Document","Cross","Coffe","Anybody","Religion","Murder"
-                ,"Stick","Engage","Beginning","Very"};
-
-        String[] portugues = new String[]{"Casa","Carro","Portanto","Maravihoso","Contra","Pegar","Sorriso"
-                ,"Voce mesmo","Eu","Presente","Documento","Atravessar","Café","Alguém","Religião","Assassinato"
-                ,"Lançar","Envolver-se","Começo","Muito"};
-
-        for (int index = 0; index < ingles.length; index++) {
-
-                Palavra palavra = new Palavra();
-                palavra.setPalavraEmIngles(ingles[index].toString());
-                palavra.setPalavraEmPortugues(portugues[index].toString());
-                palavra.setIndicePalavra(ingles[index].toString().substring(0, 1).toUpperCase());
-                palavra.setFavorito(false);
-                palavra.setUsuario(user);
-                palavra.setQtdErros(0);
-                palavra.setQtdAcertos(0);
-                palavra.setQtdVezesEstudou(0);
-                palavra.setCardPersonalizado(false);
-                palavra.setNaoEstudar(false);
-
-            try {
-                palavraRepositorio.create(palavra);
-                qtdPalavrasInseridas +=1;
-            }
-            catch (Exception e) {}
-        }
-        return qtdPalavrasInseridas;
-    }
-
 
     //PREFERENCE DE Usuario
     public static void salvaInSharedPreferenceUsuario(Activity activity, Usuario usuario) {
         SharedPreferences settings =  activity.getSharedPreferences(Constantes.PREFS_LOGIN, 0);
         SharedPreferences.Editor editor = settings.edit();
-        editor.putLong("id", usuario.getId());
-        editor.putString("nome", usuario.getNome());
-        editor.putString("email", usuario.getEmail());
-        editor.putString("senha", usuario.getSenha());
+        editor.putLong("ID", usuario.getId());
+        editor.putString("NOME", usuario.getNome());
+        editor.putString("EMAIL", usuario.getEmail());
+        editor.putString("SENHA", usuario.getSenha());
         editor.commit();
     }
 
@@ -195,10 +157,10 @@ public class Utilitario {
         SharedPreferences settings = activity.getSharedPreferences(Constantes.PREFS_LOGIN, 0);
         Usuario usuario = new Usuario();
 
-        usuario.setId(settings.getLong("id", 0));
-        usuario.setNome(settings.getString("nome", ""));
-        usuario.setEmail(settings.getString("email", ""));
-        usuario.setSenha(settings.getString("senha", ""));
+        usuario.setId(settings.getLong("ID", 0));
+        usuario.setNome(settings.getString("NOME", ""));
+        usuario.setEmail(settings.getString("EMAIL", ""));
+        usuario.setSenha(settings.getString("SENHA", ""));
         return  usuario;
     }
 
@@ -231,24 +193,22 @@ public class Utilitario {
         destroyAlarme(activity);
 
         //if(alarmeAtivo) {
-            Log.i("TAG", "criou alarme");
-
             Intent intent = new Intent("ALARME_DISPARADO");
             PendingIntent pendingIntent = PendingIntent.getBroadcast(activity, 0, intent, 0);
 
             Calendar calendar = Calendar.getInstance();
-            calendar.setTimeInMillis(System.currentTimeMillis());
+            //calendar.setTimeInMillis(System.currentTimeMillis());
 
-            //calendar.add(Calendar.HOUR_OF_DAY, configuracao.getHora());
+            calendar.add(Calendar.HOUR_OF_DAY, configuracao.getHora());
             calendar.add(Calendar.MINUTE, configuracao.getMinuto());
-            calendar.add(Calendar.HOUR, configuracao.getHora());
+           // calendar.add(Calendar.HOUR, configuracao.getHora());
 
             AlarmManager alarmManager = (AlarmManager)activity.getSystemService(activity.ALARM_SERVICE);
 
             //Normal
             //alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
 
-            //Repeticao
+               //Repeticao 1000 * 60 * 60 * 24
             alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),1000 * 60 * 60 * 24 , pendingIntent);//repete em 24 horas depois
         }
    // }

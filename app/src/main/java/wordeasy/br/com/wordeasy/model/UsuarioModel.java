@@ -1,6 +1,9 @@
 package wordeasy.br.com.wordeasy.model;
 
+import android.content.Context;
+
 import wordeasy.br.com.wordeasy.view.dao.repositorio.ConfiguracaoRepositorio;
+import wordeasy.br.com.wordeasy.view.dao.repositorio.UsuarioRepositorio;
 import wordeasy.br.com.wordeasy.view.dominio.Usuario;
 import wordeasy.br.com.wordeasy.interfaces.model.ModelOperacaoUsuario;
 import wordeasy.br.com.wordeasy.interfaces.presenter.RetornoPresenteOperacaoUsuario;
@@ -11,10 +14,13 @@ public class UsuarioModel implements ModelOperacaoUsuario {
 
     private RetornoPresenteOperacaoUsuario mPresente;
     private UsuarioServico usuarioServico;
+    private UsuarioRepositorio usuarioRepositorio;
 
-    public UsuarioModel(RetornoPresenteOperacaoUsuario mPresente) {
+
+    public UsuarioModel(RetornoPresenteOperacaoUsuario mPresente, Context context) {
         this.mPresente = mPresente;
         usuarioServico = new UsuarioServico();
+        usuarioRepositorio = new UsuarioRepositorio(context);
     }
 
     @Override
@@ -25,7 +31,8 @@ public class UsuarioModel implements ModelOperacaoUsuario {
             String result =  usuarioServico.validaUsuario(usuario);
 
             if(Constantes.OK.equals(result)) {
-                usuarioServico.create(usuario);
+                long idInserido =  usuarioRepositorio.create(usuario);
+                usuario.setId(idInserido);
                 mPresente.onCadastrado(usuario,estaAlterando);
             }
             else {

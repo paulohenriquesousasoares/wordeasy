@@ -26,9 +26,9 @@ public class MainPresenter implements RetornoPresenteOpercaoMain, PresenteOperac
     private WeakReference<ViewOperacaoRequisitaMain> mView;
     private ModelOperacaoMain mModel;
 
-    public MainPresenter(ViewOperacaoRequisitaMain mView) {
+    public MainPresenter(ViewOperacaoRequisitaMain mView, Context context) {
         this.mView = new WeakReference<ViewOperacaoRequisitaMain>(mView);
-        this.mModel = new MainModel(this);
+        this.mModel = new MainModel(this, context);
     }
 
     @Override

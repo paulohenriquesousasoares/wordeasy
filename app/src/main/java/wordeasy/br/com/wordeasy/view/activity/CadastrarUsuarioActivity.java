@@ -16,6 +16,7 @@ import wordeasy.br.com.wordeasy.view.dominio.Usuario;
 import wordeasy.br.com.wordeasy.interfaces.presenter.PresenterOperacaoUsuario;
 import wordeasy.br.com.wordeasy.interfaces.view.ViewOperacaoRequisitaUsuario;
 import wordeasy.br.com.wordeasy.presenter.UsuarioPresenter;
+import wordeasy.br.com.wordeasy.view.util.Mensagem;
 import wordeasy.br.com.wordeasy.view.util.Utilitario;
 
 public class CadastrarUsuarioActivity extends AppCompatActivity implements ViewOperacaoRequisitaUsuario {
@@ -70,7 +71,9 @@ public class CadastrarUsuarioActivity extends AppCompatActivity implements ViewO
     public void showToast(String message) { }
 
     @Override
-    public void showSnackBar(String message) {}
+    public void showSnackBar(String message) {
+        Mensagem.snackbar(message, findViewById(R.id.cadastrarUsuario)).show();
+    }
 
     @Override
     public void inicializarViewsTela() {

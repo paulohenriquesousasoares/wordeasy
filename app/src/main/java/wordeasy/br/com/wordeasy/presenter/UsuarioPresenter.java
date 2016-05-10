@@ -29,7 +29,7 @@ public class UsuarioPresenter implements  RetornoPresenteOperacaoUsuario, Presen
     public UsuarioPresenter(ViewOperacaoRequisitaUsuario view, Context context) {
         this.mView = new WeakReference<ViewOperacaoRequisitaUsuario>(view);
         this.context = context;
-        this.mModel = new UsuarioModel(this);
+        this.mModel = new UsuarioModel(this, context);
         configuracaoRepositorio = new ConfiguracaoRepositorio();
     }
 
@@ -91,7 +91,7 @@ public class UsuarioPresenter implements  RetornoPresenteOperacaoUsuario, Presen
                 }
             }
         }
-         Utilitario.salvaInSharedPreferenceUsuario((Activity) context, usuario);
+          Utilitario.salvaInSharedPreferenceUsuario((Activity) context, usuario);
          ((Activity) context).finish();
     }
 

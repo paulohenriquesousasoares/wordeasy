@@ -18,9 +18,9 @@ public class EstudarPresente implements RetornoPresenteOperacaoEstudar, Presente
     private WeakReference<ViewOperacaoRequisitaEstudar> mView;
     private ModelOperacaoEstudar mModel;
 
-    public EstudarPresente(ViewOperacaoRequisitaEstudar view) {
+    public EstudarPresente(ViewOperacaoRequisitaEstudar view, Context context) {
         this.mView = new WeakReference<ViewOperacaoRequisitaEstudar>(view);
-        this.mModel = new EstudarModel(this);
+        this.mModel = new EstudarModel(this, context);
     }
 
     /**

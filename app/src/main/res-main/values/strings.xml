@@ -1,6 +1,6 @@
 <resources>
     <!--Labels activitys-->
-    <string name="app_name">Easy word</string>
+    <string name="app_name">Lab english</string>
     <string name="download">Baixar novas palavras</string>
     <string name="new_word">Nova palavra</string>
     <string name="appConfiguraca">Configurações</string>
@@ -20,6 +20,8 @@
     <string name="label_itens_revisao">Itens por sessão de revisão</string>
     <string name="label_lembrete">Lembrete</string>
     <string name="novoUsuario">Novo usuário</string>
+    <string name="informacao">Informação</string>
+    <string name="labelSemPalavras">Olá tudo bem, você ainda não tem nenhuma palavra para estudar, mas não se preocupe iremos lhe ajudar com isso clique no texto abaixo, e adquira algumas palavras para iniciar seus estudos.</string>
 
     <string name="hint_nome">Nome</string>
     <string name="hint_email">Email</string>

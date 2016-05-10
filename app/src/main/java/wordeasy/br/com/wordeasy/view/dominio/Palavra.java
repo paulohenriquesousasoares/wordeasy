@@ -6,39 +6,36 @@ import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
 
-public class Palavra extends RealmObject implements Serializable {
+public class Palavra  implements Serializable {
 
     public static final String  ID = "br.com.wordeasy.modelo.palavra";
 
-    @PrimaryKey
     private long id;
-    private String PalavraEmIngles;
-    private String PalavraEmPortugues;
-    private String IndicePalavra;
-    private boolean Favorito;
-    private Usuario Usuario;
-    private int QtdErros;
-    private int QtdAcertos;
-    private int QtdVezesEstudou;
-    private boolean CardPersonalizado;
-    private boolean NaoEstudar;
+    private String palavraEmIngles;
+    private String palavraEmPortugues;
+    private String indicePalavra;
+    private long usuarioId;
+    private int qtdErros;
+    private int qtdAcertos;
+    private int qtdVezesEstudou;
+    private int cardPersonalizado;
+    private int naoEstudar;
 
-    //usadas no recycleview quando estiver CardPersonalizado e NaoEstudar como true para serem exibidas na lista
+    //usadas no recycleview quando estiver cardPersonalizado e naoEstudar como true para serem exibidas na lista
     private String CardPersonalizadoSelecionado;
     private String NaoEstudarMaisSelecionado;
 
-    public Palavra() {}
+//    public Palavra() {}
 
-    public Palavra(String indicePalavra,String palavraEmIngles, String palavraEmPortugues,boolean favorito,int qtdErros,int qtdAcertos,int qtdVezesEstudou,Usuario usuario) {
-        this.PalavraEmIngles = palavraEmIngles;
-        this.PalavraEmPortugues = palavraEmPortugues;
-        this.IndicePalavra = indicePalavra;
-        this.Favorito = favorito;
-        this.QtdErros = qtdErros;
-        this.QtdAcertos = qtdAcertos;
-        this.QtdVezesEstudou = qtdVezesEstudou;
-        this.Usuario = usuario;
-    }
+//    public Palavra(String indicePalavra,String palavraEmIngles, String palavraEmPortugues,boolean favorito,int qtdErros,int qtdAcertos,int qtdVezesEstudou,Usuario usuario) {
+//        this.palavraEmIngles = palavraEmIngles;
+//        this.palavraEmPortugues = palavraEmPortugues;
+//        this.indicePalavra = indicePalavra;
+//        this.qtdErros = qtdErros;
+//        this.qtdAcertos = qtdAcertos;
+//        this.qtdVezesEstudou = qtdVezesEstudou;
+//        this.Usuario = usuario;
+//    }
 
     public long getId() {
         return id;
@@ -48,67 +45,61 @@ public class Palavra extends RealmObject implements Serializable {
     }
 
     public String getPalavraEmIngles() {
-        return PalavraEmIngles;
+        return palavraEmIngles;
     }
     public void setPalavraEmIngles(String palavraEmIngles) {
-        PalavraEmIngles = palavraEmIngles;
+        this.palavraEmIngles = palavraEmIngles;
     }
 
     public String getPalavraEmPortugues() {
-        return PalavraEmPortugues;
+        return palavraEmPortugues;
     }
     public void setPalavraEmPortugues(String palavraEmPortugues) {
-        this.PalavraEmPortugues = palavraEmPortugues;
+        this.palavraEmPortugues = palavraEmPortugues;
     }
 
     public String getIndicePalavra() {
-        return IndicePalavra;
+        return indicePalavra;
     }
     public void setIndicePalavra(String indicePalavra) {
-        this.IndicePalavra = indicePalavra;
+        this.indicePalavra = indicePalavra;
     }
 
-    public boolean isFavorito() {
-        return Favorito;
-    }
-    public void setFavorito(boolean favorito) {
-        this.Favorito = favorito;
+    public long getUsuarioId() {
+        return usuarioId;
     }
 
-    public Usuario getUsuario() {
-        return Usuario;
-    }
-    public void setUsuario(Usuario usuario) {
-        this.Usuario = usuario;
+    public void setUsuarioId(long usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
     public int getQtdErros() {
-        return QtdErros;
+        return qtdErros;
     }
     public void setQtdErros(int qtdErros) {
-        this.QtdErros = qtdErros;
+        this.qtdErros = qtdErros;
     }
 
     public int getQtdAcertos() {
-        return QtdAcertos;
+        return qtdAcertos;
     }
     public void setQtdAcertos(int qtdAcertos) {
-        this.QtdAcertos = qtdAcertos;
+        this.qtdAcertos = qtdAcertos;
     }
 
     public int getQtdVezesEstudou() {
-        return QtdVezesEstudou;
+        return qtdVezesEstudou;
     }
-    public void setQtdVezesEstudou(int qtdVezesEstudou) {this.QtdVezesEstudou = qtdVezesEstudou;}
+    public void setQtdVezesEstudou(int qtdVezesEstudou) {this.qtdVezesEstudou = qtdVezesEstudou;}
 
-    public boolean isCardPersonalizado() {return CardPersonalizado;}
-    public void setCardPersonalizado(boolean cardPersonalizado) {  CardPersonalizado = cardPersonalizado; }
+    public int isCardPersonalizado() {return cardPersonalizado;}
+    public void setCardPersonalizado(int cardPersonalizado) {  this.cardPersonalizado = cardPersonalizado; }
 
-    public boolean isNaoEstudar() {
-        return NaoEstudar;
+    public int isNaoEstudar() {
+        return naoEstudar;
     }
-    public void setNaoEstudar(boolean naoEstudar) {
-        NaoEstudar = naoEstudar;
+    public void setNaoEstudar(int naoEstudar) {
+        this.naoEstudar = naoEstudar;
     }
 
     public String getCardPersonalizadoSelecionado() { return CardPersonalizadoSelecionado; }

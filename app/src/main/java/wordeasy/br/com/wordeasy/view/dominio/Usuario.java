@@ -5,11 +5,10 @@ import java.io.Serializable;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 
-public class Usuario extends RealmObject implements Serializable {
+public class Usuario  implements Serializable {
 
     public static final String  ID = "br.com.wordeasy.modelo.usuairo";
 
-    @PrimaryKey
     private long id;
     private String nome;
     private String email;

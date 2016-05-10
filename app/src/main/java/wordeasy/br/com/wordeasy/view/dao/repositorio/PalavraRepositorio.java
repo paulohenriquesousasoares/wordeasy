@@ -1,143 +1,70 @@
 package wordeasy.br.com.wordeasy.view.dao.repositorio;
 
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
-import io.realm.Realm;
-import io.realm.RealmResults;
-import io.realm.Sort;
-import wordeasy.br.com.wordeasy.view.dao.contrato.IPalavraRepositorio;
+import wordeasy.br.com.wordeasy.view.dao.DatabaseHelper;
 import wordeasy.br.com.wordeasy.view.dominio.Palavra;
-import wordeasy.br.com.wordeasy.view.dominio.Usuario;
+import wordeasy.br.com.wordeasy.view.util.Constantes;
 
-public class PalavraRepositorio implements IPalavraRepositorio {
-
-    private Realm realm;
-
-    //opcao 0 = get all cardpersonalizado
-    //opcao 1 = get all nao estudar
-    //opcao 3 = pega todas as palavras
-    public ArrayList<Palavra> getAllPalavra(long userId, int opcao) throws Exception{
-
-        ArrayList<Palavra> palavraLista = new ArrayList<Palavra>();
-
-        realm =  Realm.getDefaultInstance();
-
-        RealmResults<Palavra> resultPalavra = null;
-
-        if(opcao == 0) {
-            resultPalavra = realm.where(Palavra.class)
-                    .equalTo("Usuario.id", userId)
-                    .equalTo("CardPersonalizado", true)
-                    .equalTo("NaoEstudar",false)
-                    .findAll();
-        }
-        else if(opcao == 1) {
-            resultPalavra = realm.where(Palavra.class)
-                    .equalTo("Usuario.id", userId)
-                    .equalTo("NaoEstudar", true)
-                    .findAll();
-        }
-        else if(opcao == 3){
-           resultPalavra = realm.where(Palavra.class)
-                    .equalTo("Usuario.id", userId)
-                    .equalTo("NaoEstudar",false)
-                    .findAll();
-        }
+public class PalavraRepositorio  {
 
 
-        for(Palavra p : resultPalavra) {
-            Palavra palavra = new Palavra();
-            palavra.setId(p.getId());
-            palavra.setPalavraEmIngles(p.getPalavraEmIngles());
-            palavra.setPalavraEmPortugues(p.getPalavraEmPortugues());
-            String indice = p.getIndicePalavra().toUpperCase() != null ? p.getIndicePalavra().toUpperCase() : "ND";
-            palavra.setIndicePalavra(indice);
-            palavra.setFavorito(p.isFavorito());
+    private DatabaseHelper databaseHelper;
 
-            //Preenche o objeto aqui para tirar do realm
-            Usuario user = new Usuario();
-            user.setId(p.getUsuario().getId());
-            user.setNome(p.getUsuario().getNome());
-            user.setEmail(p.getUsuario().getEmail());
-            user.setSenha(p.getUsuario().getSenha());
-
-            palavra.setUsuario(user);
-            palavra.setQtdAcertos(p.getQtdAcertos());
-            palavra.setQtdErros(p.getQtdErros());
-            palavra.setQtdVezesEstudou(p.getQtdVezesEstudou());
-            palavra.setCardPersonalizado(p.isCardPersonalizado());
-            palavra.setNaoEstudar(p.isNaoEstudar());
-
-            palavraLista.add(palavra);
-        }
-        realm.close();
-        return palavraLista;
+    public PalavraRepositorio(Context context){
+        databaseHelper = new DatabaseHelper(context);
     }
 
 
-    //pega todas as palavras cadastradas
-    public ArrayList<Palavra> get(long userId) throws Exception{
-
-        ArrayList<Palavra> palavraLista = new ArrayList<Palavra>();
-
-        realm =  Realm.getDefaultInstance();
-
-        RealmResults<Palavra> resultPalavra = realm.where(Palavra.class)
-                .equalTo("Usuario.id", userId)
-                .equalTo("NaoEstudar",false)
-                .findAll();
-
-        for(Palavra p : resultPalavra) {
-            Palavra palavra = new Palavra();
-            palavra.setId(p.getId());
-            palavra.setPalavraEmIngles(p.getPalavraEmIngles());
-            palavra.setPalavraEmPortugues(p.getPalavraEmPortugues());
-            String indice = p.getIndicePalavra().toUpperCase() != null ? p.getIndicePalavra().toUpperCase() : "ND";
-            palavra.setIndicePalavra(indice);
-            palavra.setFavorito(p.isFavorito());
-
-            //Preenche o objeto aqui para tirar do realm
-            Usuario user = new Usuario();
-            user.setId(p.getUsuario().getId());
-            user.setNome(p.getUsuario().getNome());
-            user.setEmail(p.getUsuario().getEmail());
-            user.setSenha(p.getUsuario().getSenha());
-
-            palavra.setUsuario(user);
-            palavra.setQtdAcertos(p.getQtdAcertos());
-            palavra.setQtdErros(p.getQtdErros());
-            palavra.setQtdVezesEstudou(p.getQtdVezesEstudou());
-            palavra.setCardPersonalizado(p.isCardPersonalizado());
-            palavra.setNaoEstudar(p.isNaoEstudar());
-            palavra.setNaoEstudarMaisSelecionado("");
-            palavra.setCardPersonalizadoSelecionado("");
-
-            palavraLista.add(palavra);
-        }
-        realm.close();
-        return palavraLista;
-    }
-
-
+    //OK
     public ArrayList<Palavra> get(int qtdPalavras, long userId) throws  Exception{
 
-        realm =  Realm.getDefaultInstance();
-
         ArrayList<Palavra> palavraLista = new ArrayList<Palavra>();
+        ArrayList<Palavra> palavraListaEstudar = new ArrayList<Palavra>();
+        Palavra palavra;
 
-        Realm realm = Realm.getDefaultInstance();
-        RealmResults<Palavra> resultPalavra = realm.where(Palavra.class)
-                .equalTo("Usuario.id", userId)
-                .equalTo("NaoEstudar",false)
-                .findAll();
 
-        int count = resultPalavra.size();
+        String selectQuery = "SELECT  * FROM " + Constantes.TABLE_PALAVRA + " WHERE USUARIO = " + userId + " AND "
+                            + Constantes.NAO_ESTUDAR + "=" + Constantes.FALSE;
+
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        //Obtem todas as palavras
+        if (c.moveToFirst()) {
+            do {
+                palavra = new Palavra();
+                palavra.setId(c.getLong(c.getColumnIndex(Constantes.ID)));
+                palavra.setPalavraEmIngles(c.getString(c.getColumnIndex(Constantes.INGLES)));
+                palavra.setPalavraEmPortugues(c.getString(c.getColumnIndex(Constantes.PORTUGUES)));
+                palavra.setIndicePalavra(c.getString(c.getColumnIndex(Constantes.INDICE)));
+                palavra.setUsuarioId(c.getLong(c.getColumnIndex(Constantes.USUARIO)));
+                palavra.setQtdErros(c.getInt(c.getColumnIndex(Constantes.ERROS)));
+                palavra.setQtdAcertos(c.getInt(c.getColumnIndex(Constantes.ACERTOS)));
+                palavra.setQtdVezesEstudou(c.getInt(c.getColumnIndex(Constantes.QTD_ESTUDOU)));
+                palavra.setCardPersonalizado(c.getInt(c.getColumnIndex(Constantes.CARD_PERSONZALIZADO)));
+                palavra.setNaoEstudar(c.getInt(c.getColumnIndex(Constantes.NAO_ESTUDAR)));
+
+                palavraLista.add(palavra);
+            } while (c.moveToNext());
+        }
+        db.close();
+
+
+        //todas as palavras size
+        int count = palavraLista.size();
+
         Random gerador = new Random();
+
         List<Integer> indicesjaAdicionadosAoEstudo = new ArrayList<Integer>();
 
-        for (int i=0; i<qtdPalavras;i++) {
+        for (int i=0; i< qtdPalavras;i++) {
             int position =  gerador.nextInt(count);
 
             while (true) {
@@ -148,113 +75,213 @@ public class PalavraRepositorio implements IPalavraRepositorio {
                 position = gerador.nextInt(count);
             }
 
-            Palavra palavra = new Palavra();
-            palavra.setId(resultPalavra.get(position).getId());
-            palavra.setPalavraEmIngles(resultPalavra.get(position).getPalavraEmIngles());
-            palavra.setPalavraEmPortugues(resultPalavra.get(position).getPalavraEmPortugues());
-            palavra.setIndicePalavra(resultPalavra.get(position).getIndicePalavra().toUpperCase());
-            palavra.setFavorito(resultPalavra.get(position).isFavorito());
-            palavra.setUsuario(resultPalavra.get(position).getUsuario());
-            palavra.setCardPersonalizado(resultPalavra.get(position).isCardPersonalizado());
-            palavra.setNaoEstudar(resultPalavra.get(position).isNaoEstudar());
-            palavraLista.add(palavra);
+            palavra = new Palavra();
+            palavra.setId(palavraLista.get(position).getId());
+            palavra.setPalavraEmIngles(palavraLista.get(position).getPalavraEmIngles());
+            palavra.setPalavraEmPortugues(palavraLista.get(position).getPalavraEmPortugues());
+            palavra.setIndicePalavra(palavraLista.get(position).getIndicePalavra().toUpperCase());
+            palavra.setUsuarioId(palavraLista.get(position).getUsuarioId());
+            palavra.setCardPersonalizado(palavraLista.get(position).isCardPersonalizado());
+            palavra.setNaoEstudar(palavraLista.get(position).isNaoEstudar());
+            palavraListaEstudar.add(palavra);
         }
 
-        realm.close();
+        return palavraListaEstudar;
+    }
+
+    public void create(Palavra palavra) throws Exception {
+
+        SQLiteDatabase db =  databaseHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Constantes.INGLES, palavra.getPalavraEmIngles());
+        values.put(Constantes.PORTUGUES, palavra.getPalavraEmPortugues());
+        values.put(Constantes.INDICE, palavra.getIndicePalavra());
+        values.put(Constantes.USUARIO,palavra.getUsuarioId() );
+        values.put(Constantes.ERROS, palavra.getQtdErros());
+        values.put(Constantes.ACERTOS, palavra.getQtdAcertos());
+        values.put(Constantes.QTD_ESTUDOU, palavra.getQtdVezesEstudou());
+        values.put(Constantes.CARD_PERSONZALIZADO, palavra.isCardPersonalizado());
+        values.put(Constantes.NAO_ESTUDAR, palavra.isNaoEstudar());
+        long idInserido =  db.insert(Constantes.TABLE_PALAVRA, null, values);
+        db.close();
+    }
+
+    public void alteraPalavra(Palavra palavra) throws Exception {
+        SQLiteDatabase db =  databaseHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        values.put(Constantes.INGLES, palavra.getPalavraEmIngles());
+        values.put(Constantes.PORTUGUES, palavra.getPalavraEmPortugues());
+        values.put(Constantes.INDICE, palavra.getIndicePalavra());
+        values.put(Constantes.USUARIO,palavra.getUsuarioId() );
+        values.put(Constantes.ERROS, palavra.getQtdErros());
+        values.put(Constantes.ACERTOS, palavra.getQtdAcertos());
+        values.put(Constantes.QTD_ESTUDOU, palavra.getQtdVezesEstudou());
+        values.put(Constantes.CARD_PERSONZALIZADO, palavra.isCardPersonalizado());
+        values.put(Constantes.NAO_ESTUDAR, palavra.isNaoEstudar());
+
+        db.update(Constantes.TABLE_PALAVRA, values, Constantes.ID + " = ?", new String[]{String.valueOf(palavra.getId())});
+    }
+
+    public void deleta() throws Exception{
+
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        db.delete(Constantes.TABLE_PALAVRA,null,null);
+        db.close();
+    }
+
+    public ArrayList<Palavra> getById(long userId) throws Exception{
+
+        ArrayList<Palavra> palavraLista = new ArrayList<Palavra>();
+        String selectQuery = "SELECT  * FROM " + Constantes.TABLE_PALAVRA + " WHERE USUARIO = " + userId ;
+
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c.moveToFirst()) {
+            do {
+                Palavra palavra = new Palavra();
+                palavra.setId(c.getLong(c.getColumnIndex(Constantes.ID)));
+                palavra.setPalavraEmIngles(c.getString(c.getColumnIndex(Constantes.INGLES)));
+                palavra.setPalavraEmPortugues(c.getString(c.getColumnIndex(Constantes.PORTUGUES)));
+                palavra.setIndicePalavra(c.getString(c.getColumnIndex(Constantes.INDICE)));
+                palavra.setUsuarioId(c.getLong(c.getColumnIndex(Constantes.USUARIO)));
+                palavra.setQtdErros(c.getInt(c.getColumnIndex(Constantes.ERROS)));
+                palavra.setQtdAcertos(c.getInt(c.getColumnIndex(Constantes.ACERTOS)));
+                palavra.setQtdVezesEstudou(c.getInt(c.getColumnIndex(Constantes.QTD_ESTUDOU)));
+                palavra.setCardPersonalizado(c.getInt(c.getColumnIndex(Constantes.CARD_PERSONZALIZADO)));
+                palavra.setNaoEstudar(c.getInt(c.getColumnIndex(Constantes.NAO_ESTUDAR)));
+
+                palavraLista.add(palavra);
+            } while (c.moveToNext());
+        }
+        db.close();
         return palavraLista;
     }
 
-    @Override
-    public void delete(long id) throws Exception{
-        realm = Realm.getDefaultInstance();
-
-        RealmResults<Palavra> results = realm.where(Palavra.class)
-                .equalTo("id",id)
-                .findAll();
-
-        realm.beginTransaction();
-
-        Palavra palavra = results.get(0);
-        palavra.removeFromRealm();
-        realm.commitTransaction();
-        realm.close();
-    }
-
-    @Override
-    public Palavra getById(long id) throws Exception{
-
-        realm = Realm.getDefaultInstance();
-
-        RealmResults<Palavra> results = realm.where(Palavra.class)
-                .equalTo("id", id)
-                .findAll();
+    public Palavra getByIdSingle(long palavraId) throws Exception{
 
         Palavra palavra = new Palavra();
+        String selectQuery = "SELECT  * FROM " + Constantes.TABLE_PALAVRA + "  WHERE " + Constantes.ID + "  = " + palavraId ;
 
-        for(Palavra u : results) {
-            palavra.setId(u.getId()) ;
-            palavra.setPalavraEmIngles(u.getPalavraEmIngles());
-            palavra.setPalavraEmPortugues(u.getPalavraEmPortugues());
-            palavra.setIndicePalavra(u.getIndicePalavra());
-            palavra.setFavorito(u.isFavorito());
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
 
-            Usuario user = new Usuario();
-            user.setId(u.getUsuario().getId());
-            user.setNome(u.getUsuario().getNome());
-            user.setEmail(u.getUsuario().getEmail());
-            user.setSenha(u.getUsuario().getSenha());
+        if (c != null) {
+            c.moveToFirst();
 
-            palavra.setUsuario(user);
-            palavra.setQtdErros(u.getQtdErros());
-            palavra.setQtdAcertos(u.getQtdAcertos());
-            palavra.setQtdVezesEstudou(u.getQtdVezesEstudou());
-            palavra.setCardPersonalizado(u.isCardPersonalizado());
-            palavra.setNaoEstudar(u.isNaoEstudar());
+            palavra.setId(c.getLong(c.getColumnIndex(Constantes.ID)));
+            palavra.setPalavraEmIngles(c.getString(c.getColumnIndex(Constantes.INGLES)));
+            palavra.setPalavraEmPortugues(c.getString(c.getColumnIndex(Constantes.PORTUGUES)));
+            palavra.setIndicePalavra(c.getString(c.getColumnIndex(Constantes.INDICE)));
+            palavra.setUsuarioId(c.getLong(c.getColumnIndex(Constantes.USUARIO)));
+            palavra.setQtdErros(c.getInt(c.getColumnIndex(Constantes.ERROS)));
+            palavra.setQtdAcertos(c.getInt(c.getColumnIndex(Constantes.ACERTOS)));
+            palavra.setQtdVezesEstudou(c.getInt(c.getColumnIndex(Constantes.QTD_ESTUDOU)));
+            palavra.setCardPersonalizado(c.getInt(c.getColumnIndex(Constantes.CARD_PERSONZALIZADO)));
+            palavra.setNaoEstudar(c.getInt(c.getColumnIndex(Constantes.NAO_ESTUDAR)));
         }
-
-        realm.close();
+        db.close();
         return palavra;
     }
 
+    //opcao 0 = get all cardpersonalizado
+    //opcao 1 = get all nao estudar
+    //opcao 3 = pega todas as palavras
+    public ArrayList<Palavra> getAllPalavra(long userId, int opcao) throws Exception{
 
-    public boolean getByName(long userId,String palavra) throws Exception{
+        ArrayList<Palavra> palavraLista = new ArrayList<Palavra>();
+
+        String selectQuery ="";
+
+        if(opcao == 0) {
+            selectQuery =  "SELECT  * FROM " + Constantes.TABLE_PALAVRA + "  WHERE USUARIO = " + userId + " AND "
+                    + Constantes.CARD_PERSONZALIZADO  + " = " + Constantes.TRUE + " AND "
+                    + Constantes.NAO_ESTUDAR + "= " + Constantes.FALSE;
+
+        }
+        else if(opcao == 1) {
+
+            selectQuery =  "SELECT  * FROM " + Constantes.TABLE_PALAVRA + " WHERE USUARIO = " + userId + " AND "
+                    + Constantes.NAO_ESTUDAR  +" = " + Constantes.TRUE;
+
+        }
+        else if(opcao == 3){
+
+            selectQuery =  "SELECT  * FROM " + Constantes.TABLE_PALAVRA + " WHERE USUARIO = " + userId + " AND "
+                    + Constantes.NAO_ESTUDAR  +" = " + Constantes.FALSE;
+
+
+        }
+
+        SQLiteDatabase db = databaseHelper.getWritableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
+
+        if (c.moveToFirst()) {
+            do {
+                Palavra palavra = new Palavra();
+                palavra.setId(c.getLong(c.getColumnIndex(Constantes.ID)));
+                palavra.setPalavraEmIngles(c.getString(c.getColumnIndex(Constantes.INGLES)));
+                palavra.setPalavraEmPortugues(c.getString(c.getColumnIndex(Constantes.PORTUGUES)));
+                palavra.setIndicePalavra(c.getString(c.getColumnIndex(Constantes.INDICE)));
+                palavra.setUsuarioId(c.getLong(c.getColumnIndex(Constantes.USUARIO)));
+                palavra.setQtdErros(c.getInt(c.getColumnIndex(Constantes.ERROS)));
+                palavra.setQtdAcertos(c.getInt(c.getColumnIndex(Constantes.ACERTOS)));
+                palavra.setQtdVezesEstudou(c.getInt(c.getColumnIndex(Constantes.QTD_ESTUDOU)));
+                palavra.setCardPersonalizado(c.getInt(c.getColumnIndex(Constantes.CARD_PERSONZALIZADO)));
+                palavra.setNaoEstudar(c.getInt(c.getColumnIndex(Constantes.NAO_ESTUDAR)));
+
+                palavraLista.add(palavra);
+            } while (c.moveToNext());
+        }
+        db.close();
+        return palavraLista;
+    }
+
+    public boolean getByName(long userId,String palavraToVerificar) throws Exception{
+
         boolean retorno = true;
 
-        realm =  Realm.getDefaultInstance();
-        RealmResults<Palavra> resultPalavra = realm.where(Palavra.class)
-                .equalTo("Usuario.id", userId)
-                .equalTo("PalavraEmIngles", palavra.toUpperCase())
-                .findAll();
 
-        if(resultPalavra.size() > 0)
-            retorno = false;
+        String selectQuery = "SELECT  * FROM " + Constantes.TABLE_PALAVRA + " WHERE USUARIO = " + userId +
+                             " AND " + Constantes.INGLES + "= '"+palavraToVerificar.toLowerCase()+"'" ;
 
-        realm.close();
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
+        Cursor c = db.rawQuery(selectQuery, null);
 
+        if (c != null) {
+
+           if( c.moveToFirst() ) {
+
+               Palavra palavra = new Palavra();
+               long id = c.getLong(c.getColumnIndex(Constantes.ID));
+               String indice = c.getString(c.getColumnIndex(Constantes.INDICE));
+
+               if (id > 0)
+                   palavra.setId(id);
+
+               palavra.setPalavraEmIngles(c.getString(c.getColumnIndex(Constantes.INGLES)));
+               palavra.setPalavraEmPortugues(c.getString(c.getColumnIndex(Constantes.PORTUGUES)));
+
+               if (indice != null)
+                   palavra.setIndicePalavra(indice);
+               else
+                   palavra.setIndicePalavra("ND");
+
+               palavra.setUsuarioId(c.getLong(c.getColumnIndex(Constantes.USUARIO)));
+               palavra.setQtdErros(c.getInt(c.getColumnIndex(Constantes.ERROS)));
+               palavra.setQtdAcertos(c.getInt(c.getColumnIndex(Constantes.ACERTOS)));
+               palavra.setQtdVezesEstudou(c.getInt(c.getColumnIndex(Constantes.QTD_ESTUDOU)));
+               palavra.setCardPersonalizado(c.getInt(c.getColumnIndex(Constantes.CARD_PERSONZALIZADO)));
+               palavra.setNaoEstudar(c.getInt(c.getColumnIndex(Constantes.NAO_ESTUDAR)));
+               retorno = false;
+           }
+        }
+        db.close();
         return  retorno;
     }
 
-    @Override
-    public void create(Palavra palavra) throws Exception {
 
-        realm = Realm.getDefaultInstance();
 
-        long id;
-        if( palavra.getId() < 1 ) {
-            RealmResults<Palavra> result = realm.where(Palavra.class).findAll();
-            result.sort("id", Sort.DESCENDING);
 
-            //Pega o ultimo id inserido
-            id = result.size() == 0 ? 1 : result.get(0).getId() + 1;
-            palavra.setId(id);
-        }
-
-        realm.beginTransaction();
-        realm.copyToRealmOrUpdate(palavra);
-        realm.commitTransaction();
-        realm.close();
-    }
-
-    @Override
-    public void update(Palavra object) { }
 }

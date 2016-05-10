@@ -21,8 +21,6 @@ public class BroadcastReceiverAux extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
-        Log.i(Constantes.TAG, "-->Alarme");
         gerarNotificacao(context, new Intent(context, SplashActivity.class),"Nova mensagem","Hora de praticar :)","Reforçe sua memória com apenas 5 minutos por dia de estudo.");
     }
 
@@ -35,14 +33,14 @@ public class BroadcastReceiverAux extends BroadcastReceiver {
         builder.setTicker(ticker);
         builder.setContentTitle(titulo);
         builder.setContentText(descricao);
-        builder.setSmallIcon(R.drawable.ic_create_white_24dp);
-        builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_create_white_24dp));
+        builder.setSmallIcon(R.drawable.ic_icon);
+        builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_icon));
         builder.setContentIntent(p);
 
         Notification n = builder.build();
         n.vibrate = new long[]{150,300,150,600};
         n.flags = Notification.FLAG_AUTO_CANCEL;
-        nm.notify(R.drawable.ic_favorite_black_24dp,n);
+        nm.notify(R.drawable.ic_icon,n);
 
         try {
 

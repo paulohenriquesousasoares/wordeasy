@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.daimajia.androidanimations.library.Techniques;
 import com.daimajia.androidanimations.library.YoYo;
 
+import java.security.spec.ECField;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -68,7 +69,7 @@ public class RevisaoActivity extends AppCompatActivity implements ViewOperacaoRe
 
     @Override
     public void inicializarViewsTela() {
-        palavraRepositorio = new PalavraRepositorio();
+        palavraRepositorio = new PalavraRepositorio(RevisaoActivity.this);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.revisao_label);
         mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
@@ -77,7 +78,7 @@ public class RevisaoActivity extends AppCompatActivity implements ViewOperacaoRe
 
 
         try{
-            mPresente   = new EstudarPresente(this);
+            mPresente   = new EstudarPresente(this,RevisaoActivity.this);
         }
         catch (Exception e) {
             Mensagem.snackbar("" + e, findViewById(R.id.layoutRevisao)).show();
@@ -106,9 +107,9 @@ public class RevisaoActivity extends AppCompatActivity implements ViewOperacaoRe
 
     private void atualizaPalavra(Palavra palavra) {
         try {
-            palavraRepositorio.create(palavra);
+            palavraRepositorio.alteraPalavra(palavra);
         } catch (Exception e) {
-            e.printStackTrace();
+            Mensagem.toast(RevisaoActivity.this,""+e).show();
         }
     }
 
@@ -119,6 +120,7 @@ public class RevisaoActivity extends AppCompatActivity implements ViewOperacaoRe
 
         if(palavrasListaGlobal.size() > -1) {
 
+            int tempoEspera = 2000;
             final Palavra palavraAtualSendoRevisada = palavrasListaGlobal.get(positionLista);
 
             String[] palavraCorreta = palavraAtualSendoRevisada.getPalavraEmPortugues().split(",");
@@ -126,13 +128,22 @@ public class RevisaoActivity extends AppCompatActivity implements ViewOperacaoRe
 
             boolean jaVerificouPalavra =false;
             int volta = 0;
+
             for (int i = 0; i <palavraCorreta.length; i++) {
 
                 volta =  volta + 1;
                 if (palavraResposta.toLowerCase().trim().equals(palavraCorreta[i].toLowerCase().trim())) {
                     try {
+
+                        txtErrada.setVisibility(View.VISIBLE);
+                        txtErrada.setTextColor(getResources().getColor(R.color.primary_dark));
+                        txtErrada.setText("Você acertou!");
+
+                        try  {
+                            YoYo.with(Techniques.TakingOff).duration(1500).playOn(txtErrada);
+                        }  catch (Exception e){}
+
                         palavraAtualSendoRevisada.setQtdAcertos(palavraAtualSendoRevisada.getQtdAcertos() + 1);
-                        atualizaPalavra(palavraAtualSendoRevisada);
                         jaVerificouPalavra =true;
                         break;
 
@@ -146,18 +157,25 @@ public class RevisaoActivity extends AppCompatActivity implements ViewOperacaoRe
                     txtErrada.setText(palavraAtualSendoRevisada.getPalavraEmPortugues());
 
                     palavraAtualSendoRevisada.setQtdErros(palavraAtualSendoRevisada.getQtdErros() + 1);
-                    atualizaPalavra(palavraAtualSendoRevisada);
 
                     edtValorDigitado.setHintTextColor(getResources().getColor(R.color.vermelho));
                     edtValorDigitado.setTextColor(getResources().getColor(R.color.vermelho));
-                    YoYo.with(Techniques.Shake).duration(800).playOn(edtValorDigitado);
+
+                    try  {
+                        YoYo.with(Techniques.Shake).duration(800).playOn(edtValorDigitado);
+                    }  catch (Exception e){}
+
                     jaVerificouPalavra = true;
+                    tempoEspera = 3000;
                     break;
                 }
             }
 
-
             if(jaVerificouPalavra) {
+
+                //Atualiza a palavra acrescentando os indices de estudos
+                palavraAtualSendoRevisada.setQtdVezesEstudou(palavraAtualSendoRevisada.getQtdVezesEstudou() + 1);
+                atualizaPalavra(palavraAtualSendoRevisada);
 
                 new Handler().postDelayed(new Runnable() {
                     @Override
@@ -180,16 +198,12 @@ public class RevisaoActivity extends AppCompatActivity implements ViewOperacaoRe
                             edtValorDigitado.setText("");
                             edtValorDigitado.setHintTextColor(getResources().getColor(R.color.cinza));
                             edtValorDigitado.setTextColor(getResources().getColor(R.color.black_de));
-
                             atualizaTextViewPalavraEmIngles();
-                            palavraAtualSendoRevisada.setQtdVezesEstudou(palavraAtualSendoRevisada.getQtdVezesEstudou() + 1);
-                            atualizaPalavra(palavraAtualSendoRevisada);
-
                             txtErrada.setVisibility(View.VISIBLE);
                             txtErrada.setText("");
                         }
                     }
-                }, 2000);
+                }, tempoEspera);
             }
         }
     }

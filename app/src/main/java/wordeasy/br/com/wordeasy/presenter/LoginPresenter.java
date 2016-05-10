@@ -29,7 +29,7 @@ public class LoginPresenter implements RetornoPresenterOperacaoLogin, PresenteOp
 
     public LoginPresenter(ViewOperacaoRequisita view, Context activity) {
         this.mView = new WeakReference<ViewOperacaoRequisita>(view);
-        this.mModel = new LoginModel(this);
+        this.mModel = new LoginModel(this, activity);
         configuracaoRepositorio = new ConfiguracaoRepositorio();
         this.context = activity;
     }
@@ -93,7 +93,7 @@ public class LoginPresenter implements RetornoPresenterOperacaoLogin, PresenteOp
 
     @Override
     public void onError(String errorMsg) {
-        mView.get().showToast(errorMsg);
+        mView.get().showSnackBar(errorMsg);
     }
 
 

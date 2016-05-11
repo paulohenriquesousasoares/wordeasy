@@ -145,10 +145,14 @@ public class FragInicial extends Fragment  implements RecycleViewOnclickListener
 
                 ((MainActivity) getActivity()).getPalavras(Constantes.TAKE_ALL_PALAVRAS);
                  preencheRecycleView(((MainActivity) getActivity()).getAllPalvrasAtual());
-                ((MainActivity) getActivity()).trocaLabelToolbar("Todas");
+                ((MainActivity) getActivity()).trocaLabelToolbar("Todas("+palavrasLista.size()+")");
 
                 swipeRefreshLayout.setRefreshing(false);
                 swipeRefreshLayout.setColorSchemeColors(getResources().getColor(R.color.primary_dark));
+
+                ((MainActivity) getActivity()).hideToolbarRemoverPersonalzado(false);
+
+
             }
         });
 

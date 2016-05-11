@@ -189,8 +189,8 @@ public class Utilitario {
 
     public static void criaAlarme(Activity activity,Configuracao configuracao) {
 
-        boolean alarmeAtivo = (PendingIntent.getBroadcast(activity, 0, new Intent("ALARME_DISPARADO"), PendingIntent.FLAG_NO_CREATE) == null) ;
-        destroyAlarme(activity);
+        //boolean alarmeAtivo = (PendingIntent.getBroadcast(activity, 0, new Intent("ALARME_DISPARADO"), PendingIntent.FLAG_NO_CREATE) == null) ;
+//        destroyAlarme(activity);
 
         //if(alarmeAtivo) {
             Intent intent = new Intent("ALARME_DISPARADO");
@@ -199,9 +199,8 @@ public class Utilitario {
             Calendar calendar = Calendar.getInstance();
             //calendar.setTimeInMillis(System.currentTimeMillis());
 
-            calendar.add(Calendar.HOUR_OF_DAY, configuracao.getHora());
-            calendar.add(Calendar.MINUTE, configuracao.getMinuto());
-           // calendar.add(Calendar.HOUR, configuracao.getHora());
+            calendar.set(Calendar.HOUR_OF_DAY, configuracao.getHora());
+            calendar.set(Calendar.MINUTE, configuracao.getMinuto());
 
             AlarmManager alarmManager = (AlarmManager)activity.getSystemService(activity.ALARM_SERVICE);
 
@@ -209,7 +208,7 @@ public class Utilitario {
             //alarmManager.set(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),pendingIntent);
 
                //Repeticao 1000 * 60 * 60 * 24
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),1000 * 60 * 60 * 24 , pendingIntent);//repete em 24 horas depois
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),1000 * 60 * 60 * 24, pendingIntent);//repete em 24 horas depois
         }
    // }
 }

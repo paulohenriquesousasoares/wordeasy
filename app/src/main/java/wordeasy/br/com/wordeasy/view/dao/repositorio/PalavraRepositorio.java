@@ -21,8 +21,6 @@ public class PalavraRepositorio  {
         databaseHelper = new DatabaseHelper(context);
     }
 
-
-    //OK
     public ArrayList<Palavra> get(int qtdPalavras, long userId) throws  Exception{
 
         ArrayList<Palavra> palavraLista = new ArrayList<Palavra>();
@@ -31,7 +29,7 @@ public class PalavraRepositorio  {
 
 
         String selectQuery = "SELECT  * FROM " + Constantes.TABLE_PALAVRA + " WHERE USUARIO = " + userId + " AND "
-                            + Constantes.NAO_ESTUDAR + "=" + Constantes.FALSE;
+                            + Constantes.NAO_ESTUDAR + "=" + Constantes.FALSE ;
 
         SQLiteDatabase db = databaseHelper.getWritableDatabase();
         Cursor c = db.rawQuery(selectQuery, null);
@@ -81,6 +79,9 @@ public class PalavraRepositorio  {
             palavra.setPalavraEmPortugues(palavraLista.get(position).getPalavraEmPortugues());
             palavra.setIndicePalavra(palavraLista.get(position).getIndicePalavra().toUpperCase());
             palavra.setUsuarioId(palavraLista.get(position).getUsuarioId());
+            palavra.setQtdErros(palavraLista.get(position).getQtdErros());
+            palavra.setQtdAcertos(palavraLista.get(position).getQtdAcertos());
+            palavra.setQtdVezesEstudou(palavraLista.get(position).getQtdVezesEstudou());
             palavra.setCardPersonalizado(palavraLista.get(position).isCardPersonalizado());
             palavra.setNaoEstudar(palavraLista.get(position).isNaoEstudar());
             palavraListaEstudar.add(palavra);
@@ -121,6 +122,15 @@ public class PalavraRepositorio  {
         values.put(Constantes.NAO_ESTUDAR, palavra.isNaoEstudar());
 
         db.update(Constantes.TABLE_PALAVRA, values, Constantes.ID + " = ?", new String[]{String.valueOf(palavra.getId())});
+    }
+
+    public long removerCardPersonalizado() throws Exception {
+        SQLiteDatabase db =  databaseHelper.getWritableDatabase();
+        ContentValues values = new ContentValues();
+
+        //0 - siginica que nao esta no card personalizado
+        values.put(Constantes.CARD_PERSONZALIZADO, 0);
+        return db.update(Constantes.TABLE_PALAVRA, values,null,null);
     }
 
     public void deleta() throws Exception{
@@ -197,19 +207,19 @@ public class PalavraRepositorio  {
         if(opcao == 0) {
             selectQuery =  "SELECT  * FROM " + Constantes.TABLE_PALAVRA + "  WHERE USUARIO = " + userId + " AND "
                     + Constantes.CARD_PERSONZALIZADO  + " = " + Constantes.TRUE + " AND "
-                    + Constantes.NAO_ESTUDAR + "= " + Constantes.FALSE;
+                    + Constantes.NAO_ESTUDAR + "= " + Constantes.FALSE + " order by  " + Constantes.INGLES + " asc";
 
         }
         else if(opcao == 1) {
 
             selectQuery =  "SELECT  * FROM " + Constantes.TABLE_PALAVRA + " WHERE USUARIO = " + userId + " AND "
-                    + Constantes.NAO_ESTUDAR  +" = " + Constantes.TRUE;
+                    + Constantes.NAO_ESTUDAR  +" = " + Constantes.TRUE + " order by  " + Constantes.INGLES + " asc";
 
         }
         else if(opcao == 3){
 
             selectQuery =  "SELECT  * FROM " + Constantes.TABLE_PALAVRA + " WHERE USUARIO = " + userId + " AND "
-                    + Constantes.NAO_ESTUDAR  +" = " + Constantes.FALSE;
+                    + Constantes.NAO_ESTUDAR  +" = " + Constantes.FALSE + " order by  " + Constantes.INGLES + " asc";
 
 
         }

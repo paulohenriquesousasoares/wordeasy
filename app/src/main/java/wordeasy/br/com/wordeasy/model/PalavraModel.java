@@ -68,7 +68,7 @@ public class PalavraModel implements ModelOperacaoPalavra {
             if (result.equals(Constantes.OK)) {
 
                 try {
-                    palavra.setIndicePalavra(palavra.getPalavraEmIngles().substring(0, 1));
+                    palavra.setIndicePalavra(palavra.getPalavraEmIngles().substring(0, 1).toUpperCase());
                     if(operacao ==  Constantes.ALTERANDO){
                         palavraServico.altera(palavra);
                     }

@@ -25,6 +25,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -34,6 +36,7 @@ import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.jar.Manifest;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -75,13 +78,16 @@ public class MainActivity extends AppCompatActivity   implements
     private TextView palavraSelecionadaAlterar;
     private PresenteOperacaoMain mPresente;
     private Usuario usuarioLogadoGlobal;
+    private ImageView imgTirarCardPersonalizado;
+    private CheckBox checkConfirmarRemoverCard;
+    private Toolbar mtoolbarBoton;
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
-        ButterKnife.bind(MainActivity.this);
+        //ButterKnife.bind(MainActivity.this);
         inicializarViewsTela();
 
         this.savedInstanceState = savedInstanceState;
@@ -107,6 +113,14 @@ public class MainActivity extends AppCompatActivity   implements
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
+        imgTirarCardPersonalizado = (ImageView) findViewById(R.id.confirma_tirarCard);
+        checkConfirmarRemoverCard = (CheckBox) findViewById(R.id.selcionar_todas);
+        mtoolbarBoton = (Toolbar) findViewById(R.id.toolbar_botton_detalhes);
+
+        //listener
+        checkConfirmarRemoverCard.setOnClickListener(checkAll);
+        imgTirarCardPersonalizado.setOnClickListener(confirmar);
+
 
         mtoolbar.setTitle(R.string.app_name);
         setSupportActionBar(mtoolbar);
@@ -123,6 +137,8 @@ public class MainActivity extends AppCompatActivity   implements
             Mensagem.snackbar(""+e,findViewById(R.id.main)).show();
         }
     }
+
+
 
     public  void getPalavras(int tipoBuscado) {
         mPresente.getAllPalavras(usuarioLogadoGlobal.getId(), tipoBuscado);
@@ -212,8 +228,74 @@ public class MainActivity extends AppCompatActivity   implements
             return  "Adicionar ao card personalizado";
     }
 
+    public void hideToolbarRemoverPersonalzado( boolean hide ) {
+        if(hide) {
+            mtoolbarBoton.setVisibility(View.VISIBLE);
+
+        }
+        else {
+            mtoolbarBoton.setVisibility(View.GONE);
+            checkConfirmarRemoverCard.setChecked(false);
+            imgTirarCardPersonalizado.setVisibility(View.INVISIBLE);
+        }
+    }
+
 
     //listener
+
+    private View.OnClickListener checkAll = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+            boolean selecionado = checkConfirmarRemoverCard.isChecked();
+            checkConfirmarRemoverCard.setChecked(selecionado);
+
+
+            mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
+
+            if(selecionado) {
+                imgTirarCardPersonalizado.setVisibility(View.VISIBLE);
+                for (int i = 0; i< mAdapter.getItemCount();i++) {
+                   mRecyclerView.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.md_pink_50));
+                }
+            }
+            else {
+                imgTirarCardPersonalizado.setVisibility(View.INVISIBLE);
+                for (int i = 0; i< mAdapter.getItemCount();i++) {
+                    mRecyclerView.getChildAt(i).setBackgroundColor(getResources().getColor(R.color.branco));
+                }
+            }
+        }
+    };
+
+    private View.OnClickListener confirmar = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            final PalavraRepositorio palavraRepositorio = new PalavraRepositorio(MainActivity.this);
+
+            AlertDialog.Builder alert =  new AlertDialog.Builder(MainActivity.this);
+            alert.setMessage("Retirar todas do card personalizado?");
+
+            alert.setPositiveButton("SIM", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    try {
+                        palavraRepositorio.removerCardPersonalizado();
+                    } catch (Exception e) {
+                        Mensagem.snackbar("" + e, findViewById(R.id.main)).show();
+                    }
+
+                    mPresente.getAllPalavras(usuarioLogadoGlobal.getId(), Constantes.TAKE_ALL_PALAVRAS);
+                    preencheRecycleview(palavrasListaGlobal, mRecyclerView, mAdapter);
+                    trocaLabelToolbar("Todas(" + palavrasListaGlobal.size() + ")");
+                    hideToolbarRemoverPersonalzado(false);
+                }
+            });
+            alert.setNeutralButton("NÃO", null);
+            alert.show();
+        }
+    };
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -224,6 +306,9 @@ public class MainActivity extends AppCompatActivity   implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
+
+        menu.findItem(R.id.ic_orderby).setVisible(false);
+
         SearchView sv = new SearchView(this);
         sv.setOnQueryTextListener(new SearchFiltro());
         sv.setIconifiedByDefault(false);
@@ -245,6 +330,9 @@ public class MainActivity extends AppCompatActivity   implements
         int id = item.getItemId();
 
         if(id == R.id.ic_orderby) {
+
+            hideToolbarRemoverPersonalzado(false);
+
             ordenaCrescente=!ordenaCrescente;
             Collections.sort(palavrasListaGlobal, new Comparator<Palavra>() {
                 @Override
@@ -270,11 +358,13 @@ public class MainActivity extends AppCompatActivity   implements
 
             try {
 
+                hideToolbarRemoverPersonalzado(true);
+
                 mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
                 getPalavras(Constantes.TAKE_ALL_CARD_PERSONALIZADO);
 
                 preencheRecycleview(palavrasListaGlobalAuxiliar,mRecyclerView,mAdapter);
-                trocaLabelToolbar("Card personalizado");
+                trocaLabelToolbar("Personalizado("+palavrasListaGlobalAuxiliar.size()+")" );
             } catch (Exception e) {
                 Mensagem.toast(MainActivity.this,""+e).show();
             }
@@ -283,11 +373,12 @@ public class MainActivity extends AppCompatActivity   implements
 
             try {
 
+                hideToolbarRemoverPersonalzado(false);
+
                 mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
-                //mPresente.getAllPalavras(usuarioLogadoGlobal.getId(),Constantes.TAKE_ALL_NAO_ESTUDAR);
                 getPalavras(Constantes.TAKE_ALL_NAO_ESTUDAR);
                 preencheRecycleview(palavrasListaGlobalAuxiliar, mRecyclerView, mAdapter);
-                trocaLabelToolbar("Já sei");
+                trocaLabelToolbar("Já sei("+palavrasListaGlobalAuxiliar.size()+")" );
 
             } catch (Exception e) {
                 Mensagem.toast(MainActivity.this,""+e).show();
@@ -295,10 +386,13 @@ public class MainActivity extends AppCompatActivity   implements
 
         }
         else if(id == R.id.todas) {
+
+            hideToolbarRemoverPersonalzado(false);
+
             mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
-            mPresente.getAllPalavras(usuarioLogadoGlobal.getId(),Constantes.TAKE_ALL_PALAVRAS);
+            mPresente.getAllPalavras(usuarioLogadoGlobal.getId(), Constantes.TAKE_ALL_PALAVRAS);
             preencheRecycleview(palavrasListaGlobal, mRecyclerView, mAdapter);
-            trocaLabelToolbar("Todas");
+            trocaLabelToolbar("Todas("+palavrasListaGlobal.size()+")" );
         }
 
         return super.onOptionsItemSelected(item);
@@ -448,22 +542,36 @@ public class MainActivity extends AppCompatActivity   implements
 
         //se salvou uma nova palavra quando sair da tela cai aqui e adiciona as palvras na lista geral de
         if(resultCode == 2) {
-            ArrayList<Palavra> novasPalavras = (ArrayList<Palavra>) data.getExtras().getSerializable(Palavra.ID);
 
-            for(Palavra p : novasPalavras){
-                Palavra palavra = new Palavra();
-                palavra.setId(p.getId());
-                palavra.setPalavraEmIngles(p.getPalavraEmIngles());
-                palavra.setPalavraEmPortugues(p.getPalavraEmPortugues());
-                palavra.setCardPersonalizado(Constantes.FALSE);
-                palavra.setNaoEstudar(Constantes.FALSE);
-                palavra.setIndicePalavra(p.getIndicePalavra());
-                palavra.setUsuarioId(p.getUsuarioId());
-                palavra.setQtdErros(p.getQtdErros());
-                palavra.setQtdAcertos(p.getQtdAcertos());
-                palavra.setQtdVezesEstudou(p.getQtdVezesEstudou());
-                mAdapter.itensInserido(palavra,posicaoAux);
+            //ArrayList<Palavra> novasPalavras = (ArrayList<Palavra>) data.getExtras().getSerializable(Palavra.ID);
+
+            PalavraRepositorio palavraRepositorio = new PalavraRepositorio(MainActivity.this);
+            ArrayList<Palavra> novasPalavras = null;
+            try {
+                novasPalavras = palavraRepositorio.getAllPalavra(usuarioLogadoGlobal.getId(), Constantes.TAKE_ALL_PALAVRAS);
+                palavrasListaGlobal = novasPalavras;
+                mRecyclerView = (RecyclerView) findViewById(R.id.recycleView);
+                preencheRecycleview(palavrasListaGlobal,mRecyclerView,mAdapter);
+
+            } catch (Exception e) {
+                Mensagem.toast(MainActivity.this,"Erro na atualizacao " + e).show();
             }
+
+//            for(Palavra p : novasPalavras){
+//                Palavra palavra = new Palavra();
+//                palavra.setId(p.getId());
+//                palavra.setPalavraEmIngles(p.getPalavraEmIngles());
+//                palavra.setPalavraEmPortugues(p.getPalavraEmPortugues());
+//                palavra.setCardPersonalizado(Constantes.FALSE);
+//                palavra.setNaoEstudar(Constantes.FALSE);
+//                palavra.setIndicePalavra(p.getIndicePalavra());
+//                palavra.setUsuarioId(p.getUsuarioId());
+//                palavra.setQtdErros(p.getQtdErros());
+//                palavra.setQtdAcertos(p.getQtdAcertos());
+//                palavra.setQtdVezesEstudou(p.getQtdVezesEstudou());
+//                mAdapter.itensInserido(palavra, posicaoAux);
+//
+//            }
         }
 
         if(resultCode == 3) {

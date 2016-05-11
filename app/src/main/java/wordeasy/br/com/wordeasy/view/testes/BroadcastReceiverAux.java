@@ -33,14 +33,14 @@ public class BroadcastReceiverAux extends BroadcastReceiver {
         builder.setTicker(ticker);
         builder.setContentTitle(titulo);
         builder.setContentText(descricao);
-        builder.setSmallIcon(R.drawable.ic_icon);
-        builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_icon));
+        builder.setSmallIcon(R.drawable.ic_chrome_reader_mode_black_24dp);
+        builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_icon));//ok
         builder.setContentIntent(p);
 
         Notification n = builder.build();
         n.vibrate = new long[]{150,300,150,600};
         n.flags = Notification.FLAG_AUTO_CANCEL;
-        nm.notify(R.drawable.ic_icon,n);
+        nm.notify(R.drawable.ic_perm_contact_calendar_black_24dp,n);
 
         try {
 

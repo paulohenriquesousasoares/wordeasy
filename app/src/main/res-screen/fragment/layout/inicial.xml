@@ -78,5 +78,4 @@
 
     <include layout="@layout/opces_menu_botton" android:id="@+id/opcoes_menu_botton" />
 
-
 </RelativeLayout>

@@ -27,8 +27,10 @@ public class MenuDrawer implements ImenuDrawer {
                 .withActivity(activity)
                 .withCompactStyle(false)
                 .withSavedInstance(savedInstanceState)
-                .withThreeSmallProfileImages(true)
+                .withThreeSmallProfileImages(false)
                 .withHeaderBackground(R.drawable.logo_menu_drawer)
+                .withCurrentProfileHiddenInList(false)
+                .withProfileImagesVisible(false)
                 .addProfiles(new ProfileDrawerItem().withName(userNome).withEmail(userEmail)).withSelectionListEnabled(false)
 //                .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
 //                    @Override

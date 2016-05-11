@@ -139,8 +139,9 @@ public class RevisaoActivity extends AppCompatActivity implements ViewOperacaoRe
                         txtErrada.setTextColor(getResources().getColor(R.color.primary_dark));
                         txtErrada.setText("Você acertou!");
 
+
                         try  {
-                            YoYo.with(Techniques.TakingOff).duration(1500).playOn(txtErrada);
+                            YoYo.with(Techniques.TakingOff).duration(2500).playOn(txtErrada);
                         }  catch (Exception e){}
 
                         palavraAtualSendoRevisada.setQtdAcertos(palavraAtualSendoRevisada.getQtdAcertos() + 1);
@@ -154,16 +155,18 @@ public class RevisaoActivity extends AppCompatActivity implements ViewOperacaoRe
 
                 else if(volta == palavraCorreta.length || palavraCorreta.length ==1) {
                     txtErrada.setVisibility(View.VISIBLE);
+                    txtErrada.setTextColor(getResources().getColor(R.color.vermelho));
                     txtErrada.setText(palavraAtualSendoRevisada.getPalavraEmPortugues());
+
+                    try  {
+                        YoYo.with(Techniques.Shake).duration(800).playOn(txtErrada);
+                    }  catch (Exception e){}
 
                     palavraAtualSendoRevisada.setQtdErros(palavraAtualSendoRevisada.getQtdErros() + 1);
 
                     edtValorDigitado.setHintTextColor(getResources().getColor(R.color.vermelho));
                     edtValorDigitado.setTextColor(getResources().getColor(R.color.vermelho));
 
-                    try  {
-                        YoYo.with(Techniques.Shake).duration(800).playOn(edtValorDigitado);
-                    }  catch (Exception e){}
 
                     jaVerificouPalavra = true;
                     tempoEspera = 3000;
@@ -177,6 +180,7 @@ public class RevisaoActivity extends AppCompatActivity implements ViewOperacaoRe
                 palavraAtualSendoRevisada.setQtdVezesEstudou(palavraAtualSendoRevisada.getQtdVezesEstudou() + 1);
                 atualizaPalavra(palavraAtualSendoRevisada);
 
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -184,11 +188,11 @@ public class RevisaoActivity extends AppCompatActivity implements ViewOperacaoRe
                         if (positionLista == palavrasListaGlobal.size() - 1) {
                             final MaterialDialog dialog = Mensagem.materialDialogAviso(RevisaoActivity.this, "Informação",
                                     "Parabéns palavras revisada com sucesso.");
-                                     dialog.setPositiveButton("Sair", new View.OnClickListener() {
+                            dialog.setPositiveButton("Sair", new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                     dialog.dismiss();
-                                     RevisaoActivity.this.finish();
+                                    dialog.dismiss();
+                                    RevisaoActivity.this.finish();
                                 }
                             });
                             dialog.show();
@@ -199,11 +203,12 @@ public class RevisaoActivity extends AppCompatActivity implements ViewOperacaoRe
                             edtValorDigitado.setHintTextColor(getResources().getColor(R.color.cinza));
                             edtValorDigitado.setTextColor(getResources().getColor(R.color.black_de));
                             atualizaTextViewPalavraEmIngles();
-                            txtErrada.setVisibility(View.VISIBLE);
-                            txtErrada.setText("");
+                            txtErrada.setVisibility(View.INVISIBLE);
                         }
+
                     }
                 }, tempoEspera);
+                //txtErrada.setText("");
             }
         }
     }

@@ -56,6 +56,8 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         Utilitario.getColor(indicePalavraAtual, holder.containerRadius);
 
 
+
+
 //        try{
 //            YoYo.with(Techniques.FlipInX)
 //                    .duration(700)
@@ -85,6 +87,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             serial = (TextView) itemView.findViewById(R.id.serial);
             cardPersonalizadoSelecionado = (TextView) itemView.findViewById(R.id.txtCardPersonalizadoItem);
             containerRadius = (RelativeLayout) itemView.findViewById(R.id.container_radius);
+
+
+
+
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
         }
@@ -120,6 +126,10 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
         notifyItemRemoved(index);
     }
 
+    public void teste(int position ) {
+
+    }
+
     public  void removerItemJaSei(int position) {
 
         mDataset.remove(position);
@@ -137,6 +147,7 @@ public class MyRecyclerViewAdapter extends RecyclerView.Adapter<MyRecyclerViewAd
             mDataset.get(position).setCardPersonalizadoSelecionado("Adicionado ao card personalizado");
 
         }
+
         notifyDataSetChanged();
     }
 
